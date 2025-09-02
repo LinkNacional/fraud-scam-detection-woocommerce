@@ -1,0 +1,30 @@
+{
+    "name": "lkn/fraud-scam-detection-woocommerce",
+    "type": "project",
+    "license": "Proprietary",
+    "autoload": {
+        "psr-4": {
+            "Lkn\\FsdwFraudAndScamDetectionForWoocommerce\\Includes\\": "Includes/",
+            "Lkn\\FsdwFraudAndScamDetectionForWoocommerce\\Admin\\": "Admin/",
+            "Lkn\\FsdwFraudAndScamDetectionForWoocommerce\\PublicView\\": "Public/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Link Nacional",
+            "email": "ticket@linknacional.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phan/phan": "5.4.1"
+    },
+    "require": {
+        "monolog/monolog": "2.9.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

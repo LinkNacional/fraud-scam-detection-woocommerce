@@ -1,0 +1,9 @@
+label[for="lknFraudDetectionForWoocommerceDebug"] {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+
+label[for="lknFraudDetectionForWoocommerceDebug"] p{
+    margin: 0 !important;
+}

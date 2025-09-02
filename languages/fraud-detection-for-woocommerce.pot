@@ -1,0 +1,104 @@
+msgid "Fraud Detection for WooCommerce"
+msgstr ""
+
+msgid "https://https://www.linknacional.com.br/wordpress/givewp"
+msgstr ""
+
+msgid "This is a description of the plugin."
+msgstr ""
+
+msgid "Link Nacional"
+msgstr ""
+
+msgid "https://linknacional.com.br/"
+msgstr ""
+
+msgid "Generate Google Recaptcha V3 keys."
+msgstr ""
+
+msgid "Antifraud"
+msgstr ""
+
+msgid "Enable reCAPTCHA"
+msgstr ""
+
+msgid "Enable to activate reCAPTCHA during checkout."
+msgstr ""
+
+msgid "reCAPTCHA version"
+msgstr ""
+
+msgid "Site Recaptcha Key"
+msgstr ""
+
+msgid "Google Recaptcha V3 service key."
+msgstr ""
+
+msgid "Secret Recaptcha Key"
+msgstr ""
+
+msgid "Google Recaptcha V3 secret key."
+msgstr ""
+
+msgid "Minimum score"
+msgstr ""
+
+msgid "The minimum score validated by Recaptcha for the payment to be accepted. Ranges from 0 to 1. It is recommended to use a score above 0.7."
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Enable debug logs."
+msgstr ""
+
+msgid "See logs"
+msgstr ""
+
+msgid "This site is protected by reCAPTCHA and the"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "and Google"
+msgstr ""
+
+msgid "Terms of Service"
+msgstr ""
+
+msgid "apply."
+msgstr ""
+
+msgid "Fraud"
+msgstr ""
+
+msgid "Fraud"
+msgstr ""
+
+msgid "Fraud (%s)"
+msgstr ""
+
+msgid "Performs verification and prevention of malicious payments"
+msgstr ""
+
+msgid "Invalid recaptcha: score below the limit."
+msgstr ""
+
+msgid "Invalid recaptcha: recaptcha was not validated."
+msgstr ""
+
+msgid "High likelihood of automated (bot) behavior."
+msgstr ""
+
+msgid "Intermediate behavior."
+msgstr ""
+
+msgid "Behavior generally human, but with some uncertainty."
+msgstr ""
+
+msgid "High likelihood of legitimate human behavior."
+msgstr ""
+
+msgid "Customer's ANTIFRAUD score:"
+msgstr ""
