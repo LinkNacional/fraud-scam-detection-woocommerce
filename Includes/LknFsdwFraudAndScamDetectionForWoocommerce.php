@@ -78,10 +78,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'fraud-scam-detection-woocommerce';
+		$this->plugin_name = 'fraud-and-scam-detection-for-woocommerce';
 
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
@@ -102,23 +101,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 	private function load_dependencies() {
 		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass = new LknFsdwFraudAndScamDetectionForWoocommerceHelper();
 		$this->loader = new LknFsdwFraudAndScamDetectionForWoocommerceLoader();
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the LknFraudDetectionForWoocommerceActivatorI18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
-
-		$pluginI18n = new LknFsdwFraudAndScamDetectionForWoocommerceActivatorI18n();
-
-		$this->loader->add_action( 'plugins_loaded', $pluginI18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -207,7 +189,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
         $new_meta_links['setting'] = sprintf(
             '<a href="%1$s">%2$s</a>',
             admin_url('admin.php?page=wc-settings&tab=lkn_anti_fraud'),
-            __('Settings', 'woocommerce')
+            __('Settings', 'fraud-and-scam-detection-for-woocommerce')
         );
 
         return array_merge($plugin_meta, $new_meta_links);

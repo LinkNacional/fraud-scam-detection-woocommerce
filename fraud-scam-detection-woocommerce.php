@@ -14,14 +14,14 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Fraud and Scam Detection For WooCommerce
- * Plugin URI:        https://https://www.linknacional.com.br/wordpress/givewp
+ * Plugin URI:        https://www.linknacional.com.br/wordpress/fraud-and-scam-detection-for-woocommerce/
  * Description:       Performs verification and prevention of malicious payments.
  * Version:           1.1.3
  * Author:            Link Nacional
  * Author URI:        https://linknacional.com.br/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       fraud-scam-detection-woocommerce
+ * Text Domain:       fraud-and-scam-detection-for-woocommerce
  * Domain Path:       /languages
  */
 

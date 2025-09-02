@@ -14,13 +14,13 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		wp_localize_script('lknFraudDetectionForWoocommerceAdminSettings', 'lknFraudDetectionVariables', array(
             'enableRecaptcha' => get_option($slug . 'EnableRecaptcha', 'no'),
 			'recaptchaSelected' => get_option($slug . 'RecaptchaSelected'),
-			'googleRecaptchaText' => __('Generate Google Recaptcha V3 keys.', 'fraud-scam-detection-woocommerce'),
-			'scoreBetween0and3' => __('High likelihood of automated (bot) behavior.', 'fraud-scam-detection-woocommerce'),
-			'scoreBetween4and5' => __('Intermediate behavior.', 'fraud-scam-detection-woocommerce'),
-			'scoreBetween6and7' => __('Behavior generally human, but with some uncertainty.', 'fraud-scam-detection-woocommerce'),
-			'scoreBetween8and10' => __('High likelihood of legitimate human behavior.', 'fraud-scam-detection-woocommerce'),
+			'googleRecaptchaText' => __('Generate Google Recaptcha V3 keys.', 'fraud-and-scam-detection-for-woocommerce'),
+			'scoreBetween0and3' => __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce'),
+			'scoreBetween4and5' => __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce'),
+			'scoreBetween6and7' => __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce'),
+			'scoreBetween8and10' => __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce'),
         ));
-		$tabs['lkn_anti_fraud'] = __( 'Antifraud', 'fraud-scam-detection-woocommerce' );
+		$tabs['lkn_anti_fraud'] = __( 'Antifraud', 'fraud-and-scam-detection-for-woocommerce' );
 		return $tabs;
 	}
 
@@ -42,14 +42,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 				'type'     => 'title',
 			),
 			$slug . 'EnableRecaptcha' => array(
-				'name'     => __( 'Enable reCAPTCHA', 'fraud-scam-detection-woocommerce' ),
+				'name'     => __( 'Enable reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type'     => 'checkbox',
-				'desc'     => __( 'Enable to activate reCAPTCHA during checkout.', 'fraud-scam-detection-woocommerce' ),
+				'desc'     => __( 'Enable to activate reCAPTCHA during checkout.', 'fraud-and-scam-detection-for-woocommerce' ),
 				'id'       => $slug . 'EnableRecaptcha',
 				'default'  => 'no',
 			),
 			$slug . 'RecaptchaSelected' => array(
-				'title'    => esc_attr__( 'reCAPTCHA version', 'fraud-scam-detection-woocommerce' ),
+				'title'    => esc_attr__( 'reCAPTCHA version', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type'     => 'select',
 				'default'  => 'googleRecaptcha',
 				'id' 	   => $slug . 'RecaptchaSelected',
@@ -58,23 +58,23 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 				),
 			),
 			$slug . 'GoogleRecaptchaV3Key' => array(
-				'name'     => __( 'Site Recaptcha Key', 'fraud-scam-detection-woocommerce' ),
+				'name'     => __( 'Site Recaptcha Key', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type'     => 'text',
-				'desc'     => __( 'Google Recaptcha V3 service key.', 'fraud-scam-detection-woocommerce' ),
+				'desc'     => __( 'Google Recaptcha V3 service key.', 'fraud-and-scam-detection-for-woocommerce' ),
 				'id'       => $slug . 'GoogleRecaptchaV3Key',
                 'desc_tip' => true,
 			),
 			$slug . 'GoogleRecaptchaV3Secret' => array(
-				'name'     => __( 'Secret Recaptcha Key', 'fraud-scam-detection-woocommerce' ),
+				'name'     => __( 'Secret Recaptcha Key', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type'     => 'text',
-				'desc'     => __( 'Google Recaptcha V3 secret key.', 'fraud-scam-detection-woocommerce' ),
+				'desc'     => __( 'Google Recaptcha V3 secret key.', 'fraud-and-scam-detection-for-woocommerce' ),
 				'id'       => $slug . 'GoogleRecaptchaV3Secret',
                 'desc_tip' => true,
 			),
 			$slug . 'GoogleRecaptchaV3Score' => array(
-				'name'     => __( 'Minimum score', 'fraud-scam-detection-woocommerce' ),
+				'name'     => __( 'Minimum score', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type'     => 'number',
-				'desc'     => __( 'The minimum score validated by Recaptcha for the payment to be accepted. Ranges from 0 to 1. It is recommended to use a score above 0.7.', 'fraud-scam-detection-woocommerce' ),
+				'desc'     => __( 'The minimum score validated by Recaptcha for the payment to be accepted. Ranges from 0 to 1. It is recommended to use a score above 0.7.', 'fraud-and-scam-detection-for-woocommerce' ),
 				'id'       => $slug . 'GoogleRecaptchaV3Score',
                 'desc_tip' => true,
 				'default'  => '0.5',
@@ -85,13 +85,13 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 				),
 			),
 			$slug . 'Debug' => array(
-				'name' => __( 'Debug', 'fraud-scam-detection-woocommerce' ),
+				'name' => __( 'Debug', 'fraud-and-scam-detection-for-woocommerce' ),
 				'type' => 'checkbox',
 				'desc' => sprintf(
 					'<p>%s <a href="%s" target="_blank">%s</a></p>',
-					__( 'Enable debug logs.', 'fraud-scam-detection-woocommerce' ),
+					__( 'Enable debug logs.', 'fraud-and-scam-detection-for-woocommerce' ),
 					esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) ),
-					__('See logs', 'fraud-scam-detection-woocommerce')
+					__('See logs', 'fraud-and-scam-detection-for-woocommerce')
 				),
 				'id'       => $slug . 'Debug',
 				'default' => 'no',
@@ -119,11 +119,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			if (is_checkout()) {
 				$googleTermsText = sprintf(
 					'<p>%s <a href="https://policies.google.com/privacy" target="_blank">%s</a> %s <a href="https://policies.google.com/terms" target="_blank">%s</a> %s</p>',
-					__('This site is protected by reCAPTCHA and the', 'fraud-scam-detection-woocommerce'),
-					__('Privacy Policy', 'fraud-scam-detection-woocommerce'),
-					__('and Google', 'fraud-scam-detection-woocommerce'),
-					__('Terms of Service', 'fraud-scam-detection-woocommerce'),
-					__('apply.', 'fraud-scam-detection-woocommerce'),
+					__('This site is protected by reCAPTCHA and the', 'fraud-and-scam-detection-for-woocommerce'),
+					__('Privacy Policy', 'fraud-and-scam-detection-for-woocommerce'),
+					__('and Google', 'fraud-and-scam-detection-for-woocommerce'),
+					__('Terms of Service', 'fraud-and-scam-detection-for-woocommerce'),
+					__('apply.', 'fraud-and-scam-detection-for-woocommerce'),
 				);
 
 				wp_enqueue_script( 'lknFraudDetectionForWoocommerceRecaptch', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Public/js/lknFraudDetectionForWoocommerceRecaptch.js', array( 'jquery' ), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, false );
@@ -184,22 +184,22 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if(!isset($responseBody['success']) || $responseBody['success'] !== true){
 			$order->set_status('lkn-fraud');
 			$order->save();
-			throw new Exception(__('Invalid recaptcha: recaptcha was not validated.', 'fraud-scam-detection-woocommerce'));
+			throw new Exception(__('Invalid recaptcha: recaptcha was not validated.', 'fraud-and-scam-detection-for-woocommerce'));
 		}
 
 		// Verificar o score do reCAPTCHA
 		if(isset($responseBody['score'])){
-			$orderNote = __("Customer's ANTIFRAUD score:", 'fraud-scam-detection-woocommerce') . ' ' . $responseBody['score'];
+			$orderNote = __("Customer's ANTIFRAUD score:", 'fraud-and-scam-detection-for-woocommerce') . ' ' . $responseBody['score'];
 			$scoreResponse = $responseBody['score'];
 
 			if ($scoreResponse <= 0.3) {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of automated (bot) behavior.', 'fraud-scam-detection-woocommerce');
+				$orderNote =  $orderNote . ' ' . __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse > 0.3 && $scoreResponse < 0.6) {
-				$orderNote =  $orderNote . ' ' . __('Intermediate behavior.', 'fraud-scam-detection-woocommerce');
+				$orderNote =  $orderNote . ' ' . __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse >= 0.6 && $scoreResponse <= 0.7) {
-				$orderNote =  $orderNote . ' ' . __('Behavior generally human, but with some uncertainty.', 'fraud-scam-detection-woocommerce');
+				$orderNote =  $orderNote . ' ' . __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce');
 			} else {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of legitimate human behavior.', 'fraud-scam-detection-woocommerce');
+				$orderNote =  $orderNote . ' ' . __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			}
 
 			$order->add_order_note($orderNote);
@@ -207,7 +207,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ($responseBody['score'] < $score) {
 			$order->set_status('lkn-fraud');
 			$order->save();
-			throw new Exception(__('Invalid recaptcha: score below the limit.', 'fraud-scam-detection-woocommerce'));
+			throw new Exception(__('Invalid recaptcha: score below the limit.', 'fraud-and-scam-detection-for-woocommerce'));
 		}
 	}
 
@@ -220,18 +220,18 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 	function createFraudStatus( $order_statuses ) {
 		$order_statuses['wc-lkn-fraud'] = array(
-		   'label' => __('Fraud', 'fraud-scam-detection-woocommerce'),
+		   'label' => __('Fraud', 'fraud-and-scam-detection-for-woocommerce'),
 		   'public' => true,
 		   'exclude_from_search' => false,
 		   'show_in_admin_all_list' => true,
 		   'show_in_admin_status_list' => true,
-		   'label_count'               => _n_noop('Fraud (%s)', 'Fraud (%s)', 'fraud-scam-detection-woocommerce')
+		   'label_count'               => _n_noop('Fraud (%s)', 'Fraud (%s)', 'fraud-and-scam-detection-for-woocommerce')
 		);
 		return $order_statuses;
 	}
 
 	function registerFraudStatus( $order_statuses ) {
-		$order_statuses['wc-lkn-fraud'] = __('Fraud', 'fraud-scam-detection-woocommerce');
+		$order_statuses['wc-lkn-fraud'] = __('Fraud', 'fraud-and-scam-detection-for-woocommerce');
 		return $order_statuses;
 	}
 }
