@@ -1,19 +1,19 @@
-=== WooCommerce Anti-Fraud with Google reCAPTCHA ===
+=== Fraud and Scam Detection For WooCommerce ===
 Contributors: linknacional
 Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, fraud
 Requires at least: 5.7
 Tested up to: 6.8
-Stable tag: 1.0.0
+Stable tag: 1.1.3
 Requires PHP: 7.2
-License: GPLv3 or later
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+License: GPL-2.0+
+License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 Add Google reCAPTCHA verification to WooCommerce checkout to prevent fraudulent transactions.
 
 == Description ==
 
-The **WooCommerce Anti-Fraud with Google reCAPTCHA** plugin helps protect your online store by adding a verification layer to the WooCommerce checkout.  
+The **Fraud and Scam Detection For WooCommerce** plugin helps protect your online store by adding a verification layer to the WooCommerce checkout.  
 Using **Google reCAPTCHA**, the plugin automatically analyzes user interactions and blocks suspicious checkout attempts, reducing fraudulent transactions and ensuring safer payments.
 
 **Main Features:**
