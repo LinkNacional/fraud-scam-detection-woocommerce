@@ -1,0 +1,114 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+msgid "Fraud Detection for WooCommerce"
+msgstr "Antifraude para WooCommerce"
+
+msgid "https://https://www.linknacional.com.br/wordpress/givewp"
+msgstr "https://https://www.linknacional.com.br/wordpress/givewp"
+
+msgid "This is a description of the plugin."
+msgstr "Essa é a descrição do plugin."
+
+msgid "Link Nacional"
+msgstr "Link Nacional"
+
+msgid "https://linknacional.com.br/"
+msgstr "https://linknacional.com.br/"
+
+msgid "Generate Google Recaptcha V3 keys."
+msgstr "Gerar chaves do Google Recaptcha V3."
+
+msgid "Antifraud"
+msgstr "Antifraude"
+
+msgid "Enable reCAPTCHA"
+msgstr "Habilitar reCAPTCHA"
+
+msgid "Enable to activate reCAPTCHA during checkout."
+msgstr "Ative para habilitar o recaptcha durante o checkout."
+
+msgid "ReCAPTCHA version"
+msgstr "Versão do recaptcha"
+
+msgid "Site Recaptcha Key"
+msgstr "Chave Recaptcha do site"
+
+msgid "Google Recaptcha V3 service key."
+msgstr "Chave do serviço Google Recaptcha V3."
+
+msgid "Secret Recaptcha Key"
+msgstr "Chave secreta do Recaptcha"
+
+msgid "Google Recaptcha V3 secret key."
+msgstr "Chave secreta do Google Recaptcha V3."
+
+msgid "Minimum score"
+msgstr "Pontuação mínima"
+
+msgid "This site is protected by reCAPTCHA and the"
+msgstr "Este site é protegido pelo reCAPTCHA e as"
+
+msgid "Privacy Policy"
+msgstr "Políticas de Privacidade"
+
+msgid "and Google"
+msgstr "e Google"
+
+msgid "Terms of Service"
+msgstr "Termos de Serviço do Google"
+
+msgid "apply."
+msgstr "se aplicam."
+
+msgid "Debug"
+msgstr "Depuração"
+
+msgid "Enable debug logs."
+msgstr "Ativar logs de depuração."
+
+msgid "See logs"
+msgstr "Ver logs"
+
+msgid "Fraud"
+msgstr "Fraude"
+
+msgid "Fraud (%s)"
+msgstr "Fraude (%s)"
+
+msgid "Performs verification and prevention of malicious payments."
+msgstr "Realiza verificação e prevenção de pagamentos maliciosos."
+
+msgid "Invalid recaptcha: score below the limit."
+msgstr "Recaptcha inválido: score abaixo do limite."
+
+msgid "Invalid recaptcha: recaptcha was not validated."
+msgstr "Recaptcha inválido: recaptcha não foi validado."
+
+msgid "High likelihood of automated (bot) behavior."
+msgstr "Alta probabilidade de comportamento automatizado (bot)."
+
+msgid "Intermediate behavior."
+msgstr "Comportamento intermediário."
+
+msgid "Behavior generally human, but with some uncertainty."
+msgstr "Comportamento geralmente humano, mas com alguma incerteza."
+
+msgid "High likelihood of legitimate human behavior."
+msgstr "Alta probabilidade de comportamento humano legítimo."
+
+msgid "The minimum score validated by Recaptcha for the payment to be accepted. Ranges from 0 to 1. It is recommended to use a score above 0.7."
+msgstr "A score mínima validado pelo Recaptcha para que o pagamento seja aceito. Varia de 0 a 1. Recomenda-se utilizar uma pontuação acima de 0.7."
+
+msgid "Customer's ANTIFRAUD score:"
+msgstr "Nota ANTIFRAUDE do cliente:"
