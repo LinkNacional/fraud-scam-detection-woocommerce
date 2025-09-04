@@ -4,8 +4,9 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, fraud
 Requires at least: 5.7
 Tested up to: 6.8
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.2
+Requires Plugins: woocommerce
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -41,6 +42,26 @@ You also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha
 
 6. Save the settings. From now on, the WooCommerce checkout will require reCAPTCHA validation.
 
+== External services ==
+
+This plugin integrates with Google reCAPTCHA v3 service to provide fraud and bot protection for WooCommerce checkout processes.
+
+**What the service is and what it is used for:**
+Google reCAPTCHA v3 is a security service that analyzes user behavior to determine if a user is likely human or bot. It's used to protect the WooCommerce checkout process from automated fraud attempts and malicious activities.
+
+**What data is sent and when:**
+When a customer attempts to complete a checkout on your WooCommerce store, the plugin sends the following data to Google reCAPTCHA servers:
+- User's IP address
+- Browser and device information
+- User interaction patterns during checkout
+- reCAPTCHA response token
+
+This data is sent every time a customer loads the checkout page and attempts to place an order.
+
+**Service terms and privacy policy:**
+- Google reCAPTCHA Terms of Service: https://developers.google.com/recaptcha/docs/terms
+- Google Privacy Policy: https://policies.google.com/privacy
+
 == Installation ==
 
 1. Look in the sidebar for the WordPress plugins area;
@@ -73,6 +94,9 @@ You also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha
 
 
 == Changelog ==
+= 1.1.4 =
+* Fix Wordpress issues.
+
 = 1.1.3 =
 * Remove plugin updater.
 
@@ -89,6 +113,9 @@ You also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.1.4 =
+* Fix Wordpress issues.
+
 = 1.1.3 =
 * Remove plugin updater.
 

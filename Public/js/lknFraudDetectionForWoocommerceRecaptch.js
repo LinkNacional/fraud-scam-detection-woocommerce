@@ -10,7 +10,7 @@
                 });
                 executeRecaptcha()
                 function executeRecaptcha() {
-                    grecaptcha.execute(lknFraudDetectionVariables.googleKey, { action: 'submit' }).then((token) => {
+                    grecaptcha.execute(lknFsdwFraudScamDetectionVars.googleKey, { action: 'submit' }).then((token) => {
                         tokenButton = token;
                     });
                 }
@@ -25,7 +25,8 @@
                         // Adiciona o token do reCAPTCHA
                         body['payment_data'].push({
                             'key': 'gRecaptchaV3Response',
-                            'value': tokenButton
+                            'value': tokenButton,
+                            'lknFraudNonce': lknFsdwFraudScamDetectionVars.nonce
                         })
 
                         // Recria o init com o payload modificado
@@ -42,7 +43,7 @@
         }
         if(formDesc){
             const spanElement = document.createElement('span');
-            spanElement.innerHTML = lknFraudDetectionVariables.googleTermsText;
+            spanElement.innerHTML = lknFsdwFraudScamDetectionVars.googleTermsText;
             formDesc.appendChild(spanElement);
         }
 
@@ -61,7 +62,7 @@
                 let xhr = this; // Armazena referência ao objeto XMLHttpRequest
           
                 grecaptcha.ready(async () => {
-                  let tokenButton = await grecaptcha.execute(lknFraudDetectionVariables.googleKey, { action: 'submit' });
+                  let tokenButton = await grecaptcha.execute(lknFsdwFraudScamDetectionVars.googleKey, { action: 'submit' });
           
                   // Adiciona o token reCAPTCHA ao corpo da requisição
                   let newBody = new URLSearchParams(body);

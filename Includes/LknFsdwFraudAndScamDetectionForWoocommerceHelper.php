@@ -11,7 +11,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettings', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettings.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
 		$slug = 'lknFraudDetectionForWoocommerce';
 
-		wp_localize_script('lknFraudDetectionForWoocommerceAdminSettings', 'lknFraudDetectionVariables', array(
+		wp_localize_script('lknFraudDetectionForWoocommerceAdminSettings', 'lknFsdwFraudScamDetectionVars', array(
             'enableRecaptcha' => get_option($slug . 'EnableRecaptcha', 'no'),
 			'recaptchaSelected' => get_option($slug . 'RecaptchaSelected'),
 			'googleRecaptchaText' => __('Generate Google Recaptcha V3 keys.', 'fraud-and-scam-detection-for-woocommerce'),
@@ -31,6 +31,16 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 	
 	public function saveSettings() {
+		// Verificar nonce para segurança
+		if (!isset($_POST['_wpnonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'woocommerce-settings')) {
+			wp_die(__('Security check failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce'));
+		}
+
+		// Verificar permissões do usuário
+		if (!current_user_can('manage_woocommerce')) {
+			wp_die(__('You do not have permission to access this page.', 'fraud-and-scam-detection-for-woocommerce'));
+		}
+
 		woocommerce_update_options( $this->getSettings() );
 	}
 	
@@ -128,9 +138,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 				wp_enqueue_script( 'lknFraudDetectionForWoocommerceRecaptch', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Public/js/lknFraudDetectionForWoocommerceRecaptch.js', array( 'jquery' ), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, false );
 		
-				wp_localize_script('lknFraudDetectionForWoocommerceRecaptch', 'lknFraudDetectionVariables', array(
+				wp_localize_script('lknFraudDetectionForWoocommerceRecaptch', 'lknFsdwFraudScamDetectionVars', array(
 					'googleKey' => $googleKey,
-					'googleTermsText' => $googleTermsText
+					'googleTermsText' => $googleTermsText,
+					'nonce' => wp_create_nonce('lkn_fraud_detection_checkout_nonce')
 				));
 			}
 		}
@@ -139,24 +150,37 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	public function processPayments($context, $result) {
 		if(get_option('lknFraudDetectionForWoocommerceEnableRecaptcha', 'no') == 'yes'){
 			$_POST = $context->payment_data;
-			$recaptchaResponse = $_POST['grecaptchav3response'] ?? null;
+			$paymentData = $context->payment_data;
+			
+			// Sanitizar a resposta do reCAPTCHA
+			$recaptchaResponse = isset($paymentData['grecaptchav3response']) ? sanitize_text_field($paymentData['grecaptchav3response']) : null;
 			$this->verifyRecaptcha($recaptchaResponse, $context->order);
 		}
 	}
 
 	public function verifyAjaxRequsets($orderId, $postedData, $order) {
 		if(get_option('lknFraudDetectionForWoocommerceEnableRecaptcha', 'no') == 'yes'){
-			$grecaptchav3response = isset($_POST['grecaptchav3response']) ? $_POST['grecaptchav3response'] : null;
+			// Verificar nonce específico do frontend se estiver presente
+			if (isset($_POST['lknFraudNonce']) && !wp_verify_nonce(sanitize_text_field($_POST['lknFraudNonce']), 'lkn_fraud_detection_checkout_nonce')) {
+				throw new Exception(__('Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce'));
+			}
+
+			// Sanitizar a resposta do reCAPTCHA
+			$grecaptchav3response = isset($_POST['grecaptchav3response']) ? sanitize_text_field($_POST['grecaptchav3response']) : null;
 			$this->verifyRecaptcha($grecaptchav3response, $order);
 		}
 	}
 
 	public function verifyRecaptcha($recaptchaResponse, $order){
 		$score = (float) get_option('lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score');
+		
+		// Sanitizar o IP do cliente
+		$remote_ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+		
 		$body = [
 			'secret'   => get_option('lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret'),
-			'response' => $recaptchaResponse,
-			'remoteip' => $_SERVER['REMOTE_ADDR']
+			'response' => sanitize_text_field($recaptchaResponse),
+			'remoteip' => $remote_ip
 		];
 		// Enviar a solicitação de verificação para o Google reCAPTCHA
 		$response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
