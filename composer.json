@@ -20,7 +20,7 @@
         "phan/phan": "5.4.1"
     },
     "require": {
-        "monolog/monolog": "2.9.2"
+        "monolog/monolog": "^2.9.3"
     },
     "config": {
         "allow-plugins": {

@@ -1,3 +1,6 @@
+# 1.1.4 - 04/09/2025
+* Correção em issues do wordpress.
+
 # 1.1.3 - 01/09/2025
 * Removendo plugin updater.
 

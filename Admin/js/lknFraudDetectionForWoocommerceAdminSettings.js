@@ -19,7 +19,7 @@
             const aElement = document.createElement('a');
             aElement.href = 'https://www.google.com/recaptcha/admin/';
             aElement.target = '_blank';
-            aElement.textContent = lknFraudDetectionVariables.googleRecaptchaText;
+            aElement.textContent = lknFsdwFraudScamDetectionVars.googleRecaptchaText;
             aElement.style.fontSize = '15px';
     
             tdElement.appendChild(aElement);
@@ -42,13 +42,13 @@
                 function setPElementText(inputValue, pElement) {
                     inputValue = parseFloat(scoreInput.value)
                     if (inputValue <= 0.3) {
-                        pElement.textContent = lknFraudDetectionVariables.scoreBetween0and3;
+                        pElement.textContent = lknFsdwFraudScamDetectionVars.scoreBetween0and3;
                     } else if (inputValue > 0.3 && inputValue < 0.6) {
-                        pElement.textContent = lknFraudDetectionVariables.scoreBetween4and5;
+                        pElement.textContent = lknFsdwFraudScamDetectionVars.scoreBetween4and5;
                     } else if (inputValue >= 0.6 && inputValue <= 0.7) {
-                        pElement.textContent = lknFraudDetectionVariables.scoreBetween6and7;
+                        pElement.textContent = lknFsdwFraudScamDetectionVars.scoreBetween6and7;
                     } else {
-                        pElement.textContent = lknFraudDetectionVariables.scoreBetween8and10;
+                        pElement.textContent = lknFsdwFraudScamDetectionVars.scoreBetween8and10;
                     }
                 }
             }
@@ -68,7 +68,7 @@
                 enableGoogleV3SecretInputTr = enableGoogleV3SecretInput.closest('tr')
                 enableGoogleV3ScoreInputTr = enableGoogleV3ScoreInput.closest('tr')
                 
-                if(lknFraudDetectionVariables.enableRecaptcha == 'no') {
+                if(lknFsdwFraudScamDetectionVars.enableRecaptcha == 'no') {
                     hideRecaptchaFields()
                 }
     
