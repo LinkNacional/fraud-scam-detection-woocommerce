@@ -149,7 +149,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 	public function processPayments($context, $result) {
 		if(get_option('lknFraudDetectionForWoocommerceEnableRecaptcha', 'no') == 'yes'){
-			$_POST = $context->payment_data;
+			// Usar dados do contexto em vez de manipular $_POST diretamente
 			$paymentData = $context->payment_data;
 			
 			// Sanitizar a resposta do reCAPTCHA
@@ -160,8 +160,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 	public function verifyAjaxRequsets($orderId, $postedData, $order) {
 		if(get_option('lknFraudDetectionForWoocommerceEnableRecaptcha', 'no') == 'yes'){
-			// Verificar nonce específico do frontend se estiver presente
-			if (isset($_POST['lknFraudNonce']) && !wp_verify_nonce(sanitize_text_field($_POST['lknFraudNonce']), 'lkn_fraud_detection_checkout_nonce')) {
+			// Verificar nonce obrigatório - falha imediatamente se não estiver presente ou inválido
+			if (!isset($_POST['lknFraudNonce']) || !wp_verify_nonce(sanitize_text_field($_POST['lknFraudNonce']), 'lkn_fraud_detection_checkout_nonce')) {
 				throw new Exception(__('Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce'));
 			}
 

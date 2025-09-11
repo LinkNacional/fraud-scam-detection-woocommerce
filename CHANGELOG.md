@@ -1,3 +1,6 @@
+# 1.1.5 - 11/09/2025
+* Correção em issues do wordpress.
+
 # 1.1.4 - 04/09/2025
 * Correção em issues do wordpress.
 
