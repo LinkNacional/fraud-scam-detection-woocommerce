@@ -42,6 +42,7 @@ jobs:
           trademarked_term
           textdomain_mismatch
           hidden_files
+          WordPress.WP.I18n.LoadTextDomainEarly
         categories: |
           performance
           accessibility
