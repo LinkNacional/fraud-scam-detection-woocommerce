@@ -38,7 +38,7 @@ jobs:
         uses: 10up/action-wordpress-plugin-deploy@stable
         env:
           VERSION: ${{ env.DEPLOY_TAG }}
-          SLUG: woo-rede
+          SLUG: fraud-and-scam-detection-for-woocommerce
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           ASSETS_DIR: build/${{ env.PLUGIN_NAME }}/Includes/assets/wordpressAssets
