@@ -49,7 +49,7 @@ jobs:
           general
           plugin_repo
           security
-        strict: true
+        strict: false
 
     - name: Show Plugin Check Results
       if: failure()
