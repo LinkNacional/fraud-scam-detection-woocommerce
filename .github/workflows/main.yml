@@ -28,6 +28,10 @@ jobs:
         command: install
         dev: no
 
+    - name: Install WooCommerce
+      run: |
+        wp plugin install woocommerce --activate
+
     - name: Run Plugin Check
       uses: wordpress/plugin-check-action@v1
       with:
