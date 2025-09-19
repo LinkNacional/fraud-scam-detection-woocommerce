@@ -6,8 +6,8 @@ on:
     branches: [ main ]
 
 env:
-  PLUGIN_NAME: fraud-and-scam-detection-for-woocommerce
-  DIR_NAME: fraud-and-scam-detection-for-woocommerce
+  PLUGIN_NAME: fraud-scam-detection-woocommerce
+  DIR_NAME: fraud-scam-detection-woocommerce
   PHP_VERSION: "7.4"
   DEPLOY_TAG: "1.1.6"
 
@@ -27,10 +27,6 @@ jobs:
         args: --ignore-platform-reqs
         command: install
         dev: no
-
-    - name: Install WooCommerce
-      run: |
-        wp plugin install woocommerce --activate
 
     - name: Run Plugin Check
       uses: wordpress/plugin-check-action@v1
