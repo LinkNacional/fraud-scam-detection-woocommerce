@@ -28,7 +28,7 @@ jobs:
         command: install
         dev: no
 
-    - name: Executar Plugin Check com configurações personalizadas
+    - name: Run Plugin Check
       uses: wordpress/plugin-check-action@v1
       with:
         build-dir: './'
@@ -50,6 +50,10 @@ jobs:
           plugin_repo
           security
         strict: true
+
+    - name: Show Plugin Check Results
+      if: failure()
+      run: cat /home/runner/work/_temp/plugin-check-results.txt || echo "No results found"
 
     # Add plugin files to a root directory
     - name: Prepare plugin folder
