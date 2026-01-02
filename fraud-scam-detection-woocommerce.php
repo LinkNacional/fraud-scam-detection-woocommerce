@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Fraud and Scam Detection For WooCommerce
- * Plugin URI:        https://www.linknacional.com.br/wordpress/fraud-and-scam-detection-for-woocommerce/
+ * Plugin URI:        https://www.linknacional.com.br/wordpress/woocommerce/antifraude/
  * Description:       Performs verification and prevention of malicious payments.
  * Version:           1.1.6
  * Author:            Link Nacional
@@ -27,7 +27,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (! defined('WPINC')) {
 	die;
 }
 
