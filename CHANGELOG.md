@@ -4,7 +4,6 @@
 # 1.1.7 - 02/01/2026
 * Correção na URL do plugin.
 
-
 # 1.1.6 - 19/09/2025
 * Alteração em actions.
 
