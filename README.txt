@@ -96,6 +96,7 @@ This data is sent every time a customer loads the checkout page and attempts to 
 == Changelog ==
 = 1.1.7 =
 * Fix the plugin URL.
+* New layout for the plugin images.
 
 = 1.1.6 =
 * Change actions.
@@ -124,6 +125,7 @@ This data is sent every time a customer loads the checkout page and attempts to 
 == Upgrade Notice ==
 = 1.1.7 =
 * Fix the plugin URL.
+* New layout for the plugin images.
 
 = 1.1.6 =
 * Change actions.
