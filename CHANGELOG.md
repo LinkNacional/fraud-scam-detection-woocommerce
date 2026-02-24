@@ -1,3 +1,6 @@
+# 1.1.9 - 24/02/2026
+* Novo banners de acordo com o país.
+
 # 1.1.8 - 23/02/2026
 * Novo layout das imagens do plugin.
 
