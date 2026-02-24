@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, fraud
 Requires at least: 5.7
 Tested up to: 6.8
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 Requires PHP: 7.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -94,6 +94,9 @@ This data is sent every time a customer loads the checkout page and attempts to 
 
 
 == Changelog ==
+= 1.1.9 =
+* New banners according to country.
+
 = 1.1.8 =
 * New layout for the plugin images.
 
@@ -125,6 +128,9 @@ This data is sent every time a customer loads the checkout page and attempts to 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.1.9 =
+* New banners according to country.
+
 = 1.1.8 =
 * New layout for the plugin images.
 

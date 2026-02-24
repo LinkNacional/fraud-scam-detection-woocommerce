@@ -6,7 +6,7 @@ on:
 env:
   PLUGIN_NAME: fraud-and-scam-detection-for-woocommerce
   PHP_VERSION: "7.4"
-  DEPLOY_TAG: "1.1.8"
+  DEPLOY_TAG: "1.1.9"
 
 jobs:
   deploy-to-wp:
