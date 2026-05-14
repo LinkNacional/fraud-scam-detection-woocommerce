@@ -191,6 +191,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             $score_messages
         );
 
+
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-tabs',
+            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminTabs.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+
         wc_get_template(
             'LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php',
             array(
