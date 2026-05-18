@@ -13,6 +13,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		$provider = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
 
+		if ( $provider === 'none' ) {
+			return;
+		}
+
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$cf_site_key = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey' );
 			wp_enqueue_script(
@@ -93,6 +97,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$payment_data = $context->payment_data;
 		$provider     = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
 
+		if ( $provider === 'none' ) {
+			return;
+		}
+
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$token = isset( $payment_data['lkncfturnstileresponse'] ) ? sanitize_text_field( $payment_data['lkncfturnstileresponse'] ) : null;
 			$this->verifyTurnstile( $token, $context->order );
@@ -108,12 +116,17 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
+
+		$provider = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
+
+		if ( $provider === 'none' ) {
+			return;
+		}
+
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		if ( ! isset( $_POST['lknFraudNonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['lknFraudNonce'] ), 'lkn_fraud_detection_checkout_nonce' ) ) {
 			throw new Exception( __( 'Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce' ) );
 		}
-
-		$provider = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
 
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$token = isset( $_POST['lknCfTurnstileResponse'] ) ? sanitize_text_field( $_POST['lknCfTurnstileResponse'] ) : null;

@@ -66,6 +66,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'type'              => 'select',
                 'id'                => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
                 'options'           => array(
+                    'none'                => __('None', 'fraud-and-scam-detection-for-woocommerce'),
                     'googleRecaptchaV3'   => __('Google reCAPTCHA V3', 'fraud-and-scam-detection-for-woocommerce'),
                     'cloudflareTurnstile' => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
