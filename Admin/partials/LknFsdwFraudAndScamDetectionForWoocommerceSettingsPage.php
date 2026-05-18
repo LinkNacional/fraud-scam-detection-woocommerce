@@ -188,6 +188,23 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => __('Cloudflare Turnstile private key.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
+            'cloudflare_theme' => array(
+                'title'             => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'select',
+                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
+                'options'           => array(
+                    'auto'  => __('Auto', 'fraud-and-scam-detection-for-woocommerce'),
+                    'light' => __('Light', 'fraud-and-scam-detection-for-woocommerce'),
+                    'dark'  => __('Dark', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'           => get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme', 'light' ),
+                'description'       => __('Choose the visual theme of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Select light, dark or auto.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Visual appearance of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
 
         );
         return apply_filters('woocommerce_get_settings_' . $this->id, $settings);

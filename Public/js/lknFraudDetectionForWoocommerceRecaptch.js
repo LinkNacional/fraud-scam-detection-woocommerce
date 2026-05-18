@@ -36,6 +36,35 @@
             }
         }
 
+        // ── Reposiciona o badge acima dos gateways de pagamento ───────────
+        var badgeContainer = document.createElement('div');
+        badgeContainer.id = 'lkn-grecaptcha-badge-container';
+
+        var paymentSection = document.querySelector('#payment.woocommerce-checkout-payment')
+            || document.querySelector('fieldset.wc-block-checkout__payment-method');
+
+        if (paymentSection) {
+            paymentSection.parentNode.insertBefore(badgeContainer, paymentSection);
+
+            // Injeta CSS para anular o posicionamento fixo do badge original
+            var style = document.createElement('style');
+            style.textContent = '#lkn-grecaptcha-badge-container .grecaptcha-badge {'
+                + 'position:relative!important;bottom:auto!important;'
+                + 'right:auto!important;box-shadow:none!important;'
+                + 'display:block!important;margin-bottom:10px!important;}';
+            document.head.appendChild(style);
+
+            // Move o badge quando ele for adicionado ao DOM pelo script do Google
+            var badgeObserver = new MutationObserver(function () {
+                var badge = document.querySelector('.grecaptcha-badge');
+                if (badge && badge.parentNode !== badgeContainer) {
+                    badgeContainer.appendChild(badge);
+                    badgeObserver.disconnect();
+                }
+            });
+            badgeObserver.observe(document.body, { childList: true, subtree: true });
+        }
+
         // ── Blocks checkout ────────────────────────────────────────────────
         // O token é injetado pelo middleware wp.apiFetch (acima).
         // Aqui apenas mantemos o token atualizado via executeRecaptcha().

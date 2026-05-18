@@ -47,15 +47,25 @@
             return;
         }
 
-        // Container fixo no canto inferior direito, igual ao badge do Google reCAPTCHA
+        // Insere o container acima dos gateways de pagamento
         var container = document.createElement('div');
         container.id  = 'lkn-cf-turnstile';
-        container.style.cssText = 'position:fixed;bottom:14px;right:25px;z-index:9999;';
-        document.body.appendChild(container);
+
+        var paymentSection = document.querySelector('#payment.woocommerce-checkout-payment')
+            || document.querySelector('fieldset.wc-block-checkout__payment-method');
+
+        if (paymentSection) {
+            paymentSection.parentNode.insertBefore(container, paymentSection);
+        } else {
+            // Fallback: fixo no canto inferior direito
+            container.style.cssText = 'position:fixed;bottom:14px;right:25px;z-index:9999;';
+            document.body.appendChild(container);
+        }
         console.log('[LKN Turnstile] rendering widget, sitekey:', vars.cfSiteKey);
 
         widgetId = turnstile.render('#lkn-cf-turnstile', {
             sitekey:            vars.cfSiteKey,
+            theme:              vars.cfTheme || 'light',
             appearance:         'always',
             size:               'normal',
             callback:           function (token) { cfToken = token; console.log('[LKN Turnstile] token received, length:', token.length); },

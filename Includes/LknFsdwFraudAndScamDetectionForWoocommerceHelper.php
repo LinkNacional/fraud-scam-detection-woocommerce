@@ -38,9 +38,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 					FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
 					true
 				);
+				$cf_theme = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme', 'light' );
 				wp_localize_script( 'lknFraudDetectionForWoocommerceTurnstile', 'lknFsdwFraudScamDetectionVars', array(
 					'provider'  => 'cloudflareTurnstile',
 					'cfSiteKey' => $cf_site_key,
+					'cfTheme'   => $cf_theme,
 					'termsText' => $terms_text,
 					'nonce'     => wp_create_nonce( 'lkn_fraud_detection_checkout_nonce' ),
 				) );
