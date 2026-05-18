@@ -114,6 +114,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 == Changelog ==
 = 1.2.0 =
 * New security verification system with Cloudflare Turnstile.
+* New IP banning system.
 
 = 1.1.9/1.1.10 =
 * New banners according to country.

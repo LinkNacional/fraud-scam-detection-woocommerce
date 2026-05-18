@@ -1,5 +1,6 @@
 # 1.2.0 - 18/05/2026
 * Novo sistema de verificação de segurança com Cloudflare Turnstile.
+* Novo sistema de banimento de IPs.
 
 # 1.1.9/1.1.10 - 24/02/2026
 * Novo banners de acordo com o país.
