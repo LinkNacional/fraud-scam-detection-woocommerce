@@ -1,81 +1,83 @@
 (function ($) {
-    $(window).load(function () {
-        const placeOrderButton = document.querySelector('.wc-block-components-checkout-place-order-button');
+    var vars        = (typeof lknFsdwFraudScamDetectionVars !== 'undefined') ? lknFsdwFraudScamDetectionVars : {};
+    var tokenButton = '';
 
-        if (placeOrderButton) {
-            grecaptcha.ready(() => {
-                var tokenButton = '';
-                placeOrderButton.addEventListener('click', (e) => {
-                    executeRecaptcha()
+    // ── Blocks checkout: middleware wp.apiFetch ────────────────────────────
+    // `wp-api-fetch` é declarado como dependência no PHP, então wp.apiFetch
+    // está garantidamente disponível aqui (nível do módulo).
+    // Imune ao ciclo de vida React (ex.: cleanup do gateway Rede).
+    if (window.wp && window.wp.apiFetch) {
+        window.wp.apiFetch.use(function (options, next) {
+            var path = options.path || options.url || '';
+            if (path.includes('/wc/store/v1/checkout') &&
+                options.data && Array.isArray(options.data.payment_data)) {
+                var hasToken = options.data.payment_data.some(function (d) {
+                    return d.key === 'grecaptchav3response';
                 });
-                executeRecaptcha()
+                if (!hasToken) {
+                    options.data.payment_data.push({ key: 'grecaptchav3response', value: tokenButton });
+                }
+            }
+            return next(options);
+        });
+    }
+
+    $(window).load(function () {
+
+        // Exibe texto de termos no rodapé do checkout
+        var termsText = vars.termsText || vars.googleTermsText || '';
+        if (termsText) {
+            var formDesc = document.querySelector('.wc-block-checkout__terms.wc-block-checkout__terms--with-separator.wp-block-woocommerce-checkout-terms-block')
+                || document.querySelector('.woocommerce-privacy-policy-text');
+            if (formDesc) {
+                var spanElement = document.createElement('span');
+                spanElement.innerHTML = termsText;
+                formDesc.appendChild(spanElement);
+            }
+        }
+
+        // ── Blocks checkout ────────────────────────────────────────────────
+        // O token é injetado pelo middleware wp.apiFetch (acima).
+        // Aqui apenas mantemos o token atualizado via executeRecaptcha().
+        var placeOrderButton = document.querySelector('.wc-block-components-checkout-place-order-button');
+        if (placeOrderButton) {
+            grecaptcha.ready(function () {
+                placeOrderButton.addEventListener('click', function () { executeRecaptcha(); });
+                executeRecaptcha();
+
                 function executeRecaptcha() {
-                    grecaptcha.execute(lknFsdwFraudScamDetectionVars.googleKey, { action: 'submit' }).then((token) => {
+                    grecaptcha.execute(vars.googleKey, { action: 'submit' }).then(function (token) {
                         tokenButton = token;
                     });
                 }
-                // Intercepta o fetch para /wc/store/v1/checkout
-                const originalFetch = window.fetch;
-                
-                window.fetch = async (input, init) => {
-                    if (typeof input === 'string' && input.includes('/wc/store/v1/checkout')) {
-                        // Clona o payload existente
-                        const body = JSON.parse(init.body);
-                        
-                        // Adiciona o token do reCAPTCHA
-                        body['payment_data'].push({
-                            'key': 'gRecaptchaV3Response',
-                            'value': tokenButton,
-                            'lknFraudNonce': lknFsdwFraudScamDetectionVars.nonce
-                        })
-
-                        // Recria o init com o payload modificado
-                        init.body = JSON.stringify(body);
-                    }
-                    return originalFetch(input, init);
-                };
             });
         }
 
-        formDesc = document.querySelector('.wc-block-checkout__terms.wc-block-checkout__terms--with-separator.wp-block-woocommerce-checkout-terms-block')
-        if(!formDesc){
-            formDesc = document.querySelector('.woocommerce-privacy-policy-text')
-        }
-        if(formDesc){
-            const spanElement = document.createElement('span');
-            spanElement.innerHTML = lknFsdwFraudScamDetectionVars.googleTermsText;
-            formDesc.appendChild(spanElement);
-        }
+        // ── Classic checkout (XHR) ─────────────────────────────────────────
+        var legacyForm = document.querySelector('.checkout.woocommerce-checkout');
+        if (legacyForm) {
+            var originalXHROpen = XMLHttpRequest.prototype.open;
+            var originalXHRSend = XMLHttpRequest.prototype.send;
 
-        legacyForm = document.querySelector('.checkout.woocommerce-checkout')
-        if(legacyForm){
-            let originalXHROpen = XMLHttpRequest.prototype.open;
-            let originalXHRSend = XMLHttpRequest.prototype.send;
-          
             XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-              this._requestURL = url; // Armazena a URL da requisição
-              originalXHROpen.apply(this, arguments);
+                this._requestURL = url;
+                originalXHROpen.apply(this, arguments);
             };
-          
+
             XMLHttpRequest.prototype.send = function (body) {
-              if (this._requestURL && this._requestURL.includes('?wc-ajax=checkout')) {
-                let xhr = this; // Armazena referência ao objeto XMLHttpRequest
-          
-                grecaptcha.ready(async () => {
-                  let tokenButton = await grecaptcha.execute(lknFsdwFraudScamDetectionVars.googleKey, { action: 'submit' });
-          
-                  // Adiciona o token reCAPTCHA ao corpo da requisição
-                  let newBody = new URLSearchParams(body);
-                  newBody.append('grecaptchav3response', tokenButton);
-                  body = newBody.toString();
-          
-                  originalXHRSend.call(xhr, body);
-                });
-              } else {
-                originalXHRSend.apply(this, arguments);
-              }
+                if (this._requestURL && this._requestURL.includes('?wc-ajax=checkout')) {
+                    var xhr = this;
+                    grecaptcha.ready(async function () {
+                        var tokenButton = await grecaptcha.execute(vars.googleKey, { action: 'submit' });
+                        var newBody = new URLSearchParams(body);
+                        newBody.append('grecaptchav3response', tokenButton);
+                        newBody.append('lknFraudNonce', vars.nonce);
+                        originalXHRSend.call(xhr, newBody.toString());
+                    });
+                } else {
+                    originalXHRSend.apply(this, arguments);
+                }
             };
         }
-
-    })
-})(jQuery)
+    });
+})(jQuery);

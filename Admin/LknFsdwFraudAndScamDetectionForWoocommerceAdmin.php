@@ -99,6 +99,21 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/lknFraudDetectionForWoocommerceAdmin.js', array( 'jquery' ), $this->version, false );
 
+		$screen = get_current_screen();
+		if (
+			$screen &&
+			in_array( $screen->id, array( 'woocommerce_page_wc-orders', 'shop_order' ), true ) &&
+			isset( $_GET['action'] ) && 'edit' === $_GET['action'] // phpcs:ignore WordPress.Security.NonceVerification
+		) {
+			wp_enqueue_script(
+				$this->plugin_name . '-order-ip-links',
+				plugin_dir_url( __FILE__ ) . 'js/lknFraudDetectionForWoocommerceOrderIpLinks.js',
+				array( 'jquery' ),
+				$this->version,
+				true
+			);
+		}
+
 	}
 
 }

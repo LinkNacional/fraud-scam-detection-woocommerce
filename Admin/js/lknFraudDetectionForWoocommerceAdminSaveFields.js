@@ -79,11 +79,6 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
         // WordPress retornou success: true
         if (response.success) {
             alert(response.data.message || 'Configurações salvas com sucesso!');
-            
-            // WEBHOOK: Refresh webhook status indicator after save (C6, SICOOB and Bradesco)
-            if ((actionSuffix === 'c6' || actionSuffix === 'sicoob' || actionSuffix === 'bradesco') && typeof updateWebhookStatusFromServer === 'function') {
-                updateWebhookStatusFromServer();
-            }
         } else {
             alert('Erro: ' + (response.data.message || 'Ocorreu um erro ao salvar as configurações.'));
         }
