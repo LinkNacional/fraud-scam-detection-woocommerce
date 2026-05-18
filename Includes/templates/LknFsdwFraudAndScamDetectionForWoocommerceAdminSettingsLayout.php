@@ -253,6 +253,11 @@ foreach ($form_fields as $key => $field) {
                                             <?php echo esc_html($field['input_description']); ?>
                                         </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($field['input_warning'])): ?>
+                                        <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                            <?php echo wp_kses($field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <?php
                                 // Renderiza os filhos dentro do .admin-layout-field-component-bg do pai
@@ -436,6 +441,11 @@ foreach ($form_fields as $key => $field) {
                                             if (!empty($child_field['input_description'])): ?>
                                                 <div class="admin-layout-input-description">
                                                     <?php echo esc_html($child_field['input_description']); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($child_field['input_warning'])): ?>
+                                                <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                                    <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>
                                             <?php endif; ?>
                                         </div>

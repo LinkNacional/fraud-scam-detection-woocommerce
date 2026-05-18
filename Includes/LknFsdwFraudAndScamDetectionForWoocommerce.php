@@ -130,7 +130,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		);
 
 		// AJAX: Save antifraud settings
-		add_action('wp_ajax_lkn_anti_fraud_save_settings', array($this, 'ajax_save_antifraud_settings'));
+		$this->loader->add_action('wp_ajax_lkn_anti_fraud_save_settings', $this, 'ajax_save_antifraud_settings');
+
+		// AJAX: Ban IP
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_ban_ip', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_ban_ip' );
+
+		// AJAX: Get / Unban IPs
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_get_banned_ips', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_get_banned_ips' );
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_unban_ip',       $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_unban_ip' );
 	}
 
 	/**
@@ -202,6 +209,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 			error_log('MaxMind Test: Pedido não encontrado para o ID: ' . $order_id);
 			return;
 		}
+		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
 		error_log('MaxMind Test [Classic]: Dados completos do pedido: ' . print_r($order->get_data(), true));
 		error_log('MaxMind Test [Classic]: Itens do pedido: ' . print_r($order->get_items(), true));
 		error_log('MaxMind Test [Classic]: Dados do usuário: ' . print_r($order->get_user_id(), true));
@@ -261,6 +269,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 			error_log('MaxMind Test [Blocks]: Pedido não encontrado ou inválido.');
 			return;
 		}
+		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
 		error_log('MaxMind Test [Blocks]: Dados completos do pedido: ' . print_r($order->get_data(), true));
 		error_log('MaxMind Test [Blocks]: Itens do pedido: ' . print_r($order->get_items(), true));
 		error_log('MaxMind Test [Blocks]: Dados do usuário: ' . print_r($order->get_user_id(), true));

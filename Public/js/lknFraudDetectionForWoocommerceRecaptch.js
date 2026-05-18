@@ -1,11 +1,12 @@
 (function ($) {
-    var vars        = (typeof lknFsdwFraudScamDetectionVars !== 'undefined') ? lknFsdwFraudScamDetectionVars : {};
-    var tokenButton = '';
+    var vars = (typeof lknFsdwFraudScamDetectionVars !== 'undefined') ? lknFsdwFraudScamDetectionVars : {};
 
     // ── Blocks checkout: middleware wp.apiFetch ────────────────────────────
     // `wp-api-fetch` é declarado como dependência no PHP, então wp.apiFetch
     // está garantidamente disponível aqui (nível do módulo).
     // Imune ao ciclo de vida React (ex.: cleanup do gateway Rede).
+    // O token é buscado de forma assíncrona dentro do middleware para garantir
+    // que sempre será um token válido e recém-gerado no momento do envio.
     if (window.wp && window.wp.apiFetch) {
         window.wp.apiFetch.use(function (options, next) {
             var path = options.path || options.url || '';
@@ -15,7 +16,14 @@
                     return d.key === 'grecaptchav3response';
                 });
                 if (!hasToken) {
-                    options.data.payment_data.push({ key: 'grecaptchav3response', value: tokenButton });
+                    return new Promise(function (resolve, reject) {
+                        grecaptcha.ready(function () {
+                            grecaptcha.execute(vars.googleKey, { action: 'submit' }).then(function (token) {
+                                options.data.payment_data.push({ key: 'grecaptchav3response', value: token });
+                                resolve(next(options));
+                            }).catch(reject);
+                        });
+                    });
                 }
             }
             return next(options);
@@ -63,23 +71,6 @@
                 }
             });
             badgeObserver.observe(document.body, { childList: true, subtree: true });
-        }
-
-        // ── Blocks checkout ────────────────────────────────────────────────
-        // O token é injetado pelo middleware wp.apiFetch (acima).
-        // Aqui apenas mantemos o token atualizado via executeRecaptcha().
-        var placeOrderButton = document.querySelector('.wc-block-components-checkout-place-order-button');
-        if (placeOrderButton) {
-            grecaptcha.ready(function () {
-                placeOrderButton.addEventListener('click', function () { executeRecaptcha(); });
-                executeRecaptcha();
-
-                function executeRecaptcha() {
-                    grecaptcha.execute(vars.googleKey, { action: 'submit' }).then(function (token) {
-                        tokenButton = token;
-                    });
-                }
-            });
         }
 
         // ── Classic checkout (XHR) ─────────────────────────────────────────

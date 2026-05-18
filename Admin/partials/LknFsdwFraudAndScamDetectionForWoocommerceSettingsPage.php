@@ -46,6 +46,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
+            'enable_ip_check' => array(
+                'title'             => __('Enable IP Check', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableIpCheck',
+                'default'           => 'no',
+                'description'       => __('Show IP lookup, filter and ban actions on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Enable IP Check', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Requires Enable Antifraud to be active.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Enables IP lookup, filter and ban actions on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_warning'     => __('<strong>⚠ Important:</strong> For this feature to correctly identify the customer\'s real IP, your server proxy settings must be properly configured (e.g. trusted proxies / X-Forwarded-For headers). If you are unsure, contact your server administrator before enabling this option.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
             'security_version' => array(
                 'title'             => __('Security Version', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'select',
@@ -204,6 +217,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'block_sub_title'   => __('Select light, dark or auto.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => __('Visual appearance of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
+            ),
+
+            /* ── Banned IPs ──────────────────────────────────────── */
+            'banned_ips_section_title' => array(
+                'title'             => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'title',
+                'id'                => 'lkn_anti_fraud_banned_ips_section_title',
+                'description'       => '',
+                'default'           => '',
+                'desc_tip'          => false,
+                'block_title'       => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('List of IP addresses blocked from checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
             ),
 
         );

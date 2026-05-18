@@ -103,7 +103,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 		if (
 			$screen &&
 			in_array( $screen->id, array( 'woocommerce_page_wc-orders', 'shop_order' ), true ) &&
-			isset( $_GET['action'] ) && 'edit' === $_GET['action'] // phpcs:ignore WordPress.Security.NonceVerification
+			isset( $_GET['action'] ) && 'edit' === $_GET['action'] && // phpcs:ignore WordPress.Security.NonceVerification
+			get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) === 'yes' &&
+			get_option( 'lknFraudDetectionForWoocommerceEnableIpCheck', 'no' ) === 'yes'
 		) {
 			wp_enqueue_script(
 				$this->plugin_name . '-order-ip-links',
@@ -111,6 +113,38 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 				array( 'jquery' ),
 				$this->version,
 				true
+			);
+			wp_localize_script(
+				$this->plugin_name . '-order-ip-links',
+				'lknFsdwOrderIpVars',
+				array(
+					'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+					'nonce'      => wp_create_nonce( 'lkn_fsdw_ban_ip' ),
+					'nonceGet'   => wp_create_nonce( 'lkn_fsdw_get_banned_ips' ),
+					'nonceUnban' => wp_create_nonce( 'lkn_fsdw_unban_ip' ),
+					'ordersUrl'  => admin_url( 'admin.php?page=wc-orders' ),
+					'i18n'       => array(
+						'filterTitle'  => __( 'Banned IPs', 'fraud-and-scam-detection-for-woocommerce' ),
+						'showLabel'    => __( 'Show:', 'fraud-and-scam-detection-for-woocommerce' ),
+						'loading'      => __( 'Loading…', 'fraud-and-scam-detection-for-woocommerce' ),
+						'ipCol'        => __( 'IP Address', 'fraud-and-scam-detection-for-woocommerce' ),
+						'noIps'        => __( 'No banned IPs.', 'fraud-and-scam-detection-for-woocommerce' ),
+						'ban'          => __( 'ban', 'fraud-and-scam-detection-for-woocommerce' ),
+						'unban'        => __( 'unban', 'fraud-and-scam-detection-for-woocommerce' ),
+						'unbanTitle'   => __( 'Unban IP', 'fraud-and-scam-detection-for-woocommerce' ),
+						'unbanConfirm' => __( 'Do you want to unban the following IP?', 'fraud-and-scam-detection-for-woocommerce' ),
+						'unbanConfirmBtn' => __( 'Confirm Unban', 'fraud-and-scam-detection-for-woocommerce' ),
+						'unbanning'    => __( '…', 'fraud-and-scam-detection-for-woocommerce' ),
+						'prev'         => __( 'Prev', 'fraud-and-scam-detection-for-woocommerce' ),
+						'next'         => __( 'Next', 'fraud-and-scam-detection-for-woocommerce' ),
+						'ipLabel'      => __( 'IP:', 'fraud-and-scam-detection-for-woocommerce' ),
+						'banTitle'     => __( 'Ban IP', 'fraud-and-scam-detection-for-woocommerce' ),
+						'banConfirm'   => __( 'Do you want to ban the following IP from checkout?', 'fraud-and-scam-detection-for-woocommerce' ),
+						'banConfirmBtn'=> __( 'Confirm Ban', 'fraud-and-scam-detection-for-woocommerce' ),
+						'banning'      => __( 'Banning…', 'fraud-and-scam-detection-for-woocommerce' ),
+						'cancel'       => __( 'Cancel', 'fraud-and-scam-detection-for-woocommerce' ),
+					),
+				)
 			);
 		}
 

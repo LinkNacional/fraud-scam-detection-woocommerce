@@ -85,6 +85,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	public function processPayments($context, $result) {
+		$this->checkBannedIp( $context->order );
+
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
@@ -101,6 +103,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	public function verifyAjaxRequsets($orderId, $postedData, $order) {
+		$this->checkBannedIp( $order );
+
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
@@ -117,6 +121,89 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		} else {
 			$token = isset( $_POST['grecaptchav3response'] ) ? sanitize_text_field( $_POST['grecaptchav3response'] ) : null;
 			$this->verifyRecaptcha( $token, $order );
+		}
+	}
+
+	public function ajax_get_banned_ips() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		check_ajax_referer( 'lkn_fsdw_get_banned_ips', 'nonce' );
+
+		$banned_ips = get_option( 'lknFraudDetectionForWoocommerceBannedIps', array() );
+		if ( ! is_array( $banned_ips ) ) {
+			$banned_ips = array();
+		}
+		wp_send_json_success( array( 'ips' => array_values( $banned_ips ) ) );
+	}
+
+	public function ajax_unban_ip() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		check_ajax_referer( 'lkn_fsdw_unban_ip', 'nonce' );
+
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		if ( ! $ip || ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+
+		$banned_ips = get_option( 'lknFraudDetectionForWoocommerceBannedIps', array() );
+		if ( ! is_array( $banned_ips ) ) {
+			$banned_ips = array();
+		}
+		$banned_ips = array_values( array_filter( $banned_ips, function( $item ) use ( $ip ) {
+			return $item !== $ip;
+		} ) );
+		update_option( 'lknFraudDetectionForWoocommerceBannedIps', $banned_ips );
+
+		wp_send_json_success( array( 'message' => sprintf(
+			/* translators: %s: IP address */
+			__( 'IP %s has been unbanned.', 'fraud-and-scam-detection-for-woocommerce' ),
+			$ip
+		) ) );
+	}
+
+	public function ajax_ban_ip() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		check_ajax_referer( 'lkn_fsdw_ban_ip', 'nonce' );
+
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		if ( ! $ip || ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+
+		$banned_ips = get_option( 'lknFraudDetectionForWoocommerceBannedIps', array() );
+		if ( ! is_array( $banned_ips ) ) {
+			$banned_ips = array();
+		}
+		if ( ! in_array( $ip, $banned_ips, true ) ) {
+			$banned_ips[] = $ip;
+			update_option( 'lknFraudDetectionForWoocommerceBannedIps', $banned_ips );
+		}
+
+		wp_send_json_success( array( 'message' => sprintf(
+			/* translators: %s: IP address */
+			__( 'IP %s has been banned.', 'fraud-and-scam-detection-for-woocommerce' ),
+			$ip
+		) ) );
+	}
+
+	public function checkBannedIp( $order ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableIpCheck', 'no' ) !== 'yes' ) {
+			return;
+		}
+		$banned_ips = get_option( 'lknFraudDetectionForWoocommerceBannedIps', array() );
+		if ( ! is_array( $banned_ips ) || empty( $banned_ips ) ) {
+			return;
+		}
+		$customer_ip = $order->get_customer_ip_address();
+		if ( ! empty( $customer_ip ) && in_array( $customer_ip, $banned_ips, true ) ) {
+			$order->set_status( 'lkn-fraud' );
+			$order->save();
+			throw new Exception( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) );
 		}
 	}
 
