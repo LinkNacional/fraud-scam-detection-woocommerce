@@ -45,12 +45,12 @@ foreach ($form_fields as $key => $field) {
                 <?php foreach ($blocks as $block_id => $block): ?>
                     <div class="admin-layout-block<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" id="block-<?php echo esc_attr($block_id); ?>">
                         <?php
-                        foreach ($block['fields'] as $key => $field):
+                        foreach (($block['fields'] ?? []) as $key => $field):
                             if (!empty($field['join'])) continue;
 
                             // Busca filhos deste campo
                             $children = [];
-                            foreach ($block['fields'] as $child_key => $child_field) {
+                            foreach (($block['fields'] ?? []) as $child_key => $child_field) {
                                 if (!empty($child_field['join']) && $child_field['join'] === $key) {
                                     $children[$child_key] = $child_field;
                                 }
@@ -262,7 +262,6 @@ foreach ($form_fields as $key => $field) {
                                 <?php
                                 // Renderiza os filhos dentro do .admin-layout-field-component-bg do pai
                                 foreach ($children as $child_key => $child_field): ?>
-                                    <?php error_log($child_key); ?>
                                     <div class="admin-layout-joined-label-desc">
                                         <?php if (!empty($child_field['block_title'])): ?>
                                             <span class="admin-layout-label">
@@ -489,7 +488,7 @@ foreach ($form_fields as $key => $field) {
                 <div class="block-status-card block-status-card--success">
                     <div class="block-status-card-header">
                         <span class="dashicons dashicons-yes"></span>
-                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Bradesco PIX Gateway', $text_domain); ?></h4>
+                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Cloudflare Turnstile Security', $text_domain); ?></h4>
                     </div>
                     <p class="block-status-card-description">
                         <?php esc_html_e('Discover the new LinkNacional Security Verification System for advanced fraud and scam protection in your store.', $text_domain); ?>

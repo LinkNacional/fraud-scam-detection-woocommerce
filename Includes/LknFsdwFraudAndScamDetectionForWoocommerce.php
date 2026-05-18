@@ -178,7 +178,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		$this->loader->add_action( 'woocommerce_rest_checkout_process_payment_with_context', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'processPayments', 1, 2 );
 		$this->loader->add_action( 'woocommerce_checkout_order_processed', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'verifyAjaxRequsets', 1, 3 );
 
-		// Hooks para logging de dados do pedido para integração MaxMind (teste)
+		// Hooks para validação de IP banido
 		$this->loader->add_action(
 			'woocommerce_checkout_order_processed',
 			$this,
@@ -206,56 +206,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		}
 		$order = wc_get_order($order_id);
 		if (!$order) {
-			error_log('MaxMind Test: Pedido não encontrado para o ID: ' . $order_id);
 			return;
 		}
 		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
-		error_log('MaxMind Test [Classic]: Dados completos do pedido: ' . print_r($order->get_data(), true));
-		error_log('MaxMind Test [Classic]: Itens do pedido: ' . print_r($order->get_items(), true));
-		error_log('MaxMind Test [Classic]: Dados do usuário: ' . print_r($order->get_user_id(), true));
-		error_log('MaxMind Test [Classic]: IP do cliente: ' . $order->get_customer_ip_address());
-		$shipping_phone = $order->get_shipping_phone();
-		if (empty($shipping_phone) && function_exists('WC') && WC()->session) {
-			$shipping_phone = WC()->session->get('custom_phone');
-		}
-		error_log('MaxMind Test [Classic]: Dados de cobrança: ' . print_r([
-			'first_name'      => $order->get_billing_first_name(),
-			'last_name'       => $order->get_billing_last_name(),
-			'email'           => $order->get_billing_email(),
-			'phone'           => $order->get_billing_phone(),
-			'address_1'       => $order->get_billing_address_1(),
-			'address_2'       => $order->get_billing_address_2(),
-			'city'            => $order->get_billing_city(),
-			'postcode'        => $order->get_billing_postcode(),
-			'state'           => $order->get_billing_state(),
-			'country'         => $order->get_billing_country(),
-			'company'         => $order->get_billing_company(),
-			'payment_method'  => $order->get_payment_method(),
-			'user_agent'      => $order->get_customer_user_agent(),
-			'transaction_id'  => $order->get_transaction_id(),
-			'customer_note'   => $order->get_customer_note(),
-			'shipping_phone'  => $shipping_phone,
-			'_billing_cpf'    => $order->get_meta('_billing_cpf'),
-			'_billing_cnpj'   => $order->get_meta('_billing_cnpj'),
-			'_billing_number' => $order->get_meta('_billing_number'),
-			'_shipping_number'=> $order->get_meta('_shipping_number'),
-			'_billing_neighborhood' => $order->get_meta('_billing_neighborhood'),
-			'_shipping_neighborhood' => $order->get_meta('_shipping_neighborhood'),
-			'_billing_gender' => $order->get_meta('_billing_gender'),
-			'_shipping_gender' => $order->get_meta('_shipping_gender'),
-			'_billing_birthdate' => $order->get_meta('_billing_birthdate'),
-			'_shipping_birthdate' => $order->get_meta('_shipping_birthdate'),
-		], true));
-		error_log('MaxMind Test [Classic]: Dados de entrega: ' . print_r([
-			'first_name' => $order->get_shipping_first_name(),
-			'last_name' => $order->get_shipping_last_name(),
-			'address_1' => $order->get_shipping_address_1(),
-			'address_2' => $order->get_shipping_address_2(),
-			'city' => $order->get_shipping_city(),
-			'postcode' => $order->get_shipping_postcode(),
-			'state' => $order->get_shipping_state(),
-			'country' => $order->get_shipping_country(),
-		], true));
 	}
 
 	/**
@@ -266,59 +219,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 	 */
 	public function process_checkout_data_blocks($order, $request) {
 		if (!$order || !is_object($order)) {
-			error_log('MaxMind Test [Blocks]: Pedido não encontrado ou inválido.');
 			return;
 		}
 		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
-		error_log('MaxMind Test [Blocks]: Dados completos do pedido: ' . print_r($order->get_data(), true));
-		error_log('MaxMind Test [Blocks]: Itens do pedido: ' . print_r($order->get_items(), true));
-		error_log('MaxMind Test [Blocks]: Dados do usuário: ' . print_r($order->get_user_id(), true));
-		error_log('MaxMind Test [Blocks]: IP do cliente (order): ' . $order->get_customer_ip_address());
-		if (is_object($request) && method_exists($request, 'get_client_ip')) {
-			error_log('MaxMind Test [Blocks]: IP do cliente (request): ' . $request->get_client_ip());
-		}
-		$shipping_phone = $order->get_shipping_phone();
-		if (empty($shipping_phone) && function_exists('WC') && WC()->session) {
-			$shipping_phone = WC()->session->get('custom_phone');
-		}
-		error_log('MaxMind Test [Blocks]: Dados de cobrança: ' . print_r([
-			'first_name'      => $order->get_billing_first_name(),
-			'last_name'       => $order->get_billing_last_name(),
-			'email'           => $order->get_billing_email(),
-			'phone'           => $order->get_billing_phone(),
-			'address_1'       => $order->get_billing_address_1(),
-			'address_2'       => $order->get_billing_address_2(),
-			'city'            => $order->get_billing_city(),
-			'postcode'        => $order->get_billing_postcode(),
-			'state'           => $order->get_billing_state(),
-			'country'         => $order->get_billing_country(),
-			'company'         => $order->get_billing_company(),
-			'payment_method'  => $order->get_payment_method(),
-			'user_agent'      => $order->get_customer_user_agent(),
-			'transaction_id'  => $order->get_transaction_id(),
-			'customer_note'   => $order->get_customer_note(),
-			'shipping_phone'  => $shipping_phone,
-			'_billing_cpf'    => $order->get_meta('_billing_cpf'),
-			'_billing_cnpj'   => $order->get_meta('_billing_cnpj'),
-			'_billing_number' => $order->get_meta('_billing_number'),
-			'_shipping_number'=> $order->get_meta('_shipping_number'),
-			'_billing_neighborhood' => $order->get_meta('_billing_neighborhood'),
-			'_shipping_neighborhood' => $order->get_meta('_shipping_neighborhood'),
-			'_billing_gender' => $order->get_meta('_billing_gender'),
-			'_shipping_gender' => $order->get_meta('_shipping_gender'),
-			'_billing_birthdate' => $order->get_meta('_billing_birthdate'),
-			'_shipping_birthdate' => $order->get_meta('_shipping_birthdate'),
-		], true));
-		error_log('MaxMind Test [Blocks]: Dados de entrega: ' . print_r([
-			'first_name' => $order->get_shipping_first_name(),
-			'last_name' => $order->get_shipping_last_name(),
-			'address_1' => $order->get_shipping_address_1(),
-			'address_2' => $order->get_shipping_address_2(),
-			'city' => $order->get_shipping_city(),
-			'postcode' => $order->get_shipping_postcode(),
-			'state' => $order->get_shipping_state(),
-			'country' => $order->get_shipping_country(),
-		], true));
 	}
 
 	/**

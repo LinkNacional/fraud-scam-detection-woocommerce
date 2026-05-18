@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) {
 class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Settings_Page
 {
     public $id;
+    public $method_title;
+    public $method_description;
 
     public function __construct()
     {
@@ -252,7 +254,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
         $plugin_path = 'invoice-payment-for-woocommerce/wc-invoice-payment.php';
         $invoice_plugin_installed = file_exists(WP_PLUGIN_DIR . '/' . $plugin_path);
         $template_path = plugin_dir_path(dirname(__DIR__)) . 'Includes/templates/';
-        error_log('Caminho do template: ' . $template_path);
 
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettings', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettings.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettingLinkCard', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettingLinkCard.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
@@ -307,6 +308,45 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             array('jquery'),
             FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
             true
+        );
+
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-banned-ips',
+            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminBannedIps.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+        wp_localize_script(
+            'lkn-fraud-detection-for-woocommerce-admin-banned-ips',
+            'lknFsdwBannedIpsVars',
+            array(
+                'ajaxUrl'    => admin_url('admin-ajax.php'),
+                'nonceGet'   => wp_create_nonce('lkn_fsdw_get_banned_ips'),
+                'nonceBan'   => wp_create_nonce('lkn_fsdw_ban_ip'),
+                'nonceUnban' => wp_create_nonce('lkn_fsdw_unban_ip'),
+                'i18n'       => array(
+                    'placeholder'    => __('IPv4 or IPv6', 'fraud-and-scam-detection-for-woocommerce'),
+                    'banBtn'         => __('Ban IP', 'fraud-and-scam-detection-for-woocommerce'),
+                    'unbanBtn'       => __('Unban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colIp'          => __('IP Address', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colActions'     => __('Actions', 'fraud-and-scam-detection-for-woocommerce'),
+                    'loading'        => __('Loading…', 'fraud-and-scam-detection-for-woocommerce'),
+                    'empty'          => __('No banned IPs.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'cancel'         => __('Cancel', 'fraud-and-scam-detection-for-woocommerce'),
+                    'banTitle'       => __('Ban IP', 'fraud-and-scam-detection-for-woocommerce'),
+                    'banConfirmMsg'  => __('Do you want to ban the following IP from checkout?', 'fraud-and-scam-detection-for-woocommerce'),
+                    'banConfirmBtn'  => __('Confirm Ban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'unbanTitle'     => __('Unban IP', 'fraud-and-scam-detection-for-woocommerce'),
+                    'unbanConfirmMsg'=> __('Do you want to unban the following IP?', 'fraud-and-scam-detection-for-woocommerce'),
+                    'unbanConfirmBtn'=> __('Confirm Unban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'successBan'     => __('IP banned successfully.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorLoad'      => __('Failed to load IPs.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorBan'       => __('Error banning IP.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorUnban'     => __('Error unbanning IP.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorEmpty'     => __('Enter an IP address.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+            )
         );
 
         wc_get_template(

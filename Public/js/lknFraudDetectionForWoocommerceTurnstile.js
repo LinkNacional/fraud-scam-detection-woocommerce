@@ -17,16 +17,12 @@
                     return d.key === 'lkncfturnstileresponse';
                 });
                 if (!hasToken) {
-                    console.log('[LKN Turnstile] apiFetch intercepted, cfToken length:', cfToken.length);
                     options.data.payment_data.push({ key: 'lkncfturnstileresponse', value: cfToken });
                     if (widgetId !== null) { turnstile.reset(widgetId); }
                 }
             }
             return next(options);
         });
-        console.log('[LKN Turnstile] apiFetch middleware registered');
-    } else {
-        console.log('[LKN Turnstile] wp.apiFetch not available — middleware not registered');
     }
 
     $(window).load(function () {
@@ -43,7 +39,6 @@
         }
 
         if (typeof turnstile === 'undefined') {
-            console.log('[LKN Turnstile] turnstile not defined — script not loaded yet');
             return;
         }
 
@@ -61,18 +56,16 @@
             container.style.cssText = 'position:fixed;bottom:14px;right:25px;z-index:9999;';
             document.body.appendChild(container);
         }
-        console.log('[LKN Turnstile] rendering widget, sitekey:', vars.cfSiteKey);
 
         widgetId = turnstile.render('#lkn-cf-turnstile', {
             sitekey:            vars.cfSiteKey,
             theme:              vars.cfTheme || 'light',
             appearance:         'always',
             size:               'normal',
-            callback:           function (token) { cfToken = token; console.log('[LKN Turnstile] token received, length:', token.length); },
-            'expired-callback': function () { cfToken = ''; console.log('[LKN Turnstile] token expired'); turnstile.reset(widgetId); },
-            'error-callback':   function (code) { cfToken = ''; console.log('[LKN Turnstile] error-callback code:', code); }
+            callback:           function (token) { cfToken = token; },
+            'expired-callback': function () { cfToken = ''; turnstile.reset(widgetId); },
+            'error-callback':   function (code) { cfToken = ''; }
         });
-        console.log('[LKN Turnstile] widgetId:', widgetId);
 
         // ── Classic checkout (XHR) ─────────────────────────────────────────
         var legacyForm = document.querySelector('.checkout.woocommerce-checkout');
@@ -87,7 +80,6 @@
 
             XMLHttpRequest.prototype.send = function (body) {
                 if (this._requestURL && this._requestURL.includes('?wc-ajax=checkout')) {
-                    console.log('[LKN Turnstile] XHR intercepted, cfToken length:', cfToken.length);
                     var newBody = new URLSearchParams(body);
                     newBody.append('lknCfTurnstileResponse', cfToken);
                     newBody.append('lknFraudNonce', vars.nonce);
