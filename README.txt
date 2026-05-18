@@ -22,7 +22,7 @@ Using **Google reCAPTCHA** or **Cloudflare Turnstile**, the plugin automatically
 - Integration with **Cloudflare Turnstile**;
 - Protects WooCommerce checkout against automated bots and fraudulent activity;
 - Configurable minimum score threshold for human-like behavior detection (reCAPTCHA);
-- IP address banning — block specific IPs from completing checkout;
+- **IP banning** — block specific IP addresses from completing checkout directly from the order detail page or the Anti-Fraud settings;
 - Lightweight and optimized for performance.
 
 **Dependencies**
@@ -109,6 +109,12 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 * Google reCAPTCHA v3 assigns a score between 0.0 (likely a bot) and 1.0 (likely human).  
   You can configure the threshold in plugin settings to determine how strict the validation should be.
+
+= How does the IP banning system work? =
+
+* When the **Enable IP Check** option is active, a lookup/ban panel appears on each order detail page.  
+  You can also manage the full list of banned IPs (add or remove) directly in **WooCommerce > Settings > Anti-Fraud > Banned IPs**.  
+  Any customer attempting to checkout from a banned IP will be blocked and the order will be flagged as fraud.
 
 
 == Changelog ==
