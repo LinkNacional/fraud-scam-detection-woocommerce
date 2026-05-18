@@ -1,66 +1,83 @@
 === Fraud and Scam Detection For WooCommerce ===
 Contributors: linknacional
 Donate link: https://www.linknacional.com.br/wordpress/
-Tags: woocommerce, antifraud, recaptcha, security, fraud
+Tags: woocommerce, antifraud, recaptcha, security, fraud, cloudflare
 Requires at least: 5.7
 Tested up to: 6.8
-Stable tag: 1.1.10
+Stable tag: 1.2.0
 Requires PHP: 7.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Add Google reCAPTCHA verification to WooCommerce checkout to prevent fraudulent transactions.
+Add Google reCAPTCHA or Cloudflare Turnstile verification to WooCommerce checkout to prevent fraudulent transactions.
 
 == Description ==
 
 The **Fraud and Scam Detection For WooCommerce** plugin helps protect your online store by adding a verification layer to the WooCommerce checkout.  
-Using **Google reCAPTCHA**, the plugin automatically analyzes user interactions and blocks suspicious checkout attempts, reducing fraudulent transactions and ensuring safer payments.
+Using **Google reCAPTCHA** or **Cloudflare Turnstile**, the plugin automatically analyzes user interactions and blocks suspicious checkout attempts, reducing fraudulent transactions and ensuring safer payments.
 
 **Main Features:**
-- Integration with **Google reCAPTCHA**;
+- Integration with **Google reCAPTCHA v3**;
+- Integration with **Cloudflare Turnstile**;
 - Protects WooCommerce checkout against automated bots and fraudulent activity;
-- Configurable minimum score threshold for human-like behavior detection;
+- Configurable minimum score threshold for human-like behavior detection (reCAPTCHA);
+- IP address banning — block specific IPs from completing checkout;
 - Lightweight and optimized for performance.
 
 **Dependencies**
 
 This plugin requires [WooCommerce](https://woocommerce.com/) to be installed and active.  
-You also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha/admin/create).
+For Google reCAPTCHA, you also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha/admin/create).  
+For Cloudflare Turnstile, you need valid [Cloudflare Turnstile site and secret keys](https://dash.cloudflare.com/?to=/:account/turnstile).
 
 **User instructions**
 
 1. Go to WordPress admin panel > WooCommerce > Settings > Anti-Fraud;
 
-2. Enable the reCAPTCHA option;
+2. Enable the antifraud option and choose between **Google reCAPTCHA** or **Cloudflare Turnstile**;
 
-3. Enter your Google reCAPTCHA **Site Key** and **Secret Key**;
+3. Enter the corresponding **Site Key** and **Secret Key** for the chosen service;
 
-4. Set the **minimum score threshold** (higher values = stricter validation);
+4. For reCAPTCHA: set the **minimum score threshold** (higher values = stricter validation);
 
-5. Optionally enable **debug mode** to log requests and responses;
+5. Optionally enable **IP check** to ban specific IP addresses from checkout;
 
-6. Save the settings. From now on, the WooCommerce checkout will require reCAPTCHA validation.
+6. Optionally enable **debug mode** to log requests and responses;
+
+7. Save the settings. From now on, the WooCommerce checkout will require security validation.
 
 == External services ==
 
-This plugin integrates with Google reCAPTCHA v3 service to provide fraud and bot protection for WooCommerce checkout processes.
+This plugin integrates with Google reCAPTCHA v3 and Cloudflare Turnstile to provide fraud and bot protection for WooCommerce checkout processes.
 
-**What the service is and what it is used for:**
+**Google reCAPTCHA v3**
+
+What the service is and what it is used for:  
 Google reCAPTCHA v3 is a security service that analyzes user behavior to determine if a user is likely human or bot. It's used to protect the WooCommerce checkout process from automated fraud attempts and malicious activities.
 
-**What data is sent and when:**
-When a customer attempts to complete a checkout on your WooCommerce store, the plugin sends the following data to Google reCAPTCHA servers:
+What data is sent and when:  
+When a customer attempts to complete a checkout, the plugin sends the following data to Google reCAPTCHA servers:
 - User's IP address
 - Browser and device information
 - User interaction patterns during checkout
 - reCAPTCHA response token
 
-This data is sent every time a customer loads the checkout page and attempts to place an order.
-
-**Service terms and privacy policy:**
 - Google reCAPTCHA Terms of Service: https://developers.google.com/recaptcha/docs/terms
 - Google Privacy Policy: https://policies.google.com/privacy
+
+**Cloudflare Turnstile**
+
+What the service is and what it is used for:  
+Cloudflare Turnstile is a privacy-friendly CAPTCHA alternative that verifies users without tracking or invasive data collection. It's used to protect the WooCommerce checkout from bots and fraudulent activity.
+
+What data is sent and when:  
+When a customer attempts to complete a checkout, the plugin sends the Turnstile response token to Cloudflare servers for validation:
+- Turnstile response token
+- User's IP address (handled by Cloudflare)
+
+- Cloudflare Turnstile Terms of Service: https://www.cloudflare.com/terms/
+- Cloudflare Privacy Policy: https://www.cloudflare.com/privacypolicy/
 
 == Installation ==
 
@@ -85,7 +102,8 @@ This data is sent every time a customer loads the checkout page and attempts to 
 = What is needed to use this plugin? =
 
 * WooCommerce installed and active;
-* Google reCAPTCHA API keys.
+* Google reCAPTCHA API keys (if using reCAPTCHA);
+* Cloudflare Turnstile site and secret keys (if using Turnstile).
 
 = How does the minimum score work? =
 
@@ -94,6 +112,9 @@ This data is sent every time a customer loads the checkout page and attempts to 
 
 
 == Changelog ==
+= 1.2.0 =
+* New security verification system with Cloudflare Turnstile.
+
 = 1.1.9/1.1.10 =
 * New banners according to country.
 
@@ -128,6 +149,8 @@ This data is sent every time a customer loads the checkout page and attempts to 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.2.0 =
+* New security verification system with Cloudflare Turnstile and IP banning feature.
 = 1.1.9/1.1.10 =
 * New banners according to country.
 
