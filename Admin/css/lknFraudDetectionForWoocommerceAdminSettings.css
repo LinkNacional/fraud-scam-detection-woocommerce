@@ -205,6 +205,12 @@
     margin-bottom: 2px;
 }
 
+.admin-layout-input-warning {
+    font-size: 0.85em;
+    color: #8f8f8f;
+    margin-top: 4px;
+}
+
 .admin-layout-joined-label-desc {
     width: 100%;
     flex: 0;

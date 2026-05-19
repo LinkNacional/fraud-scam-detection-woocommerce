@@ -15,25 +15,25 @@ if (!defined('ABSPATH')) {
         <div class="linkn-link-links">
             <div>
                 <a target="_blank" href="<?php echo esc_url('https://wordpress.org/plugins/woo-better-shipping-calculator-for-brazil/'); ?>">
-                    <b>•</b><?php echo esc_attr__('Documentation', 'payment-gateway-pix-for-woocommerce'); ?>
+                    <b>•</b><?php echo esc_attr__('Documentation', 'fraud-and-scam-detection-for-woocommerce'); ?>
                 </a>
                 <a target="_blank" href="<?php echo esc_url('https://www.linknacional.com.br/wordpress/'); ?>">
-                    <b>•</b><?php echo esc_attr__('Hosting', 'payment-gateway-pix-for-woocommerce'); ?>
+                    <b>•</b><?php echo esc_attr__('Hosting', 'fraud-and-scam-detection-for-woocommerce'); ?>
                 </a>
             </div>
             <div>
                 <a target="_blank" href="<?php echo esc_url('https://www.linknacional.com.br/wordpress/plugins/'); ?>">
-                    <b>•</b><?php echo esc_attr__('WP Plugin', 'payment-gateway-pix-for-woocommerce'); ?>
+                    <b>•</b><?php echo esc_attr__('WP Plugin', 'fraud-and-scam-detection-for-woocommerce'); ?>
                 </a>
                 <a target="_blank" href="<?php echo esc_url('https://www.linknacional.com.br/wordpress/suporte/'); ?>">
-                    <b>•</b><?php echo esc_attr__('WP Support', 'payment-gateway-pix-for-woocommerce'); ?>
+                    <b>•</b><?php echo esc_attr__('WP Support', 'fraud-and-scam-detection-for-woocommerce'); ?>
                 </a>
             </div>
         </div>
         <div class="linkn-support-links">
             <div class="linkn-stars-div">
                 <a target="_blank" href="<?php echo esc_url('https://br.wordpress.org/plugins/woo-better-shipping-calculator-for-brazil/#reviews'); ?>">
-                    <p><?php echo esc_attr__('Avaliar o plugin', 'payment-gateway-pix-for-woocommerce'); ?></p>
+                    <p><?php echo esc_attr__('Avaliar o plugin', 'fraud-and-scam-detection-for-woocommerce'); ?></p>
                     <div class="linkn-stars">
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>

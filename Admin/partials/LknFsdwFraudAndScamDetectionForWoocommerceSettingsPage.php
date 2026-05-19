@@ -40,6 +40,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Enable Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'checkbox',
                 'id'                => 'lknFraudDetectionForWoocommerceEnableRecaptcha',
+                'label'             => __('Enable antifraud protection during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'default'           => 'no',
                 'description'       => __('Enable antifraud protection during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
@@ -48,17 +49,46 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
-            'enable_ip_check' => array(
-                'title'             => __('Enable IP Check', 'fraud-and-scam-detection-for-woocommerce'),
+            'enable_ip_lookup' => array(
+                'title'             => __('IP Verify', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'checkbox',
-                'id'                => 'lknFraudDetectionForWoocommerceEnableIpCheck',
-                'default'           => 'no',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableIpLookup',
+                'label'             => __('Enable IP location lookup link on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'yes',
                 'description'       => __('Show IP lookup, filter and ban actions on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
-                'block_title'       => __('Enable IP Check', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Requires Enable Antifraud to be active.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Enables IP lookup, filter and ban actions on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('IP Verification', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Show IP lookup, filter and ban actions on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Enables an IP location lookup link on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'enable_ip_filter' => array(
+                'title'             => __('Filter Orders by IP', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableIpFilter',
+                'label'             => __('Enable a link to filter orders by the customer IP on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'yes',
+                'description'       => __('Show a filter link to list orders by the same IP on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Filter Orders by IP', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('List all orders placed from the same IP.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Enables a link to filter orders by the customer IP on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_ip_lookup',
+                'custom_attributes' => array(),
+            ),
+            'enable_ip_ban' => array(
+                'title'             => __('Ban IPs', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableIpBan',
+                'label'             => __('Enable ban/unban IP link on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'yes',
+                'description'       => __('Show a ban/unban link to block IPs from checkout on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Ban IPs', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Block suspicious IPs from completing checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Enables a ban/unban IP link on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_warning'     => __('<strong>⚠ Important:</strong> For this feature to correctly identify the customer\'s real IP, your server proxy settings must be properly configured (e.g. trusted proxies / X-Forwarded-For headers). If you are unsure, contact your server administrator before enabling this option.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_ip_lookup',
                 'custom_attributes' => array(),
             ),
             'security_version' => array(
@@ -66,6 +96,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'type'              => 'select',
                 'id'                => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
                 'options'           => array(
+                    'none'                => __('None', 'fraud-and-scam-detection-for-woocommerce'),
                     'googleRecaptchaV3'   => __('Google reCAPTCHA V3', 'fraud-and-scam-detection-for-woocommerce'),
                     'cloudflareTurnstile' => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
@@ -81,8 +112,13 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'checkbox',
                 'id'                => 'lknFraudDetectionForWoocommerceDebug',
+                'label'             => __('Enable debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
                 'default'           => 'no',
-                'description'       => __('Enable debug logs <a href="' . admin_url('admin.php?page=wc-status&tab=logs') . '" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce'),
+                'description'       => sprintf(
+                    /* translators: %s: URL to WooCommerce logs page. */
+                    __( 'Enable debug logs <a href="%s" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce' ),
+                    esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) )
+                ),
                 'desc_tip'          => true,
                 'block_title'       => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Enable to record debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
@@ -257,10 +293,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
 
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettings', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettings.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettingLinkCard', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettingLinkCard.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
+        wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminToggleFields', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminToggleFields.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
 
         wp_enqueue_script(
             'lkn-fraud-detection-for-woocommerce-admin-save-fields',
-            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminSaveFields.js',
+            plugin_dir_url( __FILE__ ) . '../js/compiled/lknFraudDetectionForWoocommerceAdminSaveFields.COMPILED.js',
             array('jquery'),
             FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
             true
@@ -349,6 +386,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             )
         );
 
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-toggle-fields',
+            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminToggleFields.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+
         wc_get_template(
             'LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php',
             array(
@@ -358,7 +403,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'install_nonce' => wp_create_nonce('install-plugin_invoice-payment-for-woocommerce'),
                 'plugin_slug' => 'invoice-payment-for-woocommerce',
                 'invoice_plugin_installed' => $invoice_plugin_installed,
-                'text_domain' => 'fraud-and-scam-detection-for-woocommerce',
             ),
             '',
             $template_path

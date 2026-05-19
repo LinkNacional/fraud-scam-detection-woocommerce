@@ -239,7 +239,7 @@ foreach ($form_fields as $key => $field) {
                                                 ?>
                                                 <div class="admin-layout-file-current">
                                                     <span>
-                                                        <?php esc_html_e('Last file uploaded:', $text_domain); ?>
+                                                        <?php esc_html_e('Last file uploaded:', 'fraud-and-scam-detection-for-woocommerce'); ?>
                                                         <strong><?php echo esc_html($file_name); ?></strong>
                                                     </span>
                                                 </div>
@@ -254,7 +254,7 @@ foreach ($form_fields as $key => $field) {
                                         </div>
                                     <?php endif; ?>
                                     <?php if (!empty($field['input_warning'])): ?>
-                                        <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                        <div class="admin-layout-input-warning">
                                             <?php echo wp_kses($field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                         </div>
                                     <?php endif; ?>
@@ -429,7 +429,7 @@ foreach ($form_fields as $key => $field) {
                                                         ?>
                                                         <div class="admin-layout-file-current">
                                                             <span>
-                                                                <?php esc_html_e('Last file uploaded:', $text_domain); ?>
+                                                                <?php esc_html_e('Last file uploaded:', 'fraud-and-scam-detection-for-woocommerce'); ?>
                                                                 <strong><?php echo esc_html($file_name); ?></strong>
                                                             </span>
                                                         </div>
@@ -443,7 +443,7 @@ foreach ($form_fields as $key => $field) {
                                                 </div>
                                             <?php endif; ?>
                                             <?php if (!empty($child_field['input_warning'])): ?>
-                                                <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                                <div class="admin-layout-input-warning">
                                                     <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>
                                             <?php endif; ?>
@@ -457,7 +457,7 @@ foreach ($form_fields as $key => $field) {
                 <?php endforeach; ?>
                 <div class="admin-layout-submit-wrapper">
                     <button type="submit" class="button button-primary">
-                        <?php esc_html_e('Save changes', $text_domain); ?>
+                        <?php esc_html_e('Save changes', 'fraud-and-scam-detection-for-woocommerce'); ?>
                     </button>
                 </div>
             </form>
@@ -488,20 +488,20 @@ foreach ($form_fields as $key => $field) {
                 <div class="block-status-card block-status-card--success">
                     <div class="block-status-card-header">
                         <span class="dashicons dashicons-yes"></span>
-                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Cloudflare Turnstile Security', $text_domain); ?></h4>
+                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Cloudflare Turnstile Security', 'fraud-and-scam-detection-for-woocommerce'); ?></h4>
                     </div>
                     <p class="block-status-card-description">
-                        <?php esc_html_e('Discover the new LinkNacional Security Verification System for advanced fraud and scam protection in your store.', $text_domain); ?>
+                        <?php esc_html_e('Discover the new LinkNacional Security Verification System for advanced fraud and scam protection in your store.', 'fraud-and-scam-detection-for-woocommerce'); ?>
                     </p>
                 </div>
 
                 <div class="block-status-card block-status-card--success">
                     <div class="block-status-card-header">
                         <span class="dashicons dashicons-layout"></span>
-                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Robust and Custom Template', $text_domain); ?></h4>
+                        <h4 class="block-status-card-title"><?php esc_html_e('NEW: Robust and Custom Template', 'fraud-and-scam-detection-for-woocommerce'); ?></h4>
                     </div>
                     <p class="block-status-card-description">
-                        <?php esc_html_e('Explore the all-new Fraud Detection plugin interface—modern, intuitive, and built for your security needs.', $text_domain); ?>
+                        <?php esc_html_e('Explore the all-new Fraud Detection plugin interface—modern, intuitive, and built for your security needs.', 'fraud-and-scam-detection-for-woocommerce'); ?>
                     </p>
                 </div>
 
@@ -509,20 +509,20 @@ foreach ($form_fields as $key => $field) {
                     <div class="block-promotional-card-bg"></div>
                     <div class="block-promotional-card-content">
                         <h3 class="block-promotional-card-title">
-                            <?php esc_html_e('Plugin: Invoice Payment Link for WooCommerce', $text_domain); ?>
+                            <?php esc_html_e('Plugin: Invoice Payment Link for WooCommerce', 'fraud-and-scam-detection-for-woocommerce'); ?>
                         </h3>
                         <p class="block-promotional-card-description">
-                            <?php esc_html_e('The Invoice Payment Plugin is the complete solution for your business. With it, you can generate payment links, split purchases across multiple cards, set up recurring charges, apply discounts and fees, and create detailed quotes.', $text_domain); ?>
+                            <?php esc_html_e('The Invoice Payment Plugin is the complete solution for your business. With it, you can generate payment links, split purchases across multiple cards, set up recurring charges, apply discounts and fees, and create detailed quotes.', 'fraud-and-scam-detection-for-woocommerce'); ?>
                         </p>
                         <div class="block-promotional-card-buttons">
                             <a href="https://br.wordpress.org/plugins/invoice-payment-for-woocommerce/" target="_blank" class="block-promotional-card-btn block-promotional-card-btn-learn">
-                                <?php esc_html_e('Learn more', $text_domain); ?>
+                                <?php esc_html_e('Learn more', 'fraud-and-scam-detection-for-woocommerce'); ?>
                             </a>
                             <?php if (empty($invoice_plugin_installed) || !$invoice_plugin_installed): ?>
                                 <a href="<?php echo esc_url('/wp-admin/update.php?action=install-plugin&plugin=invoice-payment-for-woocommerce&_wpnonce=' . $install_nonce); ?>"
                                 target="_blank"
                                 class="block-promotional-card-btn block-promotional-card-btn-install">
-                                    <?php esc_html_e('Install', $text_domain); ?>
+                                    <?php esc_html_e('Install', 'fraud-and-scam-detection-for-woocommerce'); ?>
                                 </a>
                             <?php endif; ?>
                         </div>

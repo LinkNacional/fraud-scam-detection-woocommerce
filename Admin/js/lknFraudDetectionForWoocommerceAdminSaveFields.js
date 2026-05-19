@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e) {
     // Primeiro verifica validação HTML5
     var form = jQuery('form#mainform')[0];
@@ -61,7 +64,11 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
     var ajaxAction = lknAntiFraudSettings.ajaxAction;
     var ajaxUrl = lknAntiFraudSettings.ajaxUrl || window.ajaxurl;
     if (!nonce || !ajaxAction) {
-        alert('Security error: nonce or action not found!');
+        Swal.fire({
+            icon: 'error',
+            title: 'Security error',
+            text: 'Nonce or action not found!',
+        });
         return;
     }
     formData.append('_ajax_nonce', nonce);
@@ -78,17 +85,28 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
     .success(function(response) {
         // WordPress retornou success: true
         if (response.success) {
-            alert(response.data.message || 'Configurações salvas com sucesso!');
+            Swal.fire({
+                icon: 'success',
+                title: response.data.message || 'Configurações salvas com sucesso!',
+            });
         } else {
-            alert('Erro: ' + (response.data.message || 'Ocorreu um erro ao salvar as configurações.'));
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: response.data.message || 'Ocorreu um erro ao salvar as configurações.',
+            });
         }
     })
     .error(function(xhr) {
         const response = xhr.responseJSON;
         const message = response?.data?.message || 'Ocorreu um erro inesperado.';
-        
+
         console.error('Erro AJAX:', xhr.status, message);
-        alert('Erro: ' + message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: message,
+        });
     });
 });
 

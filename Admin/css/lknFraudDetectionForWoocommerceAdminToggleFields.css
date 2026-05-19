@@ -1,0 +1,23 @@
+/* ── Generic disabled helpers ────────────────────────────────────────────── */
+
+/**
+ * .lkn-disabled-field
+ * Hides an entire field block.
+ * Applied dynamically via lknFraudDetectionForWoocommerceAdminToggleFields.js.
+ * Can be reused for any field that should be hidden based on another field's state.
+ */
+.lkn-disabled-field {
+    display: none;
+}
+
+/**
+ * .lkn-disabled-tab
+ * Visually disables a nav tab link.
+ * Applied dynamically via lknFraudDetectionForWoocommerceAdminToggleFields.js.
+ * Can be reused for any nav tab that should be disabled based on a field's state.
+ */
+.lkn-disabled-tab {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
