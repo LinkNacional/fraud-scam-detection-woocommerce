@@ -132,6 +132,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		// AJAX: Save antifraud settings
 		$this->loader->add_action('wp_ajax_lkn_anti_fraud_save_settings', $this, 'ajax_save_antifraud_settings');
 
+		// AJAX: Get orders by IP
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_get_orders_by_ip', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_get_orders_by_ip' );
+
 		// AJAX: Ban IP
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_ban_ip', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_ban_ip' );
 

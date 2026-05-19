@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 (function ($) {
     'use strict';
 
@@ -14,15 +17,28 @@
         var ip = $ipSpan.text().trim();
         var validIp = lknFsdwIsLookupable(ip);
 
-        var lookupLink = validIp
-            ? '<a href="#" class="lkn-fsdw-lookup">lookup</a>'
-            : '<a href="#" class="lkn-fsdw-lookup" aria-disabled="true" style="opacity:.4;cursor:not-allowed;pointer-events:none;" title="Invalid IP">lookup</a>';
+        var parts = [];
 
-        var $actions = $('<span class="lkn-fsdw-ip-actions">'
-            + ' [ ' + lookupLink
-            + ' | <a href="#" class="lkn-fsdw-filter">filter</a>'
-            + ' | <a href="#" class="lkn-fsdw-ban">ban</a> ]'
-            + '</span>');
+        if (vars.enableIpLookup === 'yes') {
+            var lookupLink = validIp
+                ? '<a href="#" class="lkn-fsdw-lookup">lookup</a>'
+                : '<a href="#" class="lkn-fsdw-lookup" aria-disabled="true" style="opacity:.4;cursor:not-allowed;pointer-events:none;" title="Invalid IP">lookup</a>';
+            parts.push(lookupLink);
+        }
+
+        if (vars.enableIpFilter === 'yes') {
+            parts.push('<a href="#" class="lkn-fsdw-filter">filter</a>');
+        }
+
+        if (vars.enableIpBan === 'yes') {
+            parts.push('<a href="#" class="lkn-fsdw-ban">ban</a>');
+        }
+
+        if (!parts.length) {
+            return;
+        }
+
+        var $actions = $('<span class="lkn-fsdw-ip-actions"> [ ' + parts.join(' | ') + ' ]</span>');
 
         $ipSpan.after($actions);
 
@@ -35,7 +51,7 @@
         // ── Filter ─────────────────────────────────────────────────────────
         $actions.on('click', '.lkn-fsdw-filter', function (e) {
             e.preventDefault();
-            lknFsdwOpenFilterModal();
+            lknFsdwOpenFilterModal(ip);
         });
 
         // ── Ban ────────────────────────────────────────────────────────────
@@ -93,48 +109,51 @@
         }
     }
 
+    // ── Unban via SweetAlert2 ──────────────────────────────────────────────
     function lknFsdwUnbanFromLink(ip, $link) {
-        var $modal = lknFsdwModal(
-            '<h3 style="margin-top:0;">' + (i18n.unbanTitle || 'Unban IP') + '</h3>'
-            + '<p>' + (i18n.unbanConfirm || 'Do you want to unban the following IP?') + '</p>'
-            + '<p><strong>' + $('<span>').text(ip).html() + '</strong></p>'
-            + '<div id="lkn-fsdw-unban-feedback" style="margin:6px 0 10px;min-height:20px;"></div>'
-            + '<button id="lkn-fsdw-unban-confirm" class="button button-primary">'
-            + (i18n.unbanConfirmBtn || 'Confirm Unban') + '</button>'
-            + ' <button class="button lkn-fsdw-close">' + (i18n.cancel || 'Cancel') + '</button>'
-        );
-
-        $modal.on('click', '#lkn-fsdw-unban-confirm', function () {
-            var $btn = $(this);
-            $btn.prop('disabled', true).text(i18n.unbanning || '…');
-            $.post(vars.ajaxUrl, { action: 'lkn_fsdw_unban_ip', ip: ip, nonce: vars.nonceUnban }, function (response) {
-                var $feedback = $('#lkn-fsdw-unban-feedback');
-                if (response.success) {
-                    $feedback.html('<span style="color:#007a00;">'
-                        + (response.data.message || 'IP unbanned.') + '</span>');
-                    lknFsdwUpdateBanLink($link, false);
-                    setTimeout(lknFsdwRemoveModal, 1800);
-                } else {
-                    $feedback.html('<span style="color:#cc1818;">'
-                        + ((response.data && response.data.message) || 'Error.') + '</span>');
-                    $btn.prop('disabled', false).text(i18n.unbanConfirmBtn || 'Confirm Unban');
-                }
-            });
+        Swal.fire({
+            title: i18n.unbanTitle || 'Unban IP',
+            html: '<p>' + (i18n.unbanConfirm || 'Do you want to unban the following IP?') + '</p>'
+                + '<p><strong style="font-family:monospace;">' + $('<span>').text(ip).html() + '</strong></p>',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: i18n.unbanConfirmBtn || 'Confirm Unban',
+            cancelButtonText: i18n.cancel || 'Cancel',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return jQuery.post(vars.ajaxUrl, {
+                    action: 'lkn_fsdw_unban_ip',
+                    ip: ip,
+                    nonce: vars.nonceUnban,
+                }).then(function (response) {
+                    if (!response.success) {
+                        Swal.showValidationMessage(
+                            (response.data && response.data.message) || 'Error.'
+                        );
+                    }
+                    return response;
+                });
+            },
+            allowOutsideClick: function () {
+                return !Swal.isLoading();
+            },
+        }).then(function (result) {
+            if (result.isConfirmed && result.value && result.value.success) {
+                lknFsdwUpdateBanLink($link, false);
+                Swal.fire({
+                    icon: 'success',
+                    title: result.value.data.message || 'IP unbanned.',
+                });
+            }
         });
     }
 
+    // ── Filter modal (jQuery) — pedidos do mesmo IP ───────────────────────
     function lknFsdwModal(content) {
         lknFsdwRemoveModal();
-        var $overlay = $('<div id="lkn-fsdw-modal-overlay" style="'
-            + 'position:fixed;top:0;left:0;width:100%;height:100%;'
-            + 'background:rgba(0,0,0,.6);z-index:99999;'
-            + 'display:flex;align-items:center;justify-content:center;"></div>');
-        var $box = $('<div style="'
-            + 'background:#fff;border-radius:4px;padding:24px 28px;'
-            + 'max-width:460px;width:90%;position:relative;box-shadow:0 4px 20px rgba(0,0,0,.25);">'
-            + '<button class="lkn-fsdw-close" style="'
-            + 'position:absolute;top:10px;right:14px;background:none;'
-            + 'border:none;font-size:22px;cursor:pointer;line-height:1;">&times;</button>'
+        var $overlay = $('<div id="lkn-fsdw-modal-overlay"></div>');
+        var $box = $('<div class="lkn-fsdw-modal-box">'
+            + '<button class="lkn-fsdw-close lkn-fsdw-modal-close">&times;</button>'
             + content
             + '</div>');
         $overlay.append($box);
@@ -150,149 +169,152 @@
         $('#lkn-fsdw-modal-overlay').remove();
     }
 
-    // ── Filter modal — lista de IPs banidos paginada ──────────────────────
-    function lknFsdwOpenFilterModal() {
+    function lknFsdwOpenFilterModal(ip) {
         var $modal = lknFsdwModal(
-            '<h3 style="margin-top:0;">' + (i18n.filterTitle || 'Banned IPs') + '</h3>'
-            + '<div id="lkn-fsdw-filter-controls" style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'
+            '<h3 style="margin-top:0;">'
+            + (i18n.filterTitle || 'Order Filter by IP') + ': '
+            + '<span style="font-family:monospace;">' + $('<span>').text(ip).html() + '</span>'
+            + '</h3>'
+            + '<div id="lkn-fsdw-filter-controls" class="lkn-fsdw-filter-controls">'
             + '<span>' + (i18n.showLabel || 'Show:') + '</span>'
             + '<button class="button lkn-fsdw-limit" data-limit="5">5</button>'
             + '<button class="button lkn-fsdw-limit" data-limit="10">10</button>'
             + '<button class="button lkn-fsdw-limit" data-limit="25">25</button>'
             + '</div>'
-            + '<div id="lkn-fsdw-filter-loading" style="padding:12px 0;">' + (i18n.loading || 'Loading…') + '</div>'
-            + '<table id="lkn-fsdw-ip-table" style="width:100%;border-collapse:collapse;display:none;">'
-            + '<thead><tr>'
-            + '<th style="text-align:left;padding:6px 4px;border-bottom:1px solid #ddd;">' + (i18n.ipCol || 'IP Address') + '</th>'
-            + '<th style="padding:6px 4px;border-bottom:1px solid #ddd;"></th>'
+            + '<div id="lkn-fsdw-filter-loading" style="padding:12px 0;">' + (i18n.loading || 'Loading\u2026') + '</div>'
+            + '<div id="lkn-fsdw-filter-empty" style="display:none;padding:12px 0;color:#666;">'
+            + (i18n.noOrders || 'No orders found for this IP.') + '</div>'
+            + '<div class="lkn-fsdw-table-wrap">'
+            + '<table id="lkn-fsdw-order-table" style="width:100%;border-collapse:collapse;display:none;">'
+            + '<thead><tr style="border-bottom:2px solid #ddd;">'
+            + '<th style="text-align:left;padding:7px 6px;">' + (i18n.colOrder || 'Order') + '</th>'
+            + '<th style="text-align:left;padding:7px 6px;">' + (i18n.colValue || 'Value') + '</th>'
+            + '<th style="padding:7px 6px;"></th>'
             + '</tr></thead>'
-            + '<tbody id="lkn-fsdw-ip-tbody"></tbody>'
+            + '<tbody id="lkn-fsdw-order-tbody"></tbody>'
             + '</table>'
-            + '<div id="lkn-fsdw-filter-empty" style="display:none;padding:12px 0;color:#666;">' + (i18n.noIps || 'No banned IPs.') + '</div>'
-            + '<div id="lkn-fsdw-filter-pagination" style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">'
+            + '</div>'
+            + '<div id="lkn-fsdw-filter-pagination">'
             + '<button class="button" id="lkn-fsdw-page-prev">&laquo; ' + (i18n.prev || 'Prev') + '</button>'
             + '<span id="lkn-fsdw-page-info"></span>'
             + '<button class="button" id="lkn-fsdw-page-next">' + (i18n.next || 'Next') + ' &raquo;</button>'
             + '</div>'
         );
 
-        var allIps = [];
+        var allOrders  = [];
         var currentPage = 1;
-        var perPage = 10;
+        var perPage     = 10;
 
         function renderTable() {
-            var $tbody = $('#lkn-fsdw-ip-tbody');
-            var $table = $('#lkn-fsdw-ip-table');
+            var $tbody = $('#lkn-fsdw-order-tbody');
+            var $table = $('#lkn-fsdw-order-table');
             var $empty = $('#lkn-fsdw-filter-empty');
             var $pag   = $('#lkn-fsdw-filter-pagination');
 
             $tbody.empty();
 
-            if (!allIps.length) {
+            if (!allOrders.length) {
                 $table.hide(); $pag.hide(); $empty.show();
                 return;
             }
 
-            var totalPages = Math.ceil(allIps.length / perPage);
+            var totalPages = Math.ceil(allOrders.length / perPage);
             if (currentPage > totalPages) { currentPage = totalPages; }
-            var start = (currentPage - 1) * perPage;
-            var pageIps = allIps.slice(start, start + perPage);
+            var start      = (currentPage - 1) * perPage;
+            var pageOrders = allOrders.slice(start, start + perPage);
 
-            $.each(pageIps, function (idx, ip) {
-                var $tr = $('<tr data-ip="' + $('<span>').text(ip).html() + '" style="border-bottom:1px solid #f0f0f0;">'
-                    + '<td style="padding:6px 4px;font-family:monospace;">' + $('<span>').text(ip).html() + '</td>'
-                    + '<td style="padding:6px 4px;text-align:right;">'
-                    + '<button class="button button-small lkn-fsdw-unban" style="color:#cc1818;">'
-                    + (i18n.unban || 'Unban') + '</button></td>'
-                    + '</tr>');
-                $tbody.append($tr);
+            $.each(pageOrders, function (idx, order) {
+                var safeUrl = $('<a>').attr('href', order.url).prop('href');
+                $tbody.append(
+                    '<tr style="border-bottom:1px solid #f0f0f0;">'
+                    + '<td style="padding:7px 6px;">#' + parseInt(order.id, 10) + '</td>'
+                    + '<td style="padding:7px 6px;">' + $('<span>').text(order.total).html() + '</td>'
+                    + '<td style="padding:7px 6px;text-align:right;">'
+                    + '<a href="' + safeUrl + '" class="button button-small" target="_blank">'
+                    + (i18n.viewOrder || 'View Order') + '</a>'
+                    + '</td>'
+                    + '</tr>'
+                );
             });
 
             $('#lkn-fsdw-page-info').text(currentPage + ' / ' + totalPages);
             $('#lkn-fsdw-page-prev').prop('disabled', currentPage <= 1);
             $('#lkn-fsdw-page-next').prop('disabled', currentPage >= totalPages);
 
-            $empty.hide(); $table.show(); $pag.show();
+            $empty.hide();
+            $table.show();
+            $pag.css('display', 'flex');
 
-            // Highlight active limit button
             $('.lkn-fsdw-limit').removeClass('button-primary');
             $('.lkn-fsdw-limit[data-limit="' + perPage + '"]').addClass('button-primary');
         }
 
-        // Fetch IPs
-        $.post(vars.ajaxUrl, { action: 'lkn_fsdw_get_banned_ips', nonce: vars.nonceGet }, function (response) {
-            $('#lkn-fsdw-filter-loading').hide();
-            if (response.success) {
-                allIps = response.data.ips || [];
-                renderTable();
+        $.post(
+            vars.ajaxUrl,
+            { action: 'lkn_fsdw_get_orders_by_ip', ip: ip, nonce: vars.nonceFilterOrders },
+            function (response) {
+                $('#lkn-fsdw-filter-loading').hide();
+                if (response.success) {
+                    allOrders = response.data.orders || [];
+                    renderTable();
+                } else {
+                    $('#lkn-fsdw-filter-empty').show();
+                }
             }
-        });
+        );
 
-        // Limit buttons
         $modal.on('click', '.lkn-fsdw-limit', function () {
             perPage = parseInt($(this).data('limit'), 10);
             currentPage = 1;
             renderTable();
         });
 
-        // Pagination
         $modal.on('click', '#lkn-fsdw-page-prev', function () {
             if (currentPage > 1) { currentPage--; renderTable(); }
         });
-        $modal.on('click', '#lkn-fsdw-page-next', function () {
-            var totalPages = Math.ceil(allIps.length / perPage);
-            if (currentPage < totalPages) { currentPage++; renderTable(); }
-        });
 
-        // Unban
-        $modal.on('click', '.lkn-fsdw-unban', function () {
-            var $btn = $(this);
-            var ip = $btn.closest('tr').data('ip');
-            $btn.prop('disabled', true).text(i18n.unbanning || '…');
-            $.post(vars.ajaxUrl, { action: 'lkn_fsdw_unban_ip', ip: ip, nonce: vars.nonceUnban }, function (response) {
-                if (response.success) {
-                    allIps = allIps.filter(function (x) { return x !== ip; });
-                    renderTable();
-                } else {
-                    $btn.prop('disabled', false).text(i18n.unban || 'Unban');
-                }
-            });
+        $modal.on('click', '#lkn-fsdw-page-next', function () {
+            if (currentPage < Math.ceil(allOrders.length / perPage)) { currentPage++; renderTable(); }
         });
     }
 
-    // ── Ban modal ──────────────────────────────────────────────────────────
+    // ── Ban via SweetAlert2 ────────────────────────────────────────────────
     function lknFsdwOpenBanModal(ip, $banLink) {
-        var $modal = lknFsdwModal(
-            '<h3 style="margin-top:0;">' + (i18n.banTitle || 'Ban IP') + '</h3>'
-            + '<p>' + (i18n.banConfirm || 'Do you want to ban the following IP from checkout?') + '</p>'
-            + '<p><strong>' + $('<span>').text(ip).html() + '</strong></p>'
-            + '<div id="lkn-fsdw-ban-feedback" style="margin:6px 0 10px;min-height:20px;"></div>'
-            + '<button id="lkn-fsdw-ban-confirm" class="button button-primary">'
-            + (i18n.banConfirmBtn || 'Confirm Ban') + '</button>'
-            + ' <button class="button lkn-fsdw-close">' + (i18n.cancel || 'Cancel') + '</button>'
-        );
-
-        $modal.on('click', '#lkn-fsdw-ban-confirm', function () {
-            var $btn = $(this);
-            $btn.prop('disabled', true).text(i18n.banning || 'Banning…');
-
-            $.post(vars.ajaxUrl, {
-                action: 'lkn_fsdw_ban_ip',
-                ip:     ip,
-                nonce:  vars.nonce
-            }, function (response) {
-                var $feedback = $('#lkn-fsdw-ban-feedback');
-                if (response.success) {
-                    $feedback.html('<span style="color:#007a00;">'
-                        + (response.data.message || 'IP banned.') + '</span>');
-                    lknFsdwUpdateBanLink($banLink, true);
-                    setTimeout(lknFsdwRemoveModal, 1800);
-                } else {
-                    $feedback.html('<span style="color:#cc1818;">'
-                        + ((response.data && response.data.message) || 'Error.') + '</span>');
-                    $btn.prop('disabled', false).text(i18n.banConfirmBtn || 'Confirm Ban');
-                }
-            });
+        Swal.fire({
+            title: i18n.banTitle || 'Ban IP',
+            html: '<p>' + (i18n.banConfirm || 'Do you want to ban the following IP from checkout?') + '</p>'
+                + '<p><strong style="font-family:monospace;">' + $('<span>').text(ip).html() + '</strong></p>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#cc1818',
+            confirmButtonText: i18n.banConfirmBtn || 'Confirm Ban',
+            cancelButtonText: i18n.cancel || 'Cancel',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return jQuery.post(vars.ajaxUrl, {
+                    action: 'lkn_fsdw_ban_ip',
+                    ip: ip,
+                    nonce: vars.nonce,
+                }).then(function (response) {
+                    if (!response.success) {
+                        Swal.showValidationMessage(
+                            (response.data && response.data.message) || 'Error.'
+                        );
+                    }
+                    return response;
+                });
+            },
+            allowOutsideClick: function () {
+                return !Swal.isLoading();
+            },
+        }).then(function (result) {
+            if (result.isConfirmed && result.value && result.value.success) {
+                lknFsdwUpdateBanLink($banLink, true);
+                Swal.fire({
+                    icon: 'success',
+                    title: result.value.data.message || 'IP banned.',
+                });
+            }
         });
     }
 

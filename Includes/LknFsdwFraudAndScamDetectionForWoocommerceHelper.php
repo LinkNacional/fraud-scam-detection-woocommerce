@@ -137,6 +137,49 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 	}
 
+	public function ajax_get_orders_by_ip() {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		check_ajax_referer( 'lkn_fsdw_get_orders_by_ip', 'nonce' );
+
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		if ( ! $ip ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+
+		$query_args = array(
+			'limit'   => 100,
+			'orderby' => 'date',
+			'order'   => 'DESC',
+			'return'  => 'objects',
+		);
+
+		if (
+			class_exists( 'Automattic\WooCommerce\Utilities\OrderUtil' ) &&
+			\Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled()
+		) {
+			$query_args['customer_ip_address'] = $ip;
+		} else {
+			$query_args['meta_key']     = '_customer_ip_address';
+			$query_args['meta_value']   = $ip;
+			$query_args['meta_compare'] = '=';
+		}
+
+		$orders = wc_get_orders( $query_args );
+
+		$data = array();
+		foreach ( $orders as $order ) {
+			$data[] = array(
+				'id'    => $order->get_id(),
+				'total' => html_entity_decode( strip_tags( wc_price( $order->get_total() ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+				'url'   => $order->get_edit_order_url(),
+			);
+		}
+
+		wp_send_json_success( array( 'orders' => $data ) );
+	}
+
 	public function ajax_get_banned_ips() {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
