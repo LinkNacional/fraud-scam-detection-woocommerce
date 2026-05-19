@@ -143,6 +143,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		// AJAX: Get / Unban IPs
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_get_banned_ips', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_get_banned_ips' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_unban_ip',       $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_unban_ip' );
+
+		// Admin notice: update layout warning
+		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
 	}
 
 	/**
@@ -166,6 +170,59 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		}
 
 		wp_send_json_success(array('message' => __('Settings saved successfully!', 'fraud-and-scam-detection-for-woocommerce')));
+	}
+
+	/**
+	 * Render update-layout notice on all admin pages except the antifraude settings tab.
+	 */
+	public function lkn_fsdw_render_update_notice() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['page'], $_GET['tab'] )
+			&& sanitize_text_field( wp_unslash( $_GET['page'] ) ) === 'wc-settings'
+			&& sanitize_text_field( wp_unslash( $_GET['tab'] ) ) === 'lkn_anti_fraud' ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+
+		if (get_user_meta( get_current_user_id(), 'lkn_fsdw_update_notice_dismissed', true ) ) {
+			return;
+		}
+
+		$settings_url = admin_url( 'admin.php?page=wc-settings&tab=lkn_anti_fraud' );
+		$nonce        = wp_create_nonce( 'lkn_fsdw_dismiss_update_notice' );
+
+		wp_enqueue_script(
+			'lkn-fsdw-update-notice',
+			FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/js/lknFraudDetectionForWoocommerceAdminUpdateNotice.js',
+			array( 'jquery' ),
+			FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+			true
+		);
+		wp_localize_script(
+			'lkn-fsdw-update-notice',
+			'lknFsdwUpdateNotice',
+			array(
+				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				'nonce'   => $nonce,
+			)
+		);
+
+		$template_file = plugin_dir_path( __FILE__ ) . 'templates/LknFsdwFraudAndScamDetectionForWoocommerceUpdateNotice.php';
+		if ( file_exists( $template_file ) ) {
+			include $template_file;
+		}
+	}
+
+	/**
+	 * AJAX handler: persist notice dismissal per user.
+	 */
+	public function ajax_dismiss_update_notice() {
+		check_ajax_referer( 'lkn_fsdw_dismiss_update_notice', 'nonce' );
+		update_user_meta( get_current_user_id(), 'lkn_fsdw_update_notice_dismissed', true );
+		wp_send_json_success();
 	}
 
 	/**
