@@ -114,7 +114,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'id'                => 'lknFraudDetectionForWoocommerceDebug',
                 'label'             => __('Enable debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
                 'default'           => 'no',
-                'description'       => __('Enable debug logs <a href="' . admin_url('admin.php?page=wc-status&tab=logs') . '" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce'),
+                'description'       => sprintf(
+                    /* translators: %s: URL to WooCommerce logs page. */
+                    __( 'Enable debug logs <a href="%s" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce' ),
+                    esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) )
+                ),
                 'desc_tip'          => true,
                 'block_title'       => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Enable to record debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
@@ -399,7 +403,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'install_nonce' => wp_create_nonce('install-plugin_invoice-payment-for-woocommerce'),
                 'plugin_slug' => 'invoice-payment-for-woocommerce',
                 'invoice_plugin_installed' => $invoice_plugin_installed,
-                'text_domain' => 'fraud-and-scam-detection-for-woocommerce',
             ),
             '',
             $template_path

@@ -1,6 +1,8 @@
 <?php
 namespace Lkn\FsdwFraudAndScamDetectionForWoocommerce\Includes;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * The file that defines the core plugin class
  *
@@ -152,7 +154,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		}
 		check_ajax_referer('lkn_anti_fraud_save_settings');
 
-		$settings = isset($_POST['settings']) ? json_decode(stripslashes($_POST['settings']), true) : array();
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- JSON must be decoded before individual values can be sanitized; each value is persisted via update_option() after decoding.
+		$settings = isset( $_POST['settings'] ) ? json_decode( wp_unslash( $_POST['settings'] ), true ) : array();
 		if (!is_array($settings)) {
 			wp_send_json_error(array('message' => __('Invalid settings data.', 'fraud-and-scam-detection-for-woocommerce')));
 		}

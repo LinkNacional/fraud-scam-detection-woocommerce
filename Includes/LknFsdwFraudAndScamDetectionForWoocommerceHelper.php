@@ -1,6 +1,8 @@
 <?php
 namespace Lkn\FsdwFraudAndScamDetectionForWoocommerce\Includes;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 use Exception;
 use WC_Logger;
 
@@ -21,9 +23,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$cf_site_key = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey' );
 			wp_enqueue_script(
 				'cloudflare-turnstile',
+				// phpcs:ignore PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent -- Cloudflare Turnstile requires loading from Cloudflare servers; local hosting is not supported by the service.
 				'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
 				[],
-				null,
+				FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
 				true
 			);
 			if ( is_checkout() ) {
@@ -54,11 +57,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		} else {
 			// Google reCAPTCHA V3 (default)
 			$googleKey = get_option( 'lknFraudDetectionForWoocommercegoogleRecaptchaV3Key' );
+			// phpcs:ignore PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent -- Google reCAPTCHA requires loading from Google servers; local hosting is not supported by the service.
 			wp_enqueue_script(
 				'google-recaptcha',
 				'https://www.google.com/recaptcha/api.js?render=' . $googleKey,
 				[],
-				null,
+				FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
 				true
 			);
 			if ( is_checkout() ) {
@@ -125,14 +129,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		if ( ! isset( $_POST['lknFraudNonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['lknFraudNonce'] ), 'lkn_fraud_detection_checkout_nonce' ) ) {
-			throw new Exception( __( 'Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce' ) );
+			throw new Exception( esc_html( __( 'Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		if ( $provider === 'cloudflareTurnstile' ) {
-			$token = isset( $_POST['lknCfTurnstileResponse'] ) ? sanitize_text_field( $_POST['lknCfTurnstileResponse'] ) : null;
+			$token = isset( $_POST['lknCfTurnstileResponse'] ) ? sanitize_text_field( wp_unslash( $_POST['lknCfTurnstileResponse'] ) ) : null;
 			$this->verifyTurnstile( $token, $order );
 		} else {
-			$token = isset( $_POST['grecaptchav3response'] ) ? sanitize_text_field( $_POST['grecaptchav3response'] ) : null;
+			$token = isset( $_POST['grecaptchav3response'] ) ? sanitize_text_field( wp_unslash( $_POST['grecaptchav3response'] ) ) : null;
 			$this->verifyRecaptcha( $token, $order );
 		}
 	}
@@ -143,7 +147,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		check_ajax_referer( 'lkn_fsdw_get_orders_by_ip', 'nonce' );
 
-		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
 		if ( ! $ip ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
@@ -172,7 +176,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		foreach ( $orders as $order ) {
 			$data[] = array(
 				'id'    => $order->get_id(),
-				'total' => html_entity_decode( strip_tags( wc_price( $order->get_total() ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+				'total' => html_entity_decode( wp_strip_all_tags( wc_price( $order->get_total() ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
 				'url'   => $order->get_edit_order_url(),
 			);
 		}
@@ -199,7 +203,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		check_ajax_referer( 'lkn_fsdw_unban_ip', 'nonce' );
 
-		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
 		if ( ! $ip || ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
@@ -226,7 +230,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		check_ajax_referer( 'lkn_fsdw_ban_ip', 'nonce' );
 
-		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( $_POST['ip'] ) : '';
+		$ip = isset( $_POST['ip'] ) ? sanitize_text_field( wp_unslash( $_POST['ip'] ) ) : '';
 		if ( ! $ip || ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid IP address.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
@@ -258,8 +262,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$customer_ip = $order->get_customer_ip_address();
 		if ( ! empty( $customer_ip ) && in_array( $customer_ip, $banned_ips, true ) ) {
 			$order->set_status( 'lkn-fraud' );
+			$order->add_order_note(
+				sprintf(
+					/* translators: %s: customer IP address */
+					__( 'Order flagged as fraud: customer IP address %s is banned.', 'fraud-and-scam-detection-for-woocommerce' ),
+					esc_html( $customer_ip )
+				)
+			);
 			$order->save();
-			throw new Exception( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) );
+			throw new Exception( esc_html( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 	}
 
@@ -267,7 +278,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$score = (float) get_option('lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score');
 		
 		// Sanitizar o IP do cliente
-		$remote_ip = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+		$remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 		
 		$body = [
 			'secret'   => get_option('lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret'),
@@ -282,7 +293,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		// Verificar se ocorreu um erro na requisição
 		if (is_wp_error($response)) {
 			$error_message = $response->get_error_message();
-			throw new Exception('Erro na verificação do reCAPTCHA: ' . $error_message);
+			throw new Exception( esc_html( 'Erro na verificação do reCAPTCHA: ' . $error_message ) );
 		}
 
 		$responseBody = json_decode(wp_remote_retrieve_body($response), true);
@@ -300,7 +311,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if(!isset($responseBody['success']) || $responseBody['success'] !== true){
 			$order->set_status('lkn-fraud');
 			$order->save();
-			throw new Exception(__('Invalid recaptcha: recaptcha was not validated.', 'fraud-and-scam-detection-for-woocommerce'));
+			throw new Exception( esc_html( __( 'Invalid recaptcha: recaptcha was not validated.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Verificar o score do reCAPTCHA
@@ -323,12 +334,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ($responseBody['score'] < $score) {
 			$order->set_status('lkn-fraud');
 			$order->save();
-			throw new Exception(__('Invalid recaptcha: score below the limit.', 'fraud-and-scam-detection-for-woocommerce'));
+			throw new Exception( esc_html( __( 'Invalid recaptcha: score below the limit.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 	}
 
 	public function verifyTurnstile( $token, $order ) {
-		$remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( $_SERVER['REMOTE_ADDR'] ) : '';
+		$remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
 		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
 			'info',
@@ -351,7 +362,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		] );
 
 		if ( is_wp_error( $response ) ) {
-			throw new Exception( 'Erro na verificação do Turnstile: ' . $response->get_error_message() );
+			throw new Exception( esc_html( 'Erro na verificação do Turnstile: ' . $response->get_error_message() ) );
 		}
 
 		$responseBody = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -371,7 +382,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! isset( $responseBody['success'] ) || $responseBody['success'] !== true ) {
 			$order->set_status( 'lkn-fraud' );
 			$order->save();
-			throw new Exception( __( 'Invalid Turnstile: verification failed.', 'fraud-and-scam-detection-for-woocommerce' ) );
+			throw new Exception( esc_html( __( 'Invalid Turnstile: verification failed.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Cloudflare Turnstile não retorna score numérico — exibe PASS como equivalente ao score do Google
@@ -396,6 +407,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		   'exclude_from_search' => false,
 		   'show_in_admin_all_list' => true,
 		   'show_in_admin_status_list' => true,
+		   // translators: %s: number of orders with fraud status.
 		   'label_count'               => _n_noop('Fraud (%s)', 'Fraud (%s)', 'fraud-and-scam-detection-for-woocommerce')
 		);
 		return $order_statuses;
