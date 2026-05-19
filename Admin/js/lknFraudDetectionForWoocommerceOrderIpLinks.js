@@ -112,9 +112,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
     // ── Unban via SweetAlert2 ──────────────────────────────────────────────
     function lknFsdwUnbanFromLink(ip, $link) {
         Swal.fire({
-            title: i18n.unbanTitle || 'Unban IP',
-            html: '<p>' + (i18n.unbanConfirm || 'Do you want to unban the following IP?') + '</p>'
-                + '<p><strong style="font-family:monospace;">' + $('<span>').text(ip).html() + '</strong></p>',
+            title: (i18n.unbanTitle || 'Unban IP') + ': ' + ip,
+            html: '<p>' + (i18n.unbanConfirm || 'Do you want to unban the following IP?') + '</p>',
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: i18n.unbanConfirmBtn || 'Confirm Unban',
@@ -175,12 +174,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
             + (i18n.filterTitle || 'Order Filter by IP') + ': '
             + '<span style="font-family:monospace;">' + $('<span>').text(ip).html() + '</span>'
             + '</h3>'
-            + '<div id="lkn-fsdw-filter-controls" class="lkn-fsdw-filter-controls">'
-            + '<span>' + (i18n.showLabel || 'Show:') + '</span>'
-            + '<button class="button lkn-fsdw-limit" data-limit="5">5</button>'
-            + '<button class="button lkn-fsdw-limit" data-limit="10">10</button>'
-            + '<button class="button lkn-fsdw-limit" data-limit="25">25</button>'
-            + '</div>'
             + '<div id="lkn-fsdw-filter-loading" style="padding:12px 0;">' + (i18n.loading || 'Loading\u2026') + '</div>'
             + '<div id="lkn-fsdw-filter-empty" style="display:none;padding:12px 0;color:#666;">'
             + (i18n.noOrders || 'No orders found for this IP.') + '</div>'
@@ -198,6 +191,12 @@ import 'sweetalert2/dist/sweetalert2.min.css';
             + '<button class="button" id="lkn-fsdw-page-prev">&laquo; ' + (i18n.prev || 'Prev') + '</button>'
             + '<span id="lkn-fsdw-page-info"></span>'
             + '<button class="button" id="lkn-fsdw-page-next">' + (i18n.next || 'Next') + ' &raquo;</button>'
+            + '</div>'
+            + '<div id="lkn-fsdw-filter-controls" class="lkn-fsdw-filter-controls">'
+            + '<span>' + (i18n.showLabel || 'Show:') + '</span>'
+            + '<button class="button lkn-fsdw-limit" data-limit="5">5</button>'
+            + '<button class="button lkn-fsdw-limit" data-limit="10">10</button>'
+            + '<button class="button lkn-fsdw-limit" data-limit="25">25</button>'
             + '</div>'
         );
 
@@ -281,9 +280,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
     // ── Ban via SweetAlert2 ────────────────────────────────────────────────
     function lknFsdwOpenBanModal(ip, $banLink) {
         Swal.fire({
-            title: i18n.banTitle || 'Ban IP',
-            html: '<p>' + (i18n.banConfirm || 'Do you want to ban the following IP from checkout?') + '</p>'
-                + '<p><strong style="font-family:monospace;">' + $('<span>').text(ip).html() + '</strong></p>',
+            title: (i18n.banTitle || 'Ban IP') + ': ' + ip,
+            html: '<p>' + (i18n.banConfirm || 'Do you want to ban the following IP from checkout?') + '</p>',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#cc1818',

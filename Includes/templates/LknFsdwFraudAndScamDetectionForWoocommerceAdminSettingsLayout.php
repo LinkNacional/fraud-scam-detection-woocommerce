@@ -254,7 +254,7 @@ foreach ($form_fields as $key => $field) {
                                         </div>
                                     <?php endif; ?>
                                     <?php if (!empty($field['input_warning'])): ?>
-                                        <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                        <div class="admin-layout-input-warning">
                                             <?php echo wp_kses($field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                         </div>
                                     <?php endif; ?>
@@ -443,7 +443,7 @@ foreach ($form_fields as $key => $field) {
                                                 </div>
                                             <?php endif; ?>
                                             <?php if (!empty($child_field['input_warning'])): ?>
-                                                <div class="admin-layout-input-warning" style="color:#cc1818;font-size:0.85em;margin-top:4px;">
+                                                <div class="admin-layout-input-warning">
                                                     <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>
                                             <?php endif; ?>
