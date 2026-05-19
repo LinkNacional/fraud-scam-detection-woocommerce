@@ -1,10 +1,10 @@
 # Fraud and Scam Detection For WooCommerce
 
-Plugin para WooCommerce focado em prevenção de fraudes e golpes durante o checkout, adicionando validação antifraude com Google reCAPTCHA v3 ou Cloudflare Turnstile, além de recursos de bloqueio por IP e monitoramento administrativo.
+Plugin para [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) focado em prevenção de fraudes e golpes durante o checkout, adicionando validação [antifraude](https://www.linknacional.com.br/wordpress/woocommerce/antifraude/) com Google reCAPTCHA v3 ou Cloudflare Turnstile, além de recursos de bloqueio por IP e monitoramento administrativo.
 
 ## Visão geral
 
-O plugin **Fraud and Scam Detection For WooCommerce** adiciona uma camada extra de proteção ao processo de compra da loja, ajudando a identificar comportamentos suspeitos e dificultar tentativas automatizadas ou abusivas no checkout.
+O plugin **Fraud and Scam Detection For WooCommerce** adiciona uma camada extra de proteção ao processo de compra da loja no [WordPress](https://www.linknacional.com.br/wordpress/) , ajudando a identificar comportamentos suspeitos e dificultar tentativas automatizadas ou abusivas no checkout.
 
 Entre os recursos disponíveis, o plugin permite:
 
