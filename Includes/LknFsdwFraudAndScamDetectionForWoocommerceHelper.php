@@ -93,8 +93,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	public function processPayments($context, $result) {
-		$this->checkBannedIp( $context->order );
-
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
@@ -115,8 +113,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	public function verifyAjaxRequsets($orderId, $postedData, $order) {
-		$this->checkBannedIp( $order );
-
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
@@ -261,16 +257,28 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		$customer_ip = $order->get_customer_ip_address();
 		if ( ! empty( $customer_ip ) && in_array( $customer_ip, $banned_ips, true ) ) {
-			$order->set_status( 'lkn-fraud' );
-			$order->add_order_note(
-				sprintf(
-					/* translators: %s: customer IP address */
-					__( 'Order flagged as fraud: customer IP address %s is banned.', 'fraud-and-scam-detection-for-woocommerce' ),
-					esc_html( $customer_ip )
-				)
-			);
-			$order->save();
-			throw new Exception( esc_html( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+			$block_order = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order', 'yes' ) === 'yes';
+			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',  'yes' ) === 'yes';
+			$add_note    = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',    'yes' ) === 'yes';
+
+			if ( $mark_fraud ) {
+				$order->set_status( 'lkn-fraud' );
+			}
+			if ( $add_note ) {
+				$order->add_order_note(
+					sprintf(
+						/* translators: %s: customer IP address */
+						__( 'Order flagged as fraud: customer IP address %s is banned.', 'fraud-and-scam-detection-for-woocommerce' ),
+						esc_html( $customer_ip )
+					)
+				);
+			}
+			if ( $mark_fraud || $add_note ) {
+				$order->save();
+			}
+			if ( $block_order ) {
+				throw new Exception( esc_html( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+			}
 		}
 	}
 

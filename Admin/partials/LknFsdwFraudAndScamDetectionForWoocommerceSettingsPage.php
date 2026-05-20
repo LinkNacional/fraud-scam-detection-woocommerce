@@ -49,6 +49,28 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
+            'ip_block_behavior' => array(
+                'title'             => __('IP Block Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'multicheck',
+                'id'                => 'lknFraudDetectionForWoocommerceIpBlockBehavior',
+                'options'           => array(
+                    'block_order' => __('Block Order (do not allow the order to be placed)', 'fraud-and-scam-detection-for-woocommerce'),
+                    'mark_fraud'  => __('Mark Order as Fraud', 'fraud-and-scam-detection-for-woocommerce'),
+                    'add_note'    => __('Add Note to Order Only', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'options_checked'   => array(
+                    'block_order' => 'yes',
+                    'mark_fraud'  => 'yes',
+                    'add_note'    => 'yes',
+                ),
+                'default'           => 'yes',
+                'description'       => __('Choose how the system should behave when a banned IP attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('IP Block Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Define the action taken when a banned IP tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Controls the checkout behavior when a banned IP is detected.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
             'enable_ip_lookup' => array(
                 'title'             => __('IP Verify', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'checkbox',

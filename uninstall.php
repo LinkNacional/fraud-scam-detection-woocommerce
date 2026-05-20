@@ -45,6 +45,9 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
 	'lknFraudDetectionForWoocommerceBannedIps',
 	'lknFraudDetectionForWoocommerceEnableIpCheck',
+	'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order',
+	'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',
+	'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',
 );
 
 if ( is_multisite() ) {

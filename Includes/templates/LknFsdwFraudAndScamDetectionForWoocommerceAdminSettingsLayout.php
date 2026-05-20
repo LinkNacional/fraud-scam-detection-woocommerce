@@ -206,6 +206,30 @@ foreach ($form_fields as $key => $field) {
                                                 }
                                             }
                                             break;
+                                        case 'multicheck':
+                                            if (!empty($field['options']) && is_array($field['options'])) {
+                                                foreach ($field['options'] as $option_key => $option_label) {
+                                                    $option_id      = ($field['id'] ?: $key) . '_' . $option_key;
+                                                    $option_default = $field['options_checked'][ $option_key ] ?? $field['default'] ?? '';
+                                                    ?>
+                                                    <div class="admin-layout-checkbox-wrapper">
+                                                        <label class="admin-layout-checkbox-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                name="<?php echo esc_attr($option_id); ?>"
+                                                                id="<?php echo esc_attr($option_id); ?>"
+                                                                class="admin-layout-checkbox"
+                                                                <?php checked(get_option($option_id, $option_default) === 'yes'); ?>
+                                                            />
+                                                            <span class="admin-layout-checkbox-label-text">
+                                                                <?php echo wp_kses_post($option_label); ?>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            break;
                                         case 'select':
                                             ?>
                                             <select
@@ -391,6 +415,30 @@ foreach ($form_fields as $key => $field) {
                                                                     <?php echo esc_html($option_label); ?>
                                                                 </span>
                                                             </label>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    break;
+                                                case 'multicheck':
+                                                    if (!empty($child_field['options']) && is_array($child_field['options'])) {
+                                                        foreach ($child_field['options'] as $option_key => $option_label) {
+                                                            $option_id      = ($child_field['id'] ?: $child_key) . '_' . $option_key;
+                                                            $option_default = $child_field['options_checked'][ $option_key ] ?? $child_field['default'] ?? '';
+                                                            ?>
+                                                            <div class="admin-layout-checkbox-wrapper">
+                                                                <label class="admin-layout-checkbox-label">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        name="<?php echo esc_attr($option_id); ?>"
+                                                                        id="<?php echo esc_attr($option_id); ?>"
+                                                                        class="admin-layout-checkbox"
+                                                                        <?php checked(get_option($option_id, $option_default) === 'yes'); ?>
+                                                                    />
+                                                                    <span class="admin-layout-checkbox-label-text">
+                                                                        <?php echo wp_kses_post($option_label); ?>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
                                                             <?php
                                                         }
                                                     }
