@@ -48,6 +48,17 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order',
 	'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',
 	'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',
+	// Block by Data
+	'lknFraudDetectionForWoocommerceEnableEmailBlock',
+	'lknFraudDetectionForWoocommerceEnableEmailDomainBlock',
+	'lknFraudDetectionForWoocommerceEnablePhoneBlock',
+	'lknFraudDetectionForWoocommerceEnableCountryBlock',
+	'lknFraudDetectionForWoocommerceEnableDeviceIdentityBlock',
+	'lknFraudDetectionForWoocommerceBlockedEmails',
+	'lknFraudDetectionForWoocommerceBlockedEmailDomains',
+	'lknFraudDetectionForWoocommerceBlockedPhones',
+	'lknFraudDetectionForWoocommerceBlockedCountries',
+	'lknFraudDetectionForWoocommerceBlockedDeviceIdentities',
 );
 
 if ( is_multisite() ) {

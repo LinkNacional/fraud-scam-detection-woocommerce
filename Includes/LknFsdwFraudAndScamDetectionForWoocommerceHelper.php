@@ -282,7 +282,199 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 	}
 
-	public function verifyRecaptcha($recaptchaResponse, $order){
+	/**
+	 * Check order data against blocked data lists (email, domain, phone, country, device identity).
+	 *
+	 * @param \WC_Order $order
+	 * @throws Exception
+	 */
+	public function checkBlockedData( $order ) {
+		$billing_email   = strtolower( trim( $order->get_billing_email() ) );
+		$billing_phone   = preg_replace( '/[^0-9+]/', '', $order->get_billing_phone() );
+
+		$billing_country = strtoupper( trim( $order->get_billing_country() ) );
+
+		// Block by email address
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableEmailBlock', 'no' ) === 'yes' ) {
+			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmails', array() );
+			if ( is_array( $blocked ) && ! empty( $billing_email ) ) {
+				$blocked_lower = array_map( 'strtolower', $blocked );
+				if ( in_array( $billing_email, $blocked_lower, true ) ) {
+					$this->applyDataBlockBehavior( $order, __( 'email address', 'fraud-and-scam-detection-for-woocommerce' ), $billing_email );
+				}
+			}
+		}
+
+		// Block by email domain
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableEmailDomainBlock', 'no' ) === 'yes' ) {
+			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmailDomains', array() );
+			$domain  = substr( strrchr( $billing_email, '@' ), 1 );
+			if ( is_array( $blocked ) && ! empty( $domain ) ) {
+				$blocked_lower = array_map( 'strtolower', $blocked );
+				if ( in_array( $domain, $blocked_lower, true ) ) {
+					$this->applyDataBlockBehavior( $order, __( 'email domain', 'fraud-and-scam-detection-for-woocommerce' ), $domain );
+				}
+			}
+		}
+
+		// Block by phone
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnablePhoneBlock', 'no' ) === 'yes' ) {
+			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedPhones', array() );
+			if ( is_array( $blocked ) && ! empty( $billing_phone ) ) {
+				$blocked_clean = array_map( function( $p ) { return preg_replace( '/[^0-9+]/', '', $p ); }, $blocked );
+				if ( in_array( $billing_phone, $blocked_clean, true ) ) {
+					$this->applyDataBlockBehavior( $order, __( 'phone number', 'fraud-and-scam-detection-for-woocommerce' ), $billing_phone );
+				}
+			}
+		}
+
+		// Block by country
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableCountryBlock', 'no' ) === 'yes' ) {
+			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedCountries', array() );
+			if ( is_array( $blocked ) && ! empty( $billing_country ) ) {
+				$blocked_upper = array_map( 'strtoupper', $blocked );
+				if ( in_array( $billing_country, $blocked_upper, true ) ) {
+					$this->applyDataBlockBehavior( $order, __( 'country', 'fraud-and-scam-detection-for-woocommerce' ), $billing_country );
+				}
+			}
+		}
+
+		// Block by device identity
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDeviceIdentityBlock', 'no' ) === 'yes' ) {
+			$device_id = $order->get_meta( '_lkn_fsdw_device_identity' );
+			if ( ! empty( $device_id ) ) {
+				$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedDeviceIdentities', array() );
+				if ( is_array( $blocked ) && in_array( $device_id, $blocked, true ) ) {
+					$this->applyDataBlockBehavior( $order, __( 'device identity', 'fraud-and-scam-detection-for-woocommerce' ), $device_id );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Apply the configured block behavior (mark fraud / add note / throw exception).
+	 *
+	 * @param \WC_Order $order
+	 * @param string    $type  Human-readable type label.
+	 * @param string    $value The matched value.
+	 * @throws Exception
+	 */
+	private function applyDataBlockBehavior( $order, $type, $value ) {
+		$block_order = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order', 'yes' ) === 'yes';
+		$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',  'yes' ) === 'yes';
+		$add_note    = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',    'yes' ) === 'yes';
+
+		if ( $mark_fraud ) {
+			$order->set_status( 'lkn-fraud' );
+		}
+		if ( $add_note ) {
+			$order->add_order_note(
+				sprintf(
+					/* translators: 1: data type (e.g. "email address"), 2: blocked value */
+					__( 'Order flagged as fraud: %1$s "%2$s" is blocked.', 'fraud-and-scam-detection-for-woocommerce' ),
+					esc_html( $type ),
+					esc_html( $value )
+				)
+			);
+		}
+		if ( $mark_fraud || $add_note ) {
+			$order->save();
+		}
+		if ( $block_order ) {
+			throw new Exception( esc_html(
+				sprintf(
+					/* translators: %s: data type (e.g. "email address", "phone number") */
+					__( 'Your order has been blocked due to a %s restriction.', 'fraud-and-scam-detection-for-woocommerce' ),
+					$type
+				)
+			) );
+		}
+	}
+
+	/**
+	 * Return the wp_option name for a given blocked-data type.
+	 *
+	 * @param string $type
+	 * @return string|null
+	 */
+	private function get_blocked_data_option( $type ) {
+		$map = array(
+			'email'           => 'lknFraudDetectionForWoocommerceBlockedEmails',
+			'email_domain'    => 'lknFraudDetectionForWoocommerceBlockedEmailDomains',
+			'phone'           => 'lknFraudDetectionForWoocommerceBlockedPhones',
+			'country'         => 'lknFraudDetectionForWoocommerceBlockedCountries',
+			'device_identity' => 'lknFraudDetectionForWoocommerceBlockedDeviceIdentities',
+		);
+		return $map[ $type ] ?? null;
+	}
+
+	/** AJAX: get all blocked items of a given type. */
+	public function ajax_get_blocked_data() {
+		check_ajax_referer( 'lkn_fsdw_get_blocked_data', 'nonce' );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error();
+		}
+		$type   = isset( $_POST['type'] ) ? sanitize_key( wp_unslash( $_POST['type'] ) ) : '';
+		$option = $this->get_blocked_data_option( $type );
+		if ( ! $option ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid type.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		$items = get_option( $option, array() );
+		wp_send_json_success( array( 'items' => is_array( $items ) ? array_values( $items ) : array() ) );
+	}
+
+	/** AJAX: add an item to a blocked-data list. */
+	public function ajax_add_blocked_data() {
+		check_ajax_referer( 'lkn_fsdw_add_blocked_data', 'nonce' );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error();
+		}
+		$type  = isset( $_POST['type'] )  ? sanitize_key( wp_unslash( $_POST['type'] ) )                             : '';
+		$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) )                     : '';
+		$option = $this->get_blocked_data_option( $type );
+
+		if ( ! $option || empty( $value ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid data.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+
+		$items = get_option( $option, array() );
+		if ( ! is_array( $items ) ) {
+			$items = array();
+		}
+		if ( in_array( $value, $items, true ) ) {
+			wp_send_json_error( array( 'message' => __( 'Item already exists.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+		$items[] = $value;
+		update_option( $option, $items );
+		wp_send_json_success();
+	}
+
+	/** AJAX: remove an item from a blocked-data list. */
+	public function ajax_remove_blocked_data() {
+		check_ajax_referer( 'lkn_fsdw_remove_blocked_data', 'nonce' );
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_send_json_error();
+		}
+		$type  = isset( $_POST['type'] )  ? sanitize_key( wp_unslash( $_POST['type'] ) )             : '';
+		$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) )     : '';
+		$option = $this->get_blocked_data_option( $type );
+
+		if ( ! $option || empty( $value ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid data.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+		}
+
+		$items = get_option( $option, array() );
+		if ( ! is_array( $items ) ) {
+			wp_send_json_error();
+		}
+		$items = array_values( array_filter( $items, function( $i ) use ( $value ) { return $i !== $value; } ) );
+		update_option( $option, $items );
+		wp_send_json_success();
+	}
+
+	public function verifyRecaptcha( $recaptchaResponse, $order ) {
+
+
 		$score = (float) get_option('lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score');
 		
 		// Sanitizar o IP do cliente

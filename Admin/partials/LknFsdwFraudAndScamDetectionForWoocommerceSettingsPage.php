@@ -113,6 +113,75 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'join'              => 'enable_ip_lookup',
                 'custom_attributes' => array(),
             ),
+            'enable_email_block' => array(
+                'title'             => __('Enable Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableEmailBlock',
+                'label'             => __('Block orders from specific email addresses.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('When enabled, orders are checked against the blocked data lists.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Block by Email', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Blocked email addresses cannot place orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Manage blocked emails in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'enable_email_domain_block' => array(
+                'title'             => __('Block by Email Domain', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableEmailDomainBlock',
+                'label'             => __('Block orders from specific email domains.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Check billing email domain against the blocked domains list.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Block by Email Domain', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Blocked email domains cannot place orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Manage blocked domains in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_email_block',
+                'custom_attributes' => array(),
+            ),
+            'enable_phone_block' => array(
+                'title'             => __('Block by Phone', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnablePhoneBlock',
+                'label'             => __('Block orders from specific phone numbers.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Check billing phone against the blocked phones list.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Block by Phone', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Blocked phone numbers cannot place orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Manage blocked phone numbers in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_email_block',
+                'custom_attributes' => array(),
+            ),
+            'enable_country_block' => array(
+                'title'             => __('Block by Country', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableCountryBlock',
+                'label'             => __('Block orders from specific countries.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Check billing country against the blocked countries list.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Block by Country', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Blocked countries cannot place orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Use 2-letter ISO country codes (e.g. BR, US). Manage the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_email_block',
+                'custom_attributes' => array(),
+            ),
+            'enable_device_identity_block' => array(
+                'title'             => __('Block by Device Identity', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableDeviceIdentityBlock',
+                'label'             => __('Block orders from specific browser/device fingerprints.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Check browser/device fingerprint against the blocked identities list.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Block by Device Identity', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Blocked device fingerprints cannot place orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Device fingerprints are automatically collected at checkout. Copy them from order details to block a device.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'enable_email_block',
+                'custom_attributes' => array(),
+            ),
             'security_version' => array(
                 'title'             => __('Security Version', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'select',
@@ -292,6 +361,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => '',
             ),
 
+            /* ── Block by Data ───────────────────────────────────── */
+            'blocked_data_section_title' => array(
+                'title'             => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'title',
+                'id'                => 'lkn_anti_fraud_blocked_data_section_title',
+                'description'       => '',
+                'default'           => '',
+                'desc_tip'          => false,
+                'block_title'       => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Manage blocked emails, phone numbers, countries and device identities.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
+            ),
+
         );
         return apply_filters('woocommerce_get_settings_' . $this->id, $settings);
     }
@@ -414,6 +496,44 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             array('jquery'),
             FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
             true
+        );
+
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-blocked-data',
+            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminBlockedData.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+        wp_localize_script(
+            'lkn-fraud-detection-for-woocommerce-admin-blocked-data',
+            'lknFsdwBlockedDataVars',
+            array(
+                'ajaxUrl'     => admin_url('admin-ajax.php'),
+                'nonceGet'    => wp_create_nonce('lkn_fsdw_get_blocked_data'),
+                'nonceAdd'    => wp_create_nonce('lkn_fsdw_add_blocked_data'),
+                'nonceRemove' => wp_create_nonce('lkn_fsdw_remove_blocked_data'),
+                'i18n'        => array(
+                    'tabEmail'                  => __('Emails', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabEmailDomain'            => __('Email Domains', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabPhone'                  => __('Phones', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabCountry'                => __('Countries', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabDeviceIdentity'         => __('Device Identities', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderEmail'          => __('user@example.com', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderEmailDomain'    => __('example.com', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderPhone'          => __('+5511999999999', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderCountry'        => __('BR', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderDeviceIdentity' => __('Fingerprint hash', 'fraud-and-scam-detection-for-woocommerce'),
+                    'addBtn'                    => __('Add', 'fraud-and-scam-detection-for-woocommerce'),
+                    'removeBtn'                 => __('Remove', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colActions'                => __('Actions', 'fraud-and-scam-detection-for-woocommerce'),
+                    'loading'                   => __('Loading…', 'fraud-and-scam-detection-for-woocommerce'),
+                    'empty'                     => __('No items.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorLoad'                 => __('Failed to load list.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorAdd'                  => __('Error adding item.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorRemove'               => __('Error removing item.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+            )
         );
 
         wc_get_template(

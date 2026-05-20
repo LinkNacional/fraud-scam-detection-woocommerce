@@ -590,3 +590,24 @@ p.submit {
         font-size: 0.95em;
     }
 }
+
+/* ── Block by Data – select + table UI ──────────────────────────────────── */
+.lkn-fsdw-blocked-data-wrapper {
+    margin-top: 24px;
+}
+
+.lkn-fsdw-bd-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.lkn-fsdw-bd-select {
+    min-width: 180px;
+}
+
+.lkn-fsdw-bd-input {
+    flex: 1;
+    max-width: 320px;
+}
