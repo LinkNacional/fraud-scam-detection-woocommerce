@@ -611,3 +611,32 @@ p.submit {
     flex: 1;
     max-width: 320px;
 }
+
+/* ── Shared: 5-column ban/block tables ────────────────────────────────────── */
+.lkn-fsdw-banned-ips-table td:nth-child(2),
+.lkn-fsdw-banned-ips-table th:nth-child(2),
+.lkn-fsdw-bd-table td:nth-child(2),
+.lkn-fsdw-bd-table th:nth-child(2) {
+    width: 130px;
+}
+
+.lkn-fsdw-banned-ips-table td:nth-child(3),
+.lkn-fsdw-banned-ips-table th:nth-child(3),
+.lkn-fsdw-bd-table td:nth-child(3),
+.lkn-fsdw-bd-table th:nth-child(3),
+.lkn-fsdw-banned-ips-table td:nth-child(4),
+.lkn-fsdw-banned-ips-table th:nth-child(4),
+.lkn-fsdw-bd-table td:nth-child(4),
+.lkn-fsdw-bd-table th:nth-child(4) {
+    width: 145px;
+    white-space: nowrap;
+    font-size: 0.9em;
+}
+
+.lkn-fsdw-banned-ips-table td:last-child,
+.lkn-fsdw-banned-ips-table th:last-child,
+.lkn-fsdw-bd-table td:last-child,
+.lkn-fsdw-bd-table th:last-child {
+    width: 100px;
+    text-align: center;
+}

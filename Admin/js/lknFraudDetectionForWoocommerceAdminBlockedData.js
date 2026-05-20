@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 jQuery(document).ready(function ($) {
     'use strict';
 
@@ -27,12 +30,15 @@ jQuery(document).ready(function ($) {
             '<div class="lkn-fsdw-bd-controls">' +
                 '<select class="lkn-fsdw-bd-select">' + selectOptions + '</select>' +
                 '<input type="text" class="lkn-fsdw-bd-input" />' +
-                '<button type="button" class="button button-primary lkn-fsdw-bd-add-btn">' + escHtml(i18n.addBtn || 'Add') + '</button>' +
+                '<button type="button" class="button button-primary lkn-fsdw-bd-add-btn">' + escHtml(i18n.addBtn || 'Ban') + '</button>' +
             '</div>' +
             '<table class="widefat striped lkn-fsdw-bd-table" style="margin-top:14px;">' +
                 '<thead><tr>' +
                     '<th class="lkn-fsdw-bd-col-value"></th>' +
-                    '<th style="width:120px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
+                    '<th style="width:130px;">' + escHtml(i18n.colBannedBy || 'Banned By') + '</th>' +
+                    '<th style="width:145px;">' + escHtml(i18n.colBannedAt || 'Banned At') + '</th>' +
+                    '<th style="width:145px;">' + escHtml(i18n.colExpiresAt || 'Expires At') + '</th>' +
+                    '<th style="width:100px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
                 '</tr></thead>' +
                 '<tbody class="lkn-fsdw-bd-list"></tbody>' +
             '</table>' +
@@ -55,30 +61,37 @@ jQuery(document).ready(function ($) {
     function loadList() {
         var type   = $container.find('.lkn-fsdw-bd-select').val();
         var $tbody = $container.find('.lkn-fsdw-bd-list');
-        $tbody.html('<tr><td colspan="2" style="text-align:center;">' + escHtml(i18n.loading || 'Loading…') + '</td></tr>');
+        $tbody.html('<tr><td colspan="5" style="text-align:center;">' + escHtml(i18n.loading || 'Loading…') + '</td></tr>');
 
         $.post(vars.ajaxUrl, { action: 'lkn_fsdw_get_blocked_data', nonce: vars.nonceGet, type: type }, function (response) {
             $tbody.empty();
             if (!response.success) {
-                $tbody.html('<tr><td colspan="2">' + escHtml(i18n.errorLoad || 'Failed to load.') + '</td></tr>');
+                $tbody.html('<tr><td colspan="5">' + escHtml(i18n.errorLoad || 'Failed to load.') + '</td></tr>');
                 return;
             }
             var items = response.data.items || [];
             if (items.length === 0) {
-                $tbody.html('<tr><td colspan="2" style="text-align:center;">' + escHtml(i18n.empty || 'No items.') + '</td></tr>');
+                $tbody.html('<tr><td colspan="5" style="text-align:center;">' + escHtml(i18n.empty || 'No items.') + '</td></tr>');
                 return;
             }
             items.forEach(function (item) {
                 $tbody.append(buildRow(type, item));
             });
         }).fail(function () {
-            $tbody.html('<tr><td colspan="2">' + escHtml(i18n.errorLoad || 'Failed to load.') + '</td></tr>');
+            $tbody.html('<tr><td colspan="5">' + escHtml(i18n.errorLoad || 'Failed to load.') + '</td></tr>');
         });
     }
 
-    function buildRow(type, value) {
+    function buildRow(type, item) {
+        var value     = typeof item === 'object' ? (item.value      || '') : item;
+        var bannedBy  = typeof item === 'object' ? (item.banned_by  || '—') : '—';
+        var bannedAt  = typeof item === 'object' ? (item.banned_at  || '—') : '—';
+        var expiresAt = typeof item === 'object' ? (item.expires_at || i18n.forever || 'Forever') : (i18n.forever || 'Forever');
         return $('<tr></tr>').append(
             $('<td></td>').text(value),
+            $('<td></td>').text(bannedBy),
+            $('<td></td>').text(bannedAt),
+            $('<td></td>').text(expiresAt),
             $('<td style="text-align:center;"></td>').append(
                 $('<button type="button" class="button button-small lkn-fsdw-bd-remove-btn"></button>')
                     .text(i18n.removeBtn || 'Remove')
@@ -94,7 +107,7 @@ jQuery(document).ready(function ($) {
         loadList();
     });
 
-    // ── Add item ──────────────────────────────────────────────────────────
+    // ── Add item → modal confirmation ─────────────────────────────────────
     $container.on('click', '.lkn-fsdw-bd-add-btn', function () {
         var type   = $container.find('.lkn-fsdw-bd-select').val();
         var $input = $container.find('.lkn-fsdw-bd-input');
@@ -105,20 +118,46 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        var $btn = $(this).prop('disabled', true);
-        $.post(vars.ajaxUrl, { action: 'lkn_fsdw_add_blocked_data', nonce: vars.nonceAdd, type: type, value: value }, function (response) {
-            $btn.prop('disabled', false);
-            if (!response.success) {
-                alert(response.data && response.data.message ? response.data.message : (i18n.errorAdd || 'Error adding item.'));
-                return;
-            }
-            $input.val('');
-            loadList();
-        }).fail(function () {
-            $btn.prop('disabled', false);
-            alert(i18n.errorAdd || 'Error adding item.');
-        });
+        openAddModal(type, value);
     });
+
+    function openAddModal(type, value) {
+        Swal.fire({
+            title: i18n.addTitle || 'Ban Item',
+            html: '<p>' + escHtml(i18n.addConfirmMsg || 'Do you want to add the following item to the blocked list?') + '</p>' +
+                  '<p><strong>' + escHtml(value) + '</strong></p>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: i18n.addConfirmBtn || 'Confirm Ban',
+            cancelButtonText:  i18n.cancel || 'Cancel',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return $.post(vars.ajaxUrl, {
+                    action: 'lkn_fsdw_add_blocked_data',
+                    nonce:  vars.nonceAdd,
+                    type:   type,
+                    value:  value,
+                }).then(function (response) {
+                    if (!response.success) {
+                        Swal.showValidationMessage(
+                            (response.data && response.data.message) || (i18n.errorAdd || 'Error.')
+                        );
+                    }
+                    return response;
+                });
+            },
+            allowOutsideClick: function () { return !Swal.isLoading(); },
+        }).then(function (result) {
+            if (result.isConfirmed && result.value && result.value.success) {
+                $container.find('.lkn-fsdw-bd-input').val('');
+                loadList();
+                Swal.fire({
+                    icon: 'success',
+                    title: (result.value.data && result.value.data.message) || (i18n.successAdd || 'Item added.'),
+                });
+            }
+        });
+    }
 
     // ── Enter key on input ────────────────────────────────────────────────
     $container.on('keydown', '.lkn-fsdw-bd-input', function (e) {
@@ -128,28 +167,56 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // ── Remove item ───────────────────────────────────────────────────────
+    // ── Remove item → modal confirmation ──────────────────────────────────
     $container.on('click', '.lkn-fsdw-bd-remove-btn', function () {
         var type  = $(this).data('type');
         var value = $(this).data('value');
-        var $row  = $(this).closest('tr');
-
-        $row.css('opacity', '0.5');
-        $.post(vars.ajaxUrl, { action: 'lkn_fsdw_remove_blocked_data', nonce: vars.nonceRemove, type: type, value: value }, function (response) {
-            if (!response.success) {
-                $row.css('opacity', '1');
-                alert(i18n.errorRemove || 'Error removing item.');
-                return;
-            }
-            $row.remove();
-            if ($container.find('.lkn-fsdw-bd-list tr').length === 0) {
-                $container.find('.lkn-fsdw-bd-list').html('<tr><td colspan="2" style="text-align:center;">' + escHtml(i18n.empty || 'No items.') + '</td></tr>');
-            }
-        }).fail(function () {
-            $row.css('opacity', '1');
-            alert(i18n.errorRemove || 'Error removing item.');
-        });
+        openRemoveModal(type, value);
     });
+
+    function openRemoveModal(type, value) {
+        Swal.fire({
+            title: i18n.removeTitle || 'Unban Item',
+            html: '<p>' + escHtml(i18n.removeConfirmMsg || 'Do you want to unban the following item?') + '</p>' +
+                  '<p><strong>' + escHtml(value) + '</strong></p>',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: i18n.removeConfirmBtn || 'Confirm Unban',
+            cancelButtonText:  i18n.cancel || 'Cancel',
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return $.post(vars.ajaxUrl, {
+                    action: 'lkn_fsdw_remove_blocked_data',
+                    nonce:  vars.nonceRemove,
+                    type:   type,
+                    value:  value,
+                }).then(function (response) {
+                    if (!response.success) {
+                        Swal.showValidationMessage(
+                            (response.data && response.data.message) || (i18n.errorRemove || 'Error.')
+                        );
+                    }
+                    return response;
+                });
+            },
+            allowOutsideClick: function () { return !Swal.isLoading(); },
+        }).then(function (result) {
+            if (result.isConfirmed && result.value && result.value.success) {
+                $container.find('tr').filter(function () {
+                    return $(this).find('.lkn-fsdw-bd-remove-btn').data('value') === value;
+                }).fadeOut(300, function () {
+                    $(this).remove();
+                    if ($container.find('.lkn-fsdw-bd-list tr:visible').length === 0) {
+                        $container.find('.lkn-fsdw-bd-list').html('<tr><td colspan="5" style="text-align:center;">' + escHtml(i18n.empty || 'No items.') + '</td></tr>');
+                    }
+                });
+                Swal.fire({
+                    icon: 'success',
+                    title: (result.value.data && result.value.data.message) || (i18n.successRemove || 'Item removed.'),
+                });
+            }
+        });
+    }
 
     // ── Helpers ───────────────────────────────────────────────────────────
     function escHtml(str) {

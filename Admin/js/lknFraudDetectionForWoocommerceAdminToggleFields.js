@@ -34,6 +34,25 @@
 
         syncDependents();
         $antifraud.on('change', syncDependents);
+
+        // ── Ban duration: disable number field when unit = "forever" ───────
+        var $durationUnit  = $('#lknFraudDetectionForWoocommerceBanDurationUnit');
+        var $durationValue = $('#lknFraudDetectionForWoocommerceBanDuration');
+
+        function syncBanDuration() {
+            var isForever = $durationUnit.val() === 'forever';
+            $durationValue.prop('disabled', isForever);
+            if (isForever) {
+                $durationValue.val('0');
+            } else if ($durationValue.val() === '0' || $durationValue.val() === '') {
+                $durationValue.val('1');
+            }
+        }
+
+        if ($durationUnit.length && $durationValue.length) {
+            syncBanDuration();
+            $durationUnit.on('change', syncBanDuration);
+        }
     });
 
 }(jQuery));

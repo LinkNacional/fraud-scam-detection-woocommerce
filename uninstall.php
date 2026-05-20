@@ -59,6 +59,9 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceBlockedPhones',
 	'lknFraudDetectionForWoocommerceBlockedCountries',
 	'lknFraudDetectionForWoocommerceBlockedDeviceIdentities',
+	// Ban expiration
+	'lknFraudDetectionForWoocommerceBanDuration',
+	'lknFraudDetectionForWoocommerceBanDurationUnit',
 );
 
 if ( is_multisite() ) {

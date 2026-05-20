@@ -190,7 +190,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! is_array( $banned_ips ) ) {
 			$banned_ips = array();
 		}
-		wp_send_json_success( array( 'ips' => array_values( $banned_ips ) ) );
+		$normalized = array_map( array( $this, 'normalize_item' ), $banned_ips );
+		// Auto-remove expired items and persist the clean list
+		$active = array_values( array_filter( $normalized, function( $item ) {
+			return ! $this->is_expired( $item );
+		} ) );
+		if ( count( $active ) !== count( $normalized ) ) {
+			update_option( 'lknFraudDetectionForWoocommerceBannedIps', $active );
+		}
+		wp_send_json_success( array( 'ips' => $active ) );
 	}
 
 	public function ajax_unban_ip() {
@@ -209,7 +217,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$banned_ips = array();
 		}
 		$banned_ips = array_values( array_filter( $banned_ips, function( $item ) use ( $ip ) {
-			return $item !== $ip;
+			$normalized = $this->normalize_item( $item );
+			return $normalized['value'] !== $ip;
 		} ) );
 		update_option( 'lknFraudDetectionForWoocommerceBannedIps', $banned_ips );
 
@@ -235,8 +244,23 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! is_array( $banned_ips ) ) {
 			$banned_ips = array();
 		}
-		if ( ! in_array( $ip, $banned_ips, true ) ) {
-			$banned_ips[] = $ip;
+		$already_banned = false;
+		foreach ( $banned_ips as $raw_item ) {
+			if ( $this->normalize_item( $raw_item )['value'] === $ip ) {
+				$already_banned = true;
+				break;
+			}
+		}
+		if ( ! $already_banned ) {
+			$duration = (int) get_option( 'lknFraudDetectionForWoocommerceBanDuration', 0 );
+			$unit     = get_option( 'lknFraudDetectionForWoocommerceBanDurationUnit', 'forever' );
+			$user     = wp_get_current_user();
+			$banned_ips[] = array(
+				'value'      => $ip,
+				'banned_by'  => $user->display_name ?: $user->user_login,
+				'banned_at'  => wp_date( 'Y-m-d H:i:s' ),
+				'expires_at' => $this->compute_expires_at( $duration, $unit ),
+			);
 			update_option( 'lknFraudDetectionForWoocommerceBannedIps', $banned_ips );
 		}
 
@@ -256,7 +280,16 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 		$customer_ip = $order->get_customer_ip_address();
-		if ( ! empty( $customer_ip ) && in_array( $customer_ip, $banned_ips, true ) ) {
+		if ( empty( $customer_ip ) ) {
+			return;
+		}
+
+		foreach ( $banned_ips as $raw_item ) {
+			$item = $this->normalize_item( $raw_item );
+			if ( $item['value'] !== $customer_ip || $this->is_expired( $item ) ) {
+				continue;
+			}
+
 			$block_order = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order', 'yes' ) === 'yes';
 			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',  'yes' ) === 'yes';
 			$add_note    = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',    'yes' ) === 'yes';
@@ -279,6 +312,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			if ( $block_order ) {
 				throw new Exception( esc_html( __( 'Your IP address has been blocked from making purchases.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 			}
+			break;
 		}
 	}
 
@@ -291,16 +325,18 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	public function checkBlockedData( $order ) {
 		$billing_email   = strtolower( trim( $order->get_billing_email() ) );
 		$billing_phone   = preg_replace( '/[^0-9+]/', '', $order->get_billing_phone() );
-
 		$billing_country = strtoupper( trim( $order->get_billing_country() ) );
 
 		// Block by email address
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableEmailBlock', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmails', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_email ) ) {
-				$blocked_lower = array_map( 'strtolower', $blocked );
-				if ( in_array( $billing_email, $blocked_lower, true ) ) {
-					$this->applyDataBlockBehavior( $order, __( 'email address', 'fraud-and-scam-detection-for-woocommerce' ), $billing_email );
+				foreach ( $blocked as $raw ) {
+					$item = $this->normalize_item( $raw );
+					if ( $this->is_expired( $item ) ) { continue; }
+					if ( strtolower( $item['value'] ) === $billing_email ) {
+						$this->applyDataBlockBehavior( $order, __( 'email address', 'fraud-and-scam-detection-for-woocommerce' ), $billing_email );
+					}
 				}
 			}
 		}
@@ -310,9 +346,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmailDomains', array() );
 			$domain  = substr( strrchr( $billing_email, '@' ), 1 );
 			if ( is_array( $blocked ) && ! empty( $domain ) ) {
-				$blocked_lower = array_map( 'strtolower', $blocked );
-				if ( in_array( $domain, $blocked_lower, true ) ) {
-					$this->applyDataBlockBehavior( $order, __( 'email domain', 'fraud-and-scam-detection-for-woocommerce' ), $domain );
+				foreach ( $blocked as $raw ) {
+					$item = $this->normalize_item( $raw );
+					if ( $this->is_expired( $item ) ) { continue; }
+					if ( strtolower( $item['value'] ) === $domain ) {
+						$this->applyDataBlockBehavior( $order, __( 'email domain', 'fraud-and-scam-detection-for-woocommerce' ), $domain );
+					}
 				}
 			}
 		}
@@ -321,9 +360,13 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnablePhoneBlock', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedPhones', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_phone ) ) {
-				$blocked_clean = array_map( function( $p ) { return preg_replace( '/[^0-9+]/', '', $p ); }, $blocked );
-				if ( in_array( $billing_phone, $blocked_clean, true ) ) {
-					$this->applyDataBlockBehavior( $order, __( 'phone number', 'fraud-and-scam-detection-for-woocommerce' ), $billing_phone );
+				foreach ( $blocked as $raw ) {
+					$item  = $this->normalize_item( $raw );
+					if ( $this->is_expired( $item ) ) { continue; }
+					$clean = preg_replace( '/[^0-9+]/', '', $item['value'] );
+					if ( $clean === $billing_phone ) {
+						$this->applyDataBlockBehavior( $order, __( 'phone number', 'fraud-and-scam-detection-for-woocommerce' ), $billing_phone );
+					}
 				}
 			}
 		}
@@ -332,9 +375,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableCountryBlock', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedCountries', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_country ) ) {
-				$blocked_upper = array_map( 'strtoupper', $blocked );
-				if ( in_array( $billing_country, $blocked_upper, true ) ) {
-					$this->applyDataBlockBehavior( $order, __( 'country', 'fraud-and-scam-detection-for-woocommerce' ), $billing_country );
+				foreach ( $blocked as $raw ) {
+					$item = $this->normalize_item( $raw );
+					if ( $this->is_expired( $item ) ) { continue; }
+					if ( strtoupper( $item['value'] ) === $billing_country ) {
+						$this->applyDataBlockBehavior( $order, __( 'country', 'fraud-and-scam-detection-for-woocommerce' ), $billing_country );
+					}
 				}
 			}
 		}
@@ -344,8 +390,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$device_id = $order->get_meta( '_lkn_fsdw_device_identity' );
 			if ( ! empty( $device_id ) ) {
 				$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedDeviceIdentities', array() );
-				if ( is_array( $blocked ) && in_array( $device_id, $blocked, true ) ) {
-					$this->applyDataBlockBehavior( $order, __( 'device identity', 'fraud-and-scam-detection-for-woocommerce' ), $device_id );
+				if ( is_array( $blocked ) ) {
+					foreach ( $blocked as $raw ) {
+						$item = $this->normalize_item( $raw );
+						if ( $this->is_expired( $item ) ) { continue; }
+						if ( $item['value'] === $device_id ) {
+							$this->applyDataBlockBehavior( $order, __( 'device identity', 'fraud-and-scam-detection-for-woocommerce' ), $device_id );
+						}
+					}
 				}
 			}
 		}
@@ -392,6 +444,65 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	/**
+	 * Normalize a stored ban/block item, supporting legacy plain-string entries.
+	 *
+	 * @param mixed $item
+	 * @return array{ value: string, banned_by: string, banned_at: string|null, expires_at: string|null }
+	 */
+	private function normalize_item( $item ): array {
+		if ( is_string( $item ) ) {
+			return array(
+				'value'      => $item,
+				'banned_by'  => '',
+				'banned_at'  => null,
+				'expires_at' => null,
+			);
+		}
+		return array(
+			'value'      => (string) ( $item['value']      ?? '' ),
+			'banned_by'  => (string) ( $item['banned_by']  ?? '' ),
+			'banned_at'  => $item['banned_at']  ?? null,
+			'expires_at' => $item['expires_at'] ?? null,
+		);
+	}
+
+	/**
+	 * Compute an expiry datetime string from a duration + unit.
+	 * Returns null for forever (unit = 'forever' or duration <= 0).
+	 *
+	 * @param int    $duration
+	 * @param string $unit  hours|days|weeks|months|years|forever
+	 * @return string|null  MySQL datetime or null
+	 */
+	private function compute_expires_at( int $duration, string $unit ): ?string {
+		if ( 'forever' === $unit || $duration <= 0 ) {
+			return null;
+		}
+		$unit_map = array(
+			'hours'  => 'hour',
+			'days'   => 'day',
+			'weeks'  => 'week',
+			'months' => 'month',
+			'years'  => 'year',
+		);
+		$interval_unit = $unit_map[ $unit ] ?? 'day';
+		return ( new \DateTime( 'now', wp_timezone() ) )->modify( "+{$duration} {$interval_unit}" )->format( 'Y-m-d H:i:s' );
+	}
+
+	/**
+	 * Check whether a ban item has expired.
+	 *
+	 * @param array $item Normalized ban item.
+	 * @return bool True if expired, false if still active (or forever).
+	 */
+	private function is_expired( array $item ): bool {
+		if ( empty( $item['expires_at'] ) ) {
+			return false;
+		}
+		return new \DateTime( 'now', wp_timezone() ) > new \DateTime( $item['expires_at'], wp_timezone() );
+	}
+
+	/**
 	 * Return the wp_option name for a given blocked-data type.
 	 *
 	 * @param string $type
@@ -420,7 +531,18 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			wp_send_json_error( array( 'message' => __( 'Invalid type.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 		$items = get_option( $option, array() );
-		wp_send_json_success( array( 'items' => is_array( $items ) ? array_values( $items ) : array() ) );
+		if ( ! is_array( $items ) ) {
+			$items = array();
+		}
+		$normalized = array_map( array( $this, 'normalize_item' ), $items );
+		// Auto-remove expired items and persist the clean list
+		$active = array_values( array_filter( $normalized, function( $item ) {
+			return ! $this->is_expired( $item );
+		} ) );
+		if ( count( $active ) !== count( $normalized ) ) {
+			update_option( $option, $active );
+		}
+		wp_send_json_success( array( 'items' => $active ) );
 	}
 
 	/** AJAX: add an item to a blocked-data list. */
@@ -441,10 +563,25 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! is_array( $items ) ) {
 			$items = array();
 		}
-		if ( in_array( $value, $items, true ) ) {
+		$already_exists = false;
+		foreach ( $items as $raw ) {
+			if ( $this->normalize_item( $raw )['value'] === $value ) {
+				$already_exists = true;
+				break;
+			}
+		}
+		if ( $already_exists ) {
 			wp_send_json_error( array( 'message' => __( 'Item already exists.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
-		$items[] = $value;
+		$duration = (int) get_option( 'lknFraudDetectionForWoocommerceBanDuration', 0 );
+		$unit     = get_option( 'lknFraudDetectionForWoocommerceBanDurationUnit', 'forever' );
+		$user     = wp_get_current_user();
+		$items[]  = array(
+			'value'      => $value,
+			'banned_by'  => $user->display_name ?: $user->user_login,
+			'banned_at'  => wp_date( 'Y-m-d H:i:s' ),
+			'expires_at' => $this->compute_expires_at( $duration, $unit ),
+		);
 		update_option( $option, $items );
 		wp_send_json_success();
 	}
@@ -467,7 +604,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! is_array( $items ) ) {
 			wp_send_json_error();
 		}
-		$items = array_values( array_filter( $items, function( $i ) use ( $value ) { return $i !== $value; } ) );
+		$items = array_values( array_filter( $items, function( $i ) use ( $value ) {
+			return $this->normalize_item( $i )['value'] !== $value;
+		} ) );
 		update_option( $option, $items );
 		wp_send_json_success();
 	}
