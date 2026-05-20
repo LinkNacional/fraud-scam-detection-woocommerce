@@ -1,3 +1,6 @@
+# 1.2.1 - 20/05/2026
+* Ajuste no estado padrão do checkbox na página de configurações.
+
 # 1.2.0 - 18/05/2026
 * Novo sistema de verificação de segurança com Cloudflare Turnstile.
 * Novo sistema de banimento de IPs.

@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.7
 Tested up to: 6.9
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires PHP: 7.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -118,6 +118,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.2.1 =
+* Fix default state of checkboxes on the settings page.
+
 = 1.2.0 =
 * New security verification system with Cloudflare Turnstile.
 * New IP banning system.
@@ -156,8 +159,12 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.2.1 =
+* Fix default state of checkboxes on the settings page.
+
 = 1.2.0 =
 * New security verification system with Cloudflare Turnstile and IP banning feature.
+
 = 1.1.9/1.1.10 =
 * New banners according to country.
 

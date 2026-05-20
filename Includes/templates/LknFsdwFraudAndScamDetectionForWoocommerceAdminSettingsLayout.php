@@ -167,9 +167,8 @@ foreach ($form_fields as $key => $field) {
                                                         type="checkbox"
                                                         name="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
                                                         id="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
-                                                        value="yes"
                                                         class="admin-layout-checkbox"
-                                                        <?php checked(get_option($field['id'] ? $field['id'] : $key), 'yes'); ?>
+                                                        <?php checked(get_option($field['id'] ?: $key, $field['default'] ?? '') === 'yes'); ?>
                                                     />
                                                     <?php if (!empty($field['label'])): ?>
                                                         <span class="admin-layout-checkbox-label-text">
@@ -188,8 +187,7 @@ foreach ($form_fields as $key => $field) {
                                                         <input
                                                             type="radio"
                                                             name="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
-                                                            value="<?php echo esc_attr($option_value); ?>"
-                                                            <?php checked(get_option($field['id'] ? $field['id'] : $key), $option_value); ?>
+                                                            <?php checked(get_option($field['id'] ?: $key, $field['default'] ?? '') === $option_value); ?>
                                                             id="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
                                                             class="<?php echo !empty($field['class']) ? esc_attr($field['class']) : 'admin-layout-radio'; ?>"
                                                             <?php
@@ -216,7 +214,7 @@ foreach ($form_fields as $key => $field) {
                                                 class="admin-layout-select"
                                             >
                                                 <?php foreach ($field['options'] as $option_key => $option_label): ?>
-                                                    <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ? $field['id'] : $key), $option_key); ?>>
+                                                    <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ?: $key, $field['default'] ?? '') === $option_key); ?>>
                                                         <?php echo esc_html($option_label); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -358,9 +356,8 @@ foreach ($form_fields as $key => $field) {
                                                                 type="checkbox"
                                                                 name="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
                                                                 id="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
-                                                                value="yes"
                                                                 class="admin-layout-checkbox"
-                                                                <?php checked(get_option($child_field['id'] ? $child_field['id'] : $child_key), 'yes'); ?>
+                                                                <?php checked(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === 'yes'); ?>
                                                             />
                                                             <?php if (!empty($child_field['label'])): ?>
                                                                 <span class="admin-layout-checkbox-label-text">
@@ -379,8 +376,8 @@ foreach ($form_fields as $key => $field) {
                                                                 <input
                                                                     type="radio"
                                                                     name="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
-                                                                    value="<?php echo esc_attr($option_value); ?>"
-                                                                    <?php checked(get_option($child_field['id'] ? $child_field['id'] : $child_key), $option_value); ?>
+                                                                    <?php checked(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === $option_value); ?>
+                                                                    id="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
                                                                     class="<?php echo !empty($child_field['class']) ? esc_attr($child_field['class']) : 'admin-layout-radio'; ?>"
                                                                     <?php
                                                                     if (isset($child_field['custom_attributes']) && is_array($child_field['custom_attributes'])) {
@@ -406,7 +403,7 @@ foreach ($form_fields as $key => $field) {
                                                         class="admin-layout-select"
                                                     >
                                                         <?php foreach ($child_field['options'] as $option_key => $option_label): ?>
-                                                            <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ? $child_field['id'] : $child_key), $option_key); ?>>
+                                                            <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === $option_key); ?>>
                                                                 <?php echo esc_html($option_label); ?>
                                                             </option>
                                                         <?php endforeach; ?>
