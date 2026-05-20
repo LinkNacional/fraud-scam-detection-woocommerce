@@ -29,3 +29,38 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+$lkn_fsdw_options = array(
+	'lknFraudDetectionForWoocommerceEnableRecaptcha',
+	'lknFraudDetectionForWoocommerceEnableIpLookup',
+	'lknFraudDetectionForWoocommerceEnableIpFilter',
+	'lknFraudDetectionForWoocommerceEnableIpBan',
+	'lknFraudDetectionForWoocommerceRecaptchaSelected',
+	'lknFraudDetectionForWoocommerceDebug',
+	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key',
+	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret',
+	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score',
+	'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey',
+	'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey',
+	'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
+	'lknFraudDetectionForWoocommerceBannedIps',
+	'lknFraudDetectionForWoocommerceEnableIpCheck',
+);
+
+if ( is_multisite() ) {
+	$sites = get_sites( array( 'fields' => 'ids', 'number' => 0 ) );
+	foreach ( $sites as $site_id ) {
+		switch_to_blog( $site_id );
+		foreach ( $lkn_fsdw_options as $option ) {
+			delete_option( $option );
+		}
+		restore_current_blog();
+	}
+} else {
+	foreach ( $lkn_fsdw_options as $option ) {
+		delete_option( $option );
+	}
+}
+
+// Remove user meta for all users.
+delete_metadata( 'user', 0, 'lkn_fsdw_update_notice_dismissed', '', true );
