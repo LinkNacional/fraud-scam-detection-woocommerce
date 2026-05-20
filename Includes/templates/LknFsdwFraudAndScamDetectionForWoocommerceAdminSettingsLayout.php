@@ -214,7 +214,7 @@ foreach ($form_fields as $key => $field) {
                                                 class="admin-layout-select"
                                             >
                                                 <?php foreach ($field['options'] as $option_key => $option_label): ?>
-                                                    <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ? $field['id'] : $key), $option_key); ?>>
+                                                    <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ?: $key, $field['default'] ?? '') === $option_key); ?>>
                                                         <?php echo esc_html($option_label); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -403,7 +403,7 @@ foreach ($form_fields as $key => $field) {
                                                         class="admin-layout-select"
                                                     >
                                                         <?php foreach ($child_field['options'] as $option_key => $option_label): ?>
-                                                            <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ? $child_field['id'] : $child_key), $option_key); ?>>
+                                                            <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === $option_key); ?>>
                                                                 <?php echo esc_html($option_label); ?>
                                                             </option>
                                                         <?php endforeach; ?>
