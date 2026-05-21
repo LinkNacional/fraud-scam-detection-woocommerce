@@ -599,10 +599,6 @@ p.submit {
 }
 
 /* ── Block by Data – select + table UI ──────────────────────────────────── */
-.lkn-fsdw-blocked-data-wrapper {
-    margin-top: 24px;
-}
-
 .lkn-fsdw-bd-controls {
     display: flex;
     flex-wrap: wrap;
