@@ -66,6 +66,10 @@
     gap: 8px;
 }
 
+#swal2-title {
+    line-height: normal !important;
+}
+
 @media (max-width: 600px) {
     .lkn-fsdw-modal-box {
         padding: 16px 14px;
