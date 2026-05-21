@@ -328,7 +328,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$billing_country = strtoupper( trim( $order->get_billing_country() ) );
 
 		// Block by email address
-		if ( get_option( 'lknFraudDetectionForWoocommerceEnableEmailBlock', 'no' ) === 'yes' ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmails', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_email ) ) {
 				foreach ( $blocked as $raw ) {
@@ -342,7 +342,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		// Block by email domain
-		if ( get_option( 'lknFraudDetectionForWoocommerceEnableEmailDomainBlock', 'no' ) === 'yes' ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email_domain', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedEmailDomains', array() );
 			$domain  = substr( strrchr( $billing_email, '@' ), 1 );
 			if ( is_array( $blocked ) && ! empty( $domain ) ) {
@@ -357,7 +357,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		// Block by phone
-		if ( get_option( 'lknFraudDetectionForWoocommerceEnablePhoneBlock', 'no' ) === 'yes' ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_phone', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedPhones', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_phone ) ) {
 				foreach ( $blocked as $raw ) {
@@ -372,7 +372,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		// Block by country
-		if ( get_option( 'lknFraudDetectionForWoocommerceEnableCountryBlock', 'no' ) === 'yes' ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_country', 'no' ) === 'yes' ) {
 			$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedCountries', array() );
 			if ( is_array( $blocked ) && ! empty( $billing_country ) ) {
 				foreach ( $blocked as $raw ) {
@@ -386,7 +386,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		// Block by device identity
-		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDeviceIdentityBlock', 'no' ) === 'yes' ) {
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_device_identity', 'no' ) === 'yes' ) {
 			$device_id = $order->get_meta( '_lkn_fsdw_device_identity' );
 			if ( ! empty( $device_id ) ) {
 				$blocked = get_option( 'lknFraudDetectionForWoocommerceBlockedDeviceIdentities', array() );

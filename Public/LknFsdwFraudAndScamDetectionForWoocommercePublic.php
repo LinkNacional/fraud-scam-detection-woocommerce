@@ -100,7 +100,7 @@ class LknFsdwFraudAndScamDetectionForWoocommercePublic {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/lknFraudDetectionForWoocommercePublic.js', array( 'jquery' ), $this->version, false );
 
 		if ( function_exists( 'is_checkout' ) && is_checkout() &&
-			get_option( 'lknFraudDetectionForWoocommerceEnableDeviceIdentityBlock', 'no' ) === 'yes' ) {
+			get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_device_identity', 'no' ) === 'yes' ) {
 			wp_enqueue_script(
 				'lkn-fsdw-device-fingerprint',
 				plugin_dir_url( __FILE__ ) . 'js/lknFraudDetectionForWoocommerceDeviceFingerprint.js',

@@ -9,7 +9,7 @@ $current_block = null;
 $first_block_id = null;
 foreach ($form_fields as $key => $field) {
     if ($field['type'] === 'title') {
-        $current_block = sanitize_title($field['title']);
+        $current_block = !empty($field['block_id']) ? $field['block_id'] : sanitize_title($field['title']);
         if ($first_block_id === null) {
             $first_block_id = $current_block;
         }
@@ -211,6 +211,7 @@ foreach ($form_fields as $key => $field) {
                                                 foreach ($field['options'] as $option_key => $option_label) {
                                                     $option_id      = ($field['id'] ?: $key) . '_' . $option_key;
                                                     $option_default = $field['options_checked'][ $option_key ] ?? $field['default'] ?? '';
+                                                    $option_desc    = $field['options_input_description'][ $option_key ] ?? '';
                                                     ?>
                                                     <div class="admin-layout-checkbox-wrapper">
                                                         <label class="admin-layout-checkbox-label">
@@ -225,6 +226,11 @@ foreach ($form_fields as $key => $field) {
                                                                 <?php echo wp_kses_post($option_label); ?>
                                                             </span>
                                                         </label>
+                                                        <?php if (!empty($option_desc)): ?>
+                                                            <div class="admin-layout-input-description">
+                                                                <?php echo esc_html($option_desc); ?>
+                                                            </div>
+                                                        <?php endif; ?>
                                                     </div>
                                                     <?php
                                                 }
@@ -424,6 +430,7 @@ foreach ($form_fields as $key => $field) {
                                                         foreach ($child_field['options'] as $option_key => $option_label) {
                                                             $option_id      = ($child_field['id'] ?: $child_key) . '_' . $option_key;
                                                             $option_default = $child_field['options_checked'][ $option_key ] ?? $child_field['default'] ?? '';
+                                                            $option_desc    = $child_field['options_input_description'][ $option_key ] ?? '';
                                                             ?>
                                                             <div class="admin-layout-checkbox-wrapper">
                                                                 <label class="admin-layout-checkbox-label">
@@ -438,6 +445,11 @@ foreach ($form_fields as $key => $field) {
                                                                         <?php echo wp_kses_post($option_label); ?>
                                                                     </span>
                                                                 </label>
+                                                                <?php if (!empty($option_desc)): ?>
+                                                                    <div class="admin-layout-input-description">
+                                                                        <?php echo esc_html($option_desc); ?>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             </div>
                                                             <?php
                                                         }
