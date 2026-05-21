@@ -1,3 +1,6 @@
+# 1.3.0 - 21/05/2026
+* Novo sistema de banimento através dos dados.
+
 # 1.2.1 - 20/05/2026
 * Ajuste no estado padrão do checkbox na página de configurações.
 
