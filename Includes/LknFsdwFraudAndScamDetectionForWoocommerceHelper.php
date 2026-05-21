@@ -290,9 +290,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 				continue;
 			}
 
-			$block_order = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order', 'yes' ) === 'yes';
-			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',  'yes' ) === 'yes';
-			$add_note    = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',    'yes' ) === 'yes';
+			$block_order = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order', 'yes' ) === 'yes';
+			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
+			$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
 
 			if ( $mark_fraud ) {
 				$order->set_status( 'lkn-fraud' );
@@ -412,9 +412,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	 * @throws Exception
 	 */
 	private function applyDataBlockBehavior( $order, $type, $value ) {
-		$block_order = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order', 'yes' ) === 'yes';
-		$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',  'yes' ) === 'yes';
-		$add_note    = get_option( 'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',    'yes' ) === 'yes';
+		$block_order = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order', 'yes' ) === 'yes';
+		$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
+		$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
 
 		if ( $mark_fraud ) {
 			$order->set_status( 'lkn-fraud' );

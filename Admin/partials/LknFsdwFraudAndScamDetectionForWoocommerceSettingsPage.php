@@ -50,10 +50,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
-            'ip_block_behavior' => array(
-                'title'             => __('IP Block Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+            'antifraud_behavior' => array(
+                'title'             => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'multicheck',
-                'id'                => 'lknFraudDetectionForWoocommerceIpBlockBehavior',
+                'id'                => 'lknFraudDetectionForWoocommerceAntiFraudBehavior',
                 'options'           => array(
                     'block_order' => __('Block Order (do not allow the order to be placed)', 'fraud-and-scam-detection-for-woocommerce'),
                     'mark_fraud'  => __('Mark Order as Fraud', 'fraud-and-scam-detection-for-woocommerce'),
@@ -65,15 +65,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'add_note'    => 'yes',
                 ),
                 'options_input_description' => array(
-                    'block_order' => __('Prevents the order from being placed when a banned IP is detected.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'block_order' => __('Prevents the order from being placed when fraud is detected.', 'fraud-and-scam-detection-for-woocommerce'),
                     'mark_fraud'  => __('Marks the order status as fraudulent for review.', 'fraud-and-scam-detection-for-woocommerce'),
                     'add_note'    => __('Adds a note to the order without blocking it.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
                 'default'           => 'yes',
-                'description'       => __('Choose how the system should behave when a banned IP attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
+                'description'       => __('Choose how the system should behave when a blocked customer attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
-                'block_title'       => __('IP Block Behavior', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Define the action taken when a banned IP tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Define the action taken when a blocked customer tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
             'ban_duration' => array(
@@ -96,12 +96,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'type'              => 'select',
                 'id'                => 'lknFraudDetectionForWoocommerceBanDurationUnit',
                 'options'           => array(
-                    'forever' => __('Forever', 'fraud-and-scam-detection-for-woocommerce'),
                     'hours'   => __('Hours', 'fraud-and-scam-detection-for-woocommerce'),
                     'days'    => __('Days', 'fraud-and-scam-detection-for-woocommerce'),
                     'weeks'   => __('Weeks', 'fraud-and-scam-detection-for-woocommerce'),
                     'months'  => __('Months', 'fraud-and-scam-detection-for-woocommerce'),
                     'years'   => __('Years', 'fraud-and-scam-detection-for-woocommerce'),
+                    'forever' => __('Forever', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
                 'default'           => get_option( 'lknFraudDetectionForWoocommerceBanDurationUnit', 'forever' ),
                 'description'       => __('Time unit for the ban duration. Select "Forever" for permanent bans.', 'fraud-and-scam-detection-for-woocommerce'),

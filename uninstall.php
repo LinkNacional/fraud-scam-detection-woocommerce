@@ -45,9 +45,9 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
 	'lknFraudDetectionForWoocommerceBannedIps',
 	'lknFraudDetectionForWoocommerceEnableIpCheck',
-	'lknFraudDetectionForWoocommerceIpBlockBehavior_block_order',
-	'lknFraudDetectionForWoocommerceIpBlockBehavior_mark_fraud',
-	'lknFraudDetectionForWoocommerceIpBlockBehavior_add_note',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',
 	// Block by Data
 	'lknFraudDetectionForWoocommerceEnableDataBlock_email',
 	'lknFraudDetectionForWoocommerceEnableDataBlock_email_domain',
