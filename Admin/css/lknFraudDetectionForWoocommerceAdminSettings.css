@@ -489,6 +489,13 @@ p.submit {
     pointer-events: none;
 }
 
+.lkn-fsdw-banned-ips-table th,
+.lkn-fsdw-banned-ips-table td,
+.lkn-fsdw-bd-table th,
+.lkn-fsdw-bd-table td {
+    font-size: 13px !important;
+}
+
 @media (max-width: 1300px) {
     .admin-layout-content {
         flex-direction: column;
