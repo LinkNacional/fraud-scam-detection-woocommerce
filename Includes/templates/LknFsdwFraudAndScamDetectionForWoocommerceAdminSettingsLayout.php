@@ -35,7 +35,7 @@ foreach ($form_fields as $key => $field) {
             </div>
             <nav class="admin-layout-top-menu">
                 <?php foreach ($blocks as $block_id => $block): ?>
-                    <a href="#" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
+                    <a href="#" id="nav-<?php echo esc_attr($block_id); ?>" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
                         <?php echo esc_html($block['title'] ?? ucfirst($block_id)); ?>
                     </a>
                 <?php endforeach; ?>
@@ -281,15 +281,18 @@ foreach ($form_fields as $key => $field) {
                                             <?php echo esc_html($field['input_description']); ?>
                                         </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($field['input_tab_link'])): ?>
+                                        <div class="admin-layout-input-tab-link">
+                                            <?php echo wp_kses($field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <?php if (!empty($field['input_warning'])): ?>
                                         <div class="admin-layout-input-warning">
                                             <?php echo wp_kses($field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <?php
-                                // Renderiza os filhos dentro do .admin-layout-field-component-bg do pai
-                                foreach ($children as $child_key => $child_field): ?>
+                                <?php foreach ($children as $child_key => $child_field): ?>
                                     <div class="admin-layout-joined-label-desc">
                                         <?php if (!empty($child_field['block_title'])): ?>
                                             <span class="admin-layout-label">
@@ -498,8 +501,11 @@ foreach ($form_fields as $key => $field) {
                                                 <div class="admin-layout-input-description">
                                                     <?php echo esc_html($child_field['input_description']); ?>
                                                 </div>
-                                            <?php endif; ?>
-                                            <?php if (!empty($child_field['input_warning'])): ?>
+                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_tab_link'])): ?>
+                                                <div class="admin-layout-input-tab-link">
+                                                    <?php echo wp_kses($child_field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
+                                                </div>
+                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_warning'])): ?>
                                                 <div class="admin-layout-input-warning">
                                                     <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>

@@ -53,6 +53,17 @@
             syncBanDuration();
             $durationUnit.on('change', syncBanDuration);
         }
+
+        // ── Inline tab links (data-goto-tab) ────────────────────────────────
+        $(document).on('click', '[data-goto-tab]', function (e) {
+            e.preventDefault();
+            var target = $(this).data('goto-tab');
+            $('.admin-layout-title-link[data-target="block-' + target + '"]').trigger('click');
+            var navLink = document.getElementById('nav-' + target);
+            if (navLink) {
+                navLink.scrollIntoView({ block: 'center' });
+            }
+        });
     });
 
 }(jQuery));

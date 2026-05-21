@@ -215,6 +215,45 @@
     margin-top: 4px;
 }
 
+.admin-layout-input-tab-link {
+    font-size: 0.85em;
+    color: #3c434a;
+    margin-top: 4px;
+    margin-bottom: 2px;
+}
+
+.admin-layout-input-tab-link a {
+    color: #2271b1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.admin-layout-input-tab-link a:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
+.lkn-fsdw-expiration-note {
+    font-size: 0.85em;
+    color: #646970;
+    margin: 8px 0 0 0;
+}
+
+.lkn-fsdw-expiration-note strong {
+    color: #3c434a;
+}
+
+.lkn-fsdw-expiration-note a {
+    color: #2271b1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.lkn-fsdw-expiration-note a:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
 .admin-layout-joined-label-desc {
     width: 100%;
     flex: 0;

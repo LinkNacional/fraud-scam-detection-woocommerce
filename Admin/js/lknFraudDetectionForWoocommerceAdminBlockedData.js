@@ -47,6 +47,27 @@ jQuery(document).ready(function ($) {
 
     $container.append($wrapper);
 
+    // ── Expiration note (dynamic) ─────────────────────────────────────────
+    function buildBdExpirationNote() {
+        var duration   = $('#' + vars.banDurationId).val() || '0';
+        var unitKey    = $('#' + vars.banDurationUnitId).val() || 'forever';
+        var unitLabels = vars.unitLabels || {};
+        if (unitKey === 'forever') {
+            return i18n.noteForever || '';
+        }
+        return (i18n.noteTimed || '')
+            .replace('{duration}', duration)
+            .replace('{unit}', unitLabels[unitKey] || unitKey);
+    }
+
+    if (i18n.noteForever || i18n.noteTimed) {
+        var $bdNote = $('<p class="lkn-fsdw-expiration-note"></p>').html(buildBdExpirationNote());
+        $container.append($bdNote);
+        $(document).on('change', '#' + vars.banDurationId + ', #' + vars.banDurationUnitId, function () {
+            $bdNote.html(buildBdExpirationNote());
+        });
+    }
+
     // ── Sync placeholder & column header with selected type ───────────────
     function syncType() {
         var key = $container.find('.lkn-fsdw-bd-select').val();

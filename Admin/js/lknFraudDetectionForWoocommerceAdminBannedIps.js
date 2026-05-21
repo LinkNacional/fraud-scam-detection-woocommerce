@@ -34,6 +34,27 @@ jQuery(document).ready(function ($) {
 
     $container.append($wrapper);
 
+    // ── Expiration note (dynamic) ─────────────────────────────────────────
+    function buildBanExpirationNote() {
+        var duration   = $('#' + vars.banDurationId).val() || '0';
+        var unitKey    = $('#' + vars.banDurationUnitId).val() || 'forever';
+        var unitLabels = vars.unitLabels || {};
+        if (unitKey === 'forever') {
+            return i18n.noteForever || '';
+        }
+        return (i18n.noteTimed || '')
+            .replace('{duration}', duration)
+            .replace('{unit}', unitLabels[unitKey] || unitKey);
+    }
+
+    if (i18n.noteForever || i18n.noteTimed) {
+        var $banNote = $('<p class="lkn-fsdw-expiration-note"></p>').html(buildBanExpirationNote());
+        $container.append($banNote);
+        $(document).on('change', '#' + vars.banDurationId + ', #' + vars.banDurationUnitId, function () {
+            $banNote.html(buildBanExpirationNote());
+        });
+    }
+
     // ── IP input: auto-format (IPv4 and IPv6) ─────────────────────────────
     $container.on('input', '#lkn-fsdw-new-ip', function (e) {
         var isDeleting = e.originalEvent && (
