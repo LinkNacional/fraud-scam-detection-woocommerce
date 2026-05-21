@@ -9,7 +9,7 @@ env:
   PLUGIN_NAME: fraud-scam-detection-woocommerce
   DIR_NAME: fraud-scam-detection-woocommerce
   PHP_VERSION: "7.4"
-  DEPLOY_TAG: "1.2.1"
+  DEPLOY_TAG: "1.3.0"
 
 jobs:
   release-build:
