@@ -467,6 +467,21 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	/**
+	 * Normalize a blocked-data value according to its type.
+	 * For phones, strips everything except digits and a leading plus sign.
+	 *
+	 * @param string $type  e.g. 'phone', 'email', 'email_domain', 'country', 'device_identity'
+	 * @param string $value Raw value.
+	 * @return string Normalized value.
+	 */
+	private function normalize_value_by_type( string $type, string $value ): string {
+		if ( 'phone' === $type ) {
+			return preg_replace( '/[^0-9+]/', '', $value );
+		}
+		return $value;
+	}
+
+	/**
 	 * Compute an expiry datetime string from a duration + unit.
 	 * Returns null for forever (unit = 'forever' or duration <= 0).
 	 *
@@ -553,6 +568,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		$type  = isset( $_POST['type'] )  ? sanitize_key( wp_unslash( $_POST['type'] ) )                             : '';
 		$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) )                     : '';
+		$value = $this->normalize_value_by_type( $type, $value );
 		$option = $this->get_blocked_data_option( $type );
 
 		if ( ! $option || empty( $value ) ) {
@@ -565,7 +581,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		$already_exists = false;
 		foreach ( $items as $raw ) {
-			if ( $this->normalize_item( $raw )['value'] === $value ) {
+			$stored = $this->normalize_value_by_type( $type, $this->normalize_item( $raw )['value'] );
+			if ( $stored === $value ) {
 				$already_exists = true;
 				break;
 			}
@@ -594,6 +611,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 		$type  = isset( $_POST['type'] )  ? sanitize_key( wp_unslash( $_POST['type'] ) )             : '';
 		$value = isset( $_POST['value'] ) ? sanitize_text_field( wp_unslash( $_POST['value'] ) )     : '';
+		$value = $this->normalize_value_by_type( $type, $value );
 		$option = $this->get_blocked_data_option( $type );
 
 		if ( ! $option || empty( $value ) ) {
@@ -604,8 +622,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		if ( ! is_array( $items ) ) {
 			wp_send_json_error();
 		}
-		$items = array_values( array_filter( $items, function( $i ) use ( $value ) {
-			return $this->normalize_item( $i )['value'] !== $value;
+		$items = array_values( array_filter( $items, function( $i ) use ( $type, $value ) {
+			$stored = $this->normalize_value_by_type( $type, $this->normalize_item( $i )['value'] );
+			return $stored !== $value;
 		} ) );
 		update_option( $option, $items );
 		wp_send_json_success();
