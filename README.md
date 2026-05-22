@@ -11,8 +11,10 @@ Entre os recursos disponíveis, o plugin permite:
 - proteger o checkout com validação antifraude;
 - escolher entre **Google reCAPTCHA v3** e **Cloudflare Turnstile**;
 - configurar pontuação mínima para validação via reCAPTCHA v3;
-- bloquear IPs suspeitos manualmente;
+- bloquear IPs suspeitos manualmente com duração configurável (horas, dias, semanas, meses, anos ou permanente);
 - impedir compras de IPs já banidos;
+- definir com precisão como o sistema deve reagir ao detectar uma fraude (bloquear pedido, marcar como fraude e/ou adicionar nota);
+- bloquear pedidos por e-mail, domínio de e-mail, telefone, país ou identidade de dispositivo;
 - registrar ocorrências e respostas dos provedores em logs de depuração;
 - marcar pedidos suspeitos com um status específico de fraude no WooCommerce.
 
@@ -46,32 +48,47 @@ Na área administrativa do WooCommerce, o lojista pode selecionar qual serviço 
 - **Google reCAPTCHA v3**;
 - **Cloudflare Turnstile**.
 
-### 5. Bloqueio e gerenciamento de IPs banidos
-O plugin permite manter uma lista de IPs bloqueados para impedir novas compras por endereços considerados suspeitos.
+### 5. Comportamento antifraude configurável
+Ao detectar uma tentativa de fraude, o lojista pode controlar exatamente o que acontece com o pedido. As ações são independentes e podem ser combinadas:
 
-Recursos relacionados:
+- **Bloquear pedido** — impede que o pedido seja finalizado, devolvendo uma mensagem de erro ao cliente;
+- **Marcar como fraude** — altera o status do pedido para o status personalizado de fraude, permitindo revisão manual sem bloquear a transação;
+- **Adicionar nota ao pedido** — registra uma nota interna com detalhes da detecção sem realizar nenhuma outra ação.
 
-- banir IP manualmente;
+Essa flexibilidade permite que o lojista adote uma postura mais conservadora (apenas registrar) ou mais restritiva (bloquear imediatamente), de acordo com o perfil da loja.
+
+### 6. Bloqueio e gerenciamento de IPs banidos com duração configurável
+O sistema de banimento de IPs foi aprimorado para suportar banimentos temporários ou permanentes. Ao banir um IP, o lojista define:
+
+- **Duração** — valor numérico que, combinado com a unidade, determina por quanto tempo o banimento permanece ativo;
+- **Unidade** — horas, dias, semanas, meses, anos ou permanente.
+
+Quando a unidade **Permanente (Forever)** é selecionada, o campo de duração é desativado automaticamente e o IP permanece banido indefinidamente. Banimentos temporários expiram automaticamente sem necessidade de intervenção manual.
+
+Demais recursos da gestão de IPs:
+
+- banir IP diretamente da página de detalhes do pedido;
 - remover banimento de IP;
-- listar IPs banidos;
-- impedir checkout quando o IP estiver bloqueado.
+- listar todos os IPs banidos com suas datas de expiração;
+- filtrar pedidos por IP para identificar padrões de uso;
+- impedir checkout quando o IP estiver dentro do período de banimento.
 
-### 6. Compatibilidade com diferentes fluxos de checkout
+### 7. Compatibilidade com diferentes fluxos de checkout
 A validação antifraude é aplicada em diferentes contextos do WooCommerce, incluindo:
 
 - checkout clássico;
 - checkout baseado em blocos / Store API.
 
-### 7. Status personalizado de pedido: Fraud
+### 8. Status personalizado de pedido: Fraud
 Quando uma tentativa é considerada inválida ou suspeita, o plugin pode alterar o pedido para um status personalizado de fraude.
 
-### 8. Notas internas no pedido
+### 9. Notas internas no pedido
 No caso do Google reCAPTCHA v3, o plugin adiciona notas ao pedido com informações sobre o score retornado e uma interpretação do nível de risco detectado.
 
-### 9. Logs de depuração
+### 10. Logs de depuração
 O plugin possui uma opção de **debug** para registrar informações técnicas no log do WooCommerce, auxiliando em testes, integração e diagnóstico de problemas.
 
-### 10. Área de configuração no WooCommerce
+### 11. Área de configuração no WooCommerce
 O plugin adiciona uma aba própria de configurações nas opções do WooCommerce para centralizar os controles antifraude.
 
 ## Requisitos
@@ -108,8 +125,8 @@ O plugin adiciona uma aba própria de configurações nas opções do WooCommerc
 1. O cliente acessa o checkout da loja.
 2. O plugin carrega o provedor antifraude configurado.
 3. Durante o processo de finalização do pedido, a validação é executada.
-4. O plugin verifica se o IP do cliente está bloqueado.
-5. Caso a validação falhe ou o IP esteja banido, o pedido pode ser marcado como **Fraud** e a compra é interrompida.
+4. O plugin verifica se o IP do cliente está bloqueado e se o banimento ainda está vigente (para banimentos temporários).
+5. Caso a validação falhe ou o IP/dado esteja banido, o sistema aplica o comportamento configurado: bloquear o pedido, marcar como fraude e/ou adicionar nota ao pedido.
 6. Quando aplicável, informações adicionais são registradas nas notas do pedido e nos logs.
 
 ## Casos de uso

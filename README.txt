@@ -22,7 +22,10 @@ Using **Google reCAPTCHA** or **Cloudflare Turnstile**, the plugin automatically
 - Integration with **Cloudflare Turnstile**;
 - Protects WooCommerce checkout against automated bots and fraudulent activity;
 - Configurable minimum score threshold for human-like behavior detection (reCAPTCHA);
-- **IP banning** — block specific IP addresses from completing checkout directly from the order detail page or the Anti-Fraud settings;
+- **Configurable antifraud behavior** — choose whether to block the order, mark it as fraud, add an internal note, or any combination of these actions;
+- **Advanced IP banning** — ban IPs for a defined duration (hours, days, weeks, months, years) or permanently, with automatic expiration for temporary bans;
+- IP lookup and order filtering by IP directly from the order detail page;
+- **Data-based blocking** — block orders by email address, email domain, phone number, country, or device fingerprint;
 - Lightweight and optimized for performance.
 
 **Dependencies**
@@ -110,11 +113,21 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Google reCAPTCHA v3 assigns a score between 0.0 (likely a bot) and 1.0 (likely human).  
   You can configure the threshold in plugin settings to determine how strict the validation should be.
 
+= How does the antifraud behavior work? =
+
+* When fraud is detected, the plugin can perform one or more of the following actions — independently or combined:
+  - **Block Order**: prevents the order from being placed and returns an error to the customer;
+  - **Mark Order as Fraud**: changes the order status to the custom fraud status for manual review, without necessarily blocking the transaction;
+  - **Add Note to Order Only**: adds an internal note with detection details without blocking or changing the order status.
+
+  This lets store owners choose between a conservative approach (observe and log) or a strict one (block immediately).
+
 = How does the IP banning system work? =
 
-* When the **Enable IP Check** option is active, a lookup/ban panel appears on each order detail page.  
-  You can also manage the full list of banned IPs (add or remove) directly in **WooCommerce > Settings > Anti-Fraud > Banned IPs**.  
-  Any customer attempting to checkout from a banned IP will be blocked and the order will be flagged as fraud.
+* When the **Ban IPs** option is active, a ban/unban panel appears on each order detail page.  
+  You can also manage the full list of banned IPs in **WooCommerce > Settings > Anti-Fraud > Banned IPs**.  
+  The improved ban system supports **temporary bans** with a configurable duration (hours, days, weeks, months, or years) that expire automatically, as well as **permanent bans** by selecting the “Forever” unit.  
+  Any customer attempting to checkout from a banned IP within the active ban period will be blocked and the configured antifraud behavior will be applied.
 
 
 == Changelog ==
@@ -163,7 +176,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 == Upgrade Notice ==
 = 1.3.0 =
-* New data-based blocking system.
+* New antifraud behavior controls, configurable IP ban duration, and data-based blocking by email, phone, country, and device fingerprint.
 
 = 1.2.1 =
 * Fix default state of checkboxes on the settings page.
