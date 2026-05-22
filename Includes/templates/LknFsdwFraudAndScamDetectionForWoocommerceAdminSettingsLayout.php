@@ -34,7 +34,7 @@ foreach ($form_fields as $key => $field) {
                 <h2 class="admin-layout-title"><?php echo esc_html($method_title); ?></h2>
             </div>
             <div class="admin-layout-top-menu-outer">
-                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--prev" aria-label="<?php esc_attr_e('Previous', 'fraud-and-scam-detection-for-woocommerce'); ?>" aria-hidden="true">&#8249;</button>
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--prev" aria-label="<?php esc_attr_e('Previous', 'fraud-and-scam-detection-for-woocommerce'); ?>">&#8249;</button>
                 <div class="admin-layout-top-menu-clip">
                     <nav class="admin-layout-top-menu">
                         <?php foreach ($blocks as $block_id => $block): ?>
@@ -44,7 +44,7 @@ foreach ($form_fields as $key => $field) {
                         <?php endforeach; ?>
                     </nav>
                 </div>
-                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--next" aria-label="<?php esc_attr_e('Next', 'fraud-and-scam-detection-for-woocommerce'); ?>" aria-hidden="true">&#8250;</button>
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--next" aria-label="<?php esc_attr_e('Next', 'fraud-and-scam-detection-for-woocommerce'); ?>">&#8250;</button>
             </div>
             <form method="post" enctype="multipart/form-data">
                 <?php wp_nonce_field('woocommerce-options'); ?>
