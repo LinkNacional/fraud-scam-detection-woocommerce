@@ -19,16 +19,18 @@ jQuery(document).ready(function ($) {
                 '<input type="text" id="lkn-fsdw-new-ip" maxlength="39" placeholder="' + escAttr(i18n.placeholder || 'IPv4 or IPv6') + '" />' +
                 '<button type="button" id="lkn-fsdw-add-ip-btn" class="button button-primary">' + escHtml(i18n.banBtn || 'Ban IP') + '</button>' +
             '</div>' +
-            '<table class="widefat striped lkn-fsdw-banned-ips-table" style="margin-top:16px;">' +
-                '<thead><tr>' +
-                    '<th>' + escHtml(i18n.colIp || 'IP Address') + '</th>' +
-                    '<th style="width:130px;">' + escHtml(i18n.colBannedBy || 'Banned By') + '</th>' +
-                    '<th style="width:145px;">' + escHtml(i18n.colBannedAt || 'Banned At') + '</th>' +
-                    '<th style="width:145px;">' + escHtml(i18n.colExpiresAt || 'Expires At') + '</th>' +
-                    '<th style="width:100px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
-                '</tr></thead>' +
-                '<tbody id="lkn-fsdw-banned-ips-list"><tr><td colspan="5" style="text-align:center;">' + escHtml(i18n.loading || 'Loading…') + '</td></tr></tbody>' +
-            '</table>' +
+            '<div class="lkn-fsdw-table-wrap">' +
+                '<table class="widefat striped lkn-fsdw-banned-ips-table" style="margin-top:16px;">' +
+                    '<thead><tr>' +
+                        '<th>' + escHtml(i18n.colIp || 'IP Address') + '</th>' +
+                        '<th style="width:130px;">' + escHtml(i18n.colBannedBy || 'Banned By') + '</th>' +
+                        '<th style="width:145px;">' + escHtml(i18n.colBannedAt || 'Banned At') + '</th>' +
+                        '<th style="width:145px;">' + escHtml(i18n.colExpiresAt || 'Expires At') + '</th>' +
+                        '<th style="width:100px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
+                    '</tr></thead>' +
+                    '<tbody id="lkn-fsdw-banned-ips-list"><tr><td colspan="5" style="text-align:center;">' + escHtml(i18n.loading || 'Loading…') + '</td></tr></tbody>' +
+                '</table>' +
+            '</div>' +
         '</div>'
     );
 

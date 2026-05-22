@@ -68,10 +68,72 @@
     margin: 0;
 }
 
+.admin-layout-top-menu-outer {
+    position: relative;
+    /* Pull the next sibling (block) up to compensate for padding-bottom on clip div,
+       so the active tab's top:1px still sits flush against the block border. */
+    margin-bottom: -2px;
+}
+
+/* overflow:hidden clips nav items that overflow horizontally (prevents page x-scroll).
+   padding-bottom:2px enlarges the clip div's padding box so the active tab's
+   top:1px shift falls inside the clip boundary and is never cut off. */
+.admin-layout-top-menu-clip {
+    overflow: hidden;
+    padding-bottom: 2px;
+}
+
+/* Arrow buttons — hidden by default, shown only when nav overflows */
+.admin-layout-nav-arrow {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 20px;
+    line-height: 1;
+    color: #555;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.12);
+    transition: background 0.15s, color 0.15s;
+    width: 26px;
+    height: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.admin-layout-nav-arrow:hover {
+    background: #f0f0f0;
+    color: #121519;
+}
+
+.admin-layout-nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.admin-layout-nav-arrow--prev {
+    left: -30px;
+}
+
+.admin-layout-nav-arrow--next {
+    right: -30px;
+}
+
+.admin-layout-top-menu-outer.has-overflow .admin-layout-nav-arrow {
+    display: flex;
+}
+
 .admin-layout-top-menu {
     display: flex;
     gap: 12px;
     margin: 0px !important;
+    flex-wrap: nowrap;
+    transition: transform 0.3s ease;
 }
 
 .admin-layout-title-link {
@@ -81,7 +143,7 @@
     justify-content: center;
     text-align: center;
     background: #fff;
-    border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0 !important;
     font-size: 1.2em;
     color: #8f8f8f;
     font-weight: 300;
@@ -97,6 +159,8 @@
     z-index: 2;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .admin-layout-title-link:hover {
@@ -635,6 +699,30 @@ p.submit {
     .block-promotional-card-description {
         font-size: 0.95em;
     }
+}
+
+@media screen and (max-width: 782px) {
+
+    .admin-layout-block {
+        border-top-left-radius: 0px !important;
+        border-top-right-radius: 0px !important;
+    }
+
+    .admin-layout-top-menu {
+        margin-right: -1px !important;
+    }
+    
+    input[type=checkbox], input[type=radio] {
+        min-width: 1.5625rem;
+    }
+}
+
+/* ── Banned IPs – input + button row ────────────────────────────────────── */
+.lkn-fsdw-banned-ips-add {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
 }
 
 /* ── Block by Data – select + table UI ──────────────────────────────────── */

@@ -32,16 +32,18 @@ jQuery(document).ready(function ($) {
                 '<input type="text" class="lkn-fsdw-bd-input" />' +
                 '<button type="button" class="button button-primary lkn-fsdw-bd-add-btn">' + escHtml(i18n.addBtn || 'Ban') + '</button>' +
             '</div>' +
-            '<table class="widefat striped lkn-fsdw-bd-table" style="margin-top:14px;">' +
-                '<thead><tr>' +
-                    '<th class="lkn-fsdw-bd-col-value"></th>' +
-                    '<th style="width:130px;">' + escHtml(i18n.colBannedBy || 'Banned By') + '</th>' +
-                    '<th style="width:145px;">' + escHtml(i18n.colBannedAt || 'Banned At') + '</th>' +
-                    '<th style="width:145px;">' + escHtml(i18n.colExpiresAt || 'Expires At') + '</th>' +
-                    '<th style="width:100px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
-                '</tr></thead>' +
-                '<tbody class="lkn-fsdw-bd-list"></tbody>' +
-            '</table>' +
+            '<div class="lkn-fsdw-table-wrap">' +
+                '<table class="widefat striped lkn-fsdw-bd-table" style="margin-top:14px;">' +
+                    '<thead><tr>' +
+                        '<th class="lkn-fsdw-bd-col-value"></th>' +
+                        '<th style="width:130px;">' + escHtml(i18n.colBannedBy || 'Banned By') + '</th>' +
+                        '<th style="width:145px;">' + escHtml(i18n.colBannedAt || 'Banned At') + '</th>' +
+                        '<th style="width:145px;">' + escHtml(i18n.colExpiresAt || 'Expires At') + '</th>' +
+                        '<th style="width:100px;text-align:center;">' + escHtml(i18n.colActions || 'Actions') + '</th>' +
+                    '</tr></thead>' +
+                    '<tbody class="lkn-fsdw-bd-list"></tbody>' +
+                '</table>' +
+            '</div>' +
         '</div>'
     );
 

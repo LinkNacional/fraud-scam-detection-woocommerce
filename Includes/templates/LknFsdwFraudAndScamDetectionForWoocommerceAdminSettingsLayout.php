@@ -33,13 +33,19 @@ foreach ($form_fields as $key => $field) {
             <div class="admin-layout-header">
                 <h2 class="admin-layout-title"><?php echo esc_html($method_title); ?></h2>
             </div>
-            <nav class="admin-layout-top-menu">
-                <?php foreach ($blocks as $block_id => $block): ?>
-                    <a href="#" id="nav-<?php echo esc_attr($block_id); ?>" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
-                        <?php echo esc_html($block['title'] ?? ucfirst($block_id)); ?>
-                    </a>
-                <?php endforeach; ?>
-            </nav>
+            <div class="admin-layout-top-menu-outer">
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--prev" aria-label="<?php esc_attr_e('Previous', 'fraud-and-scam-detection-for-woocommerce'); ?>" aria-hidden="true">&#8249;</button>
+                <div class="admin-layout-top-menu-clip">
+                    <nav class="admin-layout-top-menu">
+                        <?php foreach ($blocks as $block_id => $block): ?>
+                            <a href="#" id="nav-<?php echo esc_attr($block_id); ?>" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
+                                <?php echo esc_html($block['title'] ?? ucfirst($block_id)); ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </nav>
+                </div>
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--next" aria-label="<?php esc_attr_e('Next', 'fraud-and-scam-detection-for-woocommerce'); ?>" aria-hidden="true">&#8250;</button>
+            </div>
             <form method="post" enctype="multipart/form-data">
                 <?php wp_nonce_field('woocommerce-options'); ?>
                 <?php foreach ($blocks as $block_id => $block): ?>
