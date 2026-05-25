@@ -9,7 +9,7 @@ use WC_Logger;
 class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 	public function enqueueRecaptchaScripts(){
-		if ( ! ( is_checkout() || is_cart() ) || get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
+		if ( is_admin() || ! ( is_checkout() || is_cart() ) || get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
 		}
 
