@@ -9,7 +9,7 @@ $current_block = null;
 $first_block_id = null;
 foreach ($form_fields as $key => $field) {
     if ($field['type'] === 'title') {
-        $current_block = sanitize_title($field['title']);
+        $current_block = !empty($field['block_id']) ? $field['block_id'] : sanitize_title($field['title']);
         if ($first_block_id === null) {
             $first_block_id = $current_block;
         }
@@ -33,13 +33,19 @@ foreach ($form_fields as $key => $field) {
             <div class="admin-layout-header">
                 <h2 class="admin-layout-title"><?php echo esc_html($method_title); ?></h2>
             </div>
-            <nav class="admin-layout-top-menu">
-                <?php foreach ($blocks as $block_id => $block): ?>
-                    <a href="#" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
-                        <?php echo esc_html($block['title'] ?? ucfirst($block_id)); ?>
-                    </a>
-                <?php endforeach; ?>
-            </nav>
+            <div class="admin-layout-top-menu-outer">
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--prev" aria-label="<?php esc_attr_e('Previous', 'fraud-and-scam-detection-for-woocommerce'); ?>">&#8249;</button>
+                <div class="admin-layout-top-menu-clip">
+                    <nav class="admin-layout-top-menu">
+                        <?php foreach ($blocks as $block_id => $block): ?>
+                            <a href="#" id="nav-<?php echo esc_attr($block_id); ?>" class="admin-layout-title-link<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" data-target="block-<?php echo esc_attr($block_id); ?>">
+                                <?php echo esc_html($block['title'] ?? ucfirst($block_id)); ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </nav>
+                </div>
+                <button type="button" class="admin-layout-nav-arrow admin-layout-nav-arrow--next" aria-label="<?php esc_attr_e('Next', 'fraud-and-scam-detection-for-woocommerce'); ?>">&#8250;</button>
+            </div>
             <form method="post" enctype="multipart/form-data">
                 <?php wp_nonce_field('woocommerce-options'); ?>
                 <?php foreach ($blocks as $block_id => $block): ?>
@@ -206,6 +212,36 @@ foreach ($form_fields as $key => $field) {
                                                 }
                                             }
                                             break;
+                                        case 'multicheck':
+                                            if (!empty($field['options']) && is_array($field['options'])) {
+                                                foreach ($field['options'] as $option_key => $option_label) {
+                                                    $option_id      = ($field['id'] ?: $key) . '_' . $option_key;
+                                                    $option_default = $field['options_checked'][ $option_key ] ?? $field['default'] ?? '';
+                                                    $option_desc    = $field['options_input_description'][ $option_key ] ?? '';
+                                                    ?>
+                                                    <div class="admin-layout-checkbox-wrapper">
+                                                        <label class="admin-layout-checkbox-label">
+                                                            <input
+                                                                type="checkbox"
+                                                                name="<?php echo esc_attr($option_id); ?>"
+                                                                id="<?php echo esc_attr($option_id); ?>"
+                                                                class="admin-layout-checkbox"
+                                                                <?php checked(get_option($option_id, $option_default) === 'yes'); ?>
+                                                            />
+                                                            <span class="admin-layout-checkbox-label-text">
+                                                                <?php echo wp_kses_post($option_label); ?>
+                                                            </span>
+                                                        </label>
+                                                        <?php if (!empty($option_desc)): ?>
+                                                            <div class="admin-layout-input-description">
+                                                                <?php echo esc_html($option_desc); ?>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            }
+                                            break;
                                         case 'select':
                                             ?>
                                             <select
@@ -251,15 +287,18 @@ foreach ($form_fields as $key => $field) {
                                             <?php echo esc_html($field['input_description']); ?>
                                         </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($field['input_tab_link'])): ?>
+                                        <div class="admin-layout-input-tab-link">
+                                            <?php echo wp_kses($field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
+                                        </div>
+                                    <?php endif; ?>
                                     <?php if (!empty($field['input_warning'])): ?>
                                         <div class="admin-layout-input-warning">
                                             <?php echo wp_kses($field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <?php
-                                // Renderiza os filhos dentro do .admin-layout-field-component-bg do pai
-                                foreach ($children as $child_key => $child_field): ?>
+                                <?php foreach ($children as $child_key => $child_field): ?>
                                     <div class="admin-layout-joined-label-desc">
                                         <?php if (!empty($child_field['block_title'])): ?>
                                             <span class="admin-layout-label">
@@ -395,6 +434,36 @@ foreach ($form_fields as $key => $field) {
                                                         }
                                                     }
                                                     break;
+                                                case 'multicheck':
+                                                    if (!empty($child_field['options']) && is_array($child_field['options'])) {
+                                                        foreach ($child_field['options'] as $option_key => $option_label) {
+                                                            $option_id      = ($child_field['id'] ?: $child_key) . '_' . $option_key;
+                                                            $option_default = $child_field['options_checked'][ $option_key ] ?? $child_field['default'] ?? '';
+                                                            $option_desc    = $child_field['options_input_description'][ $option_key ] ?? '';
+                                                            ?>
+                                                            <div class="admin-layout-checkbox-wrapper">
+                                                                <label class="admin-layout-checkbox-label">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        name="<?php echo esc_attr($option_id); ?>"
+                                                                        id="<?php echo esc_attr($option_id); ?>"
+                                                                        class="admin-layout-checkbox"
+                                                                        <?php checked(get_option($option_id, $option_default) === 'yes'); ?>
+                                                                    />
+                                                                    <span class="admin-layout-checkbox-label-text">
+                                                                        <?php echo wp_kses_post($option_label); ?>
+                                                                    </span>
+                                                                </label>
+                                                                <?php if (!empty($option_desc)): ?>
+                                                                    <div class="admin-layout-input-description">
+                                                                        <?php echo esc_html($option_desc); ?>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    break;
                                                 case 'select':
                                                     ?>
                                                     <select
@@ -438,8 +507,11 @@ foreach ($form_fields as $key => $field) {
                                                 <div class="admin-layout-input-description">
                                                     <?php echo esc_html($child_field['input_description']); ?>
                                                 </div>
-                                            <?php endif; ?>
-                                            <?php if (!empty($child_field['input_warning'])): ?>
+                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_tab_link'])): ?>
+                                                <div class="admin-layout-input-tab-link">
+                                                    <?php echo wp_kses($child_field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
+                                                </div>
+                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_warning'])): ?>
                                                 <div class="admin-layout-input-warning">
                                                     <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>

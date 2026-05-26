@@ -29,6 +29,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_section_title',
+                'block_id'          => 'antifraud',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
@@ -48,6 +49,68 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'block_sub_title'   => __('Activate protection at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
+            ),
+            'antifraud_behavior' => array(
+                'title'             => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'multicheck',
+                'id'                => 'lknFraudDetectionForWoocommerceAntiFraudBehavior',
+                'options'           => array(
+                    'block_order' => __('Block Order (do not allow the order to be placed)', 'fraud-and-scam-detection-for-woocommerce'),
+                    'mark_fraud'  => __('Mark Order as Fraud', 'fraud-and-scam-detection-for-woocommerce'),
+                    'add_note'    => __('Add Note to Order Only', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'options_checked'   => array(
+                    'block_order' => 'yes',
+                    'mark_fraud'  => 'yes',
+                    'add_note'    => 'yes',
+                ),
+                'options_input_description' => array(
+                    'block_order' => __('Prevents the order from being placed when fraud is detected.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'mark_fraud'  => __('Marks the order status as fraudulent for review.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'add_note'    => __('Adds a note to the order without blocking it.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'           => 'yes',
+                'description'       => __('Choose how the system should behave when a blocked customer attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Define the action taken when a blocked customer tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'ban_duration' => array(
+                'title'             => __('Ban Duration', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'number',
+                'id'                => 'lknFraudDetectionForWoocommerceBanDuration',
+                'default'           => '0',
+                'description'       => __('How long each ban lasts. Use 0 with unit "Forever" for permanent bans.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Ban Duration', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('How long each ban lasts.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Enter the numeric duration. Pair with the unit field below.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(
+                    'min'  => '0',
+                    'step' => '1',
+                ),
+            ),
+            'ban_duration_unit' => array(
+                'title'             => __('Ban Duration Unit', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'select',
+                'id'                => 'lknFraudDetectionForWoocommerceBanDurationUnit',
+                'options'           => array(
+                    'forever' => __('Forever', 'fraud-and-scam-detection-for-woocommerce'),
+                    'years'   => __('Years', 'fraud-and-scam-detection-for-woocommerce'),
+                    'months'  => __('Months', 'fraud-and-scam-detection-for-woocommerce'),
+                    'weeks'   => __('Weeks', 'fraud-and-scam-detection-for-woocommerce'),
+                    'days'    => __('Days', 'fraud-and-scam-detection-for-woocommerce'),
+                    'hours'   => __('Hours', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'           => get_option( 'lknFraudDetectionForWoocommerceBanDurationUnit', 'forever' ),
+                'description'       => __('Time unit for the ban duration. Select "Forever" for permanent bans.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Ban Duration Unit', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Select the unit of time for the ban.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('When "Forever" is selected, the duration field is disabled.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+                'join'              => 'ban_duration',
             ),
             'enable_ip_lookup' => array(
                 'title'             => __('IP Verify', 'fraud-and-scam-detection-for-woocommerce'),
@@ -87,9 +150,51 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'block_title'       => __('Ban IPs', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Block suspicious IPs from completing checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => __('Enables a ban/unban IP link on the order detail page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_tab_link'    => sprintf(
+                    /* translators: %s: "Banned IPs" tab name */
+                    __('To manage the full list of banned IPs, visit the <a href="#" data-goto-tab="banned-ips">%s</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce')
+                ),
                 'input_warning'     => __('<strong>⚠ Important:</strong> For this feature to correctly identify the customer\'s real IP, your server proxy settings must be properly configured (e.g. trusted proxies / X-Forwarded-For headers). If you are unsure, contact your server administrator before enabling this option.', 'fraud-and-scam-detection-for-woocommerce'),
                 'join'              => 'enable_ip_lookup',
                 'custom_attributes' => array(),
+            ),
+            'enable_data_block' => array(
+                'title'                     => __('Enable Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'                      => 'multicheck',
+                'id'                        => 'lknFraudDetectionForWoocommerceEnableDataBlock',
+                'options'                   => array(
+                    'email'           => __('Block by Email', 'fraud-and-scam-detection-for-woocommerce'),
+                    'email_domain'    => __('Block by Email Domain', 'fraud-and-scam-detection-for-woocommerce'),
+                    'phone'           => __('Block by Phone', 'fraud-and-scam-detection-for-woocommerce'),
+                    'country'         => __('Block by Country', 'fraud-and-scam-detection-for-woocommerce'),
+                    'device_identity' => __('Block by Device Identity', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'options_checked'           => array(
+                    'email'           => 'no',
+                    'email_domain'    => 'no',
+                    'phone'           => 'no',
+                    'country'         => 'no',
+                    'device_identity' => 'no',
+                ),
+                'options_input_description' => array(
+                    'email'           => __('Block orders from specific email addresses. Manage blocked emails in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'email_domain'    => __('Block orders from specific email domains. Manage blocked domains in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'phone'           => __('Block orders from specific phone numbers. Manage blocked phones in the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'country'         => __('Block orders from specific countries. Use 2-letter ISO codes (e.g. BR, US). Manage the list below.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'device_identity' => __('Block orders from specific device fingerprints. Fingerprints are collected at checkout — copy them from order details to block a device.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'                   => 'no',
+                'description'               => __('When enabled, orders are checked against the blocked data lists.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'                  => true,
+                'block_title'               => __('Enable Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'           => __('Select which data types should block orders at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_tab_link'            => sprintf(
+                    /* translators: %s: "Block by Data" tab name */
+                    __('To manage the blocked data lists, visit the <a href="#" data-goto-tab="block-by-data">%s</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    __('Block by Data', 'fraud-and-scam-detection-for-woocommerce')
+                ),
+                'custom_attributes'         => array(),
             ),
             'security_version' => array(
                 'title'             => __('Security Version', 'fraud-and-scam-detection-for-woocommerce'),
@@ -131,6 +236,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_google_section_title',
+                'block_id'          => 'google-recaptcha',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
@@ -196,6 +302,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_cloudflare_section_title',
+                'block_id'          => 'cloudflare-turnstile',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
@@ -262,11 +369,26 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_banned_ips_section_title',
+                'block_id'          => 'banned-ips',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
                 'block_title'       => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('List of IP addresses blocked from checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
+            ),
+
+            /* ── Block by Data ───────────────────────────────────── */
+            'blocked_data_section_title' => array(
+                'title'             => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'title',
+                'id'                => 'lkn_anti_fraud_blocked_data_section_title',
+                'block_id'          => 'block-by-data',
+                'description'       => '',
+                'default'           => '',
+                'desc_tip'          => false,
+                'block_title'       => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Manage blocked emails, phone numbers, countries and device identities.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),
 
@@ -347,9 +469,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             true
         );
 
+        // Ban duration unit labels for dynamic expiration note (built in JS)
+        $lkn_ban_unit_labels_map = array(
+            'hours'   => __( 'hours',   'fraud-and-scam-detection-for-woocommerce' ),
+            'days'    => __( 'days',    'fraud-and-scam-detection-for-woocommerce' ),
+            'weeks'   => __( 'weeks',   'fraud-and-scam-detection-for-woocommerce' ),
+            'months'  => __( 'months',  'fraud-and-scam-detection-for-woocommerce' ),
+            'years'   => __( 'years',   'fraud-and-scam-detection-for-woocommerce' ),
+            'forever' => __( 'Forever', 'fraud-and-scam-detection-for-woocommerce' ),
+        );
+
         wp_enqueue_script(
             'lkn-fraud-detection-for-woocommerce-admin-banned-ips',
-            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminBannedIps.js',
+            plugin_dir_url( __FILE__ ) . '../js/compiled/lknFraudDetectionForWoocommerceAdminBannedIps.COMPILED.js',
             array('jquery'),
             FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
             true
@@ -358,15 +490,22 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             'lkn-fraud-detection-for-woocommerce-admin-banned-ips',
             'lknFsdwBannedIpsVars',
             array(
-                'ajaxUrl'    => admin_url('admin-ajax.php'),
-                'nonceGet'   => wp_create_nonce('lkn_fsdw_get_banned_ips'),
-                'nonceBan'   => wp_create_nonce('lkn_fsdw_ban_ip'),
-                'nonceUnban' => wp_create_nonce('lkn_fsdw_unban_ip'),
-                'i18n'       => array(
+                'ajaxUrl'           => admin_url('admin-ajax.php'),
+                'nonceGet'          => wp_create_nonce('lkn_fsdw_get_banned_ips'),
+                'nonceBan'          => wp_create_nonce('lkn_fsdw_ban_ip'),
+                'nonceUnban'        => wp_create_nonce('lkn_fsdw_unban_ip'),
+                'banDurationId'     => 'lknFraudDetectionForWoocommerceBanDuration',
+                'banDurationUnitId' => 'lknFraudDetectionForWoocommerceBanDurationUnit',
+                'unitLabels'        => $lkn_ban_unit_labels_map,
+                'i18n'              => array(
                     'placeholder'    => __('IPv4 or IPv6', 'fraud-and-scam-detection-for-woocommerce'),
                     'banBtn'         => __('Ban IP', 'fraud-and-scam-detection-for-woocommerce'),
                     'unbanBtn'       => __('Unban', 'fraud-and-scam-detection-for-woocommerce'),
                     'colIp'          => __('IP Address', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colBannedBy'    => __('Banned By', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colBannedAt'    => __('Banned At', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colExpiresAt'   => __('Expires At', 'fraud-and-scam-detection-for-woocommerce'),
+                    'forever'        => __('Forever', 'fraud-and-scam-detection-for-woocommerce'),
                     'colActions'     => __('Actions', 'fraud-and-scam-detection-for-woocommerce'),
                     'loading'        => __('Loading…', 'fraud-and-scam-detection-for-woocommerce'),
                     'empty'          => __('No banned IPs.', 'fraud-and-scam-detection-for-woocommerce'),
@@ -378,10 +517,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'unbanConfirmMsg'=> __('Do you want to unban the following IP?', 'fraud-and-scam-detection-for-woocommerce'),
                     'unbanConfirmBtn'=> __('Confirm Unban', 'fraud-and-scam-detection-for-woocommerce'),
                     'successBan'     => __('IP banned successfully.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'successUnban'   => __('IP unbanned successfully.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorLoad'      => __('Failed to load IPs.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorBan'       => __('Error banning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorUnban'     => __('Error unbanning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorEmpty'     => __('Enter an IP address.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    /* translators: {duration} = number, {unit} = time unit label */
+                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );
@@ -392,6 +535,64 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             array('jquery'),
             FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
             true
+        );
+
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-blocked-data',
+            plugin_dir_url( __FILE__ ) . '../js/compiled/lknFraudDetectionForWoocommerceAdminBlockedData.COMPILED.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+        wp_localize_script(
+            'lkn-fraud-detection-for-woocommerce-admin-blocked-data',
+            'lknFsdwBlockedDataVars',
+            array(
+                'ajaxUrl'           => admin_url('admin-ajax.php'),
+                'nonceGet'          => wp_create_nonce('lkn_fsdw_get_blocked_data'),
+                'nonceAdd'          => wp_create_nonce('lkn_fsdw_add_blocked_data'),
+                'nonceRemove'       => wp_create_nonce('lkn_fsdw_remove_blocked_data'),
+                'banDurationId'     => 'lknFraudDetectionForWoocommerceBanDuration',
+                'banDurationUnitId' => 'lknFraudDetectionForWoocommerceBanDurationUnit',
+                'unitLabels'        => $lkn_ban_unit_labels_map,
+                'i18n'              => array(
+                    'tabEmail'                  => __('Emails', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabEmailDomain'            => __('Email Domains', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabPhone'                  => __('Phones', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabCountry'                => __('Countries', 'fraud-and-scam-detection-for-woocommerce'),
+                    'tabDeviceIdentity'         => __('Device Identities', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderEmail'          => __('user@example.com', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderEmailDomain'    => __('example.com', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderPhone'          => __('+5511999999999', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderCountry'        => __('BR', 'fraud-and-scam-detection-for-woocommerce'),
+                    'placeholderDeviceIdentity' => __('Fingerprint hash', 'fraud-and-scam-detection-for-woocommerce'),
+                    'addBtn'                    => __('Ban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'addTitle'                  => __('Ban Item', 'fraud-and-scam-detection-for-woocommerce'),
+                    'addConfirmMsg'             => __('Do you want to add the following item to the blocked list?', 'fraud-and-scam-detection-for-woocommerce'),
+                    'addConfirmBtn'             => __('Confirm Ban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'successAdd'                => __('Item added successfully.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'removeBtn'                 => __('Unban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'removeTitle'               => __('Unban Item', 'fraud-and-scam-detection-for-woocommerce'),
+                    'removeConfirmMsg'          => __('Do you want to unban the following item?', 'fraud-and-scam-detection-for-woocommerce'),
+                    'removeConfirmBtn'          => __('Confirm Unban', 'fraud-and-scam-detection-for-woocommerce'),
+                    'successRemove'             => __('Item removed successfully.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'cancel'                    => __('Cancel', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colValue'                  => __('Value', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colBannedBy'               => __('Banned By', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colBannedAt'               => __('Banned At', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colExpiresAt'              => __('Expires At', 'fraud-and-scam-detection-for-woocommerce'),
+                    'forever'                   => __('Forever', 'fraud-and-scam-detection-for-woocommerce'),
+                    'colActions'                => __('Actions', 'fraud-and-scam-detection-for-woocommerce'),
+                    'loading'                   => __('Loading…', 'fraud-and-scam-detection-for-woocommerce'),
+                    'empty'                     => __('No items.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorLoad'                 => __('Failed to load list.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorAdd'                  => __('Error adding item.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'errorRemove'               => __('Error removing item.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    /* translators: {duration} = number, {unit} = time unit label */
+                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+            )
         );
 
         wc_get_template(

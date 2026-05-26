@@ -144,6 +144,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_get_banned_ips', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_get_banned_ips' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_unban_ip',       $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_unban_ip' );
 
+		// AJAX: Blocked data (email, domain, phone, country, device identity)
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_get_blocked_data',    $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_get_blocked_data' );
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_add_blocked_data',    $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_add_blocked_data' );
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_remove_blocked_data', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'ajax_remove_blocked_data' );
+
 		// Admin notice: update layout warning
 		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
@@ -271,7 +276,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		if (!$order) {
 			return;
 		}
+		// Store device fingerprint from cookie before checks
+		$device_id = isset( $_COOKIE['lkn_fsdw_did'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['lkn_fsdw_did'] ) ) : '';
+		if ( ! empty( $device_id ) ) {
+			$order->update_meta_data( '_lkn_fsdw_device_identity', $device_id );
+			$order->save();
+		}
 		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
+		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBlockedData($order);
 	}
 
 	/**
@@ -284,7 +296,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		if (!$order || !is_object($order)) {
 			return;
 		}
+		// Store device fingerprint from cookie before checks
+		$device_id = isset( $_COOKIE['lkn_fsdw_did'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['lkn_fsdw_did'] ) ) : '';
+		if ( ! empty( $device_id ) ) {
+			$order->update_meta_data( '_lkn_fsdw_device_identity', $device_id );
+			$order->save();
+		}
 		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBannedIp($order);
+		$this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->checkBlockedData($order);
 	}
 
 	/**

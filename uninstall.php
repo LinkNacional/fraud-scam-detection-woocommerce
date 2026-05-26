@@ -45,6 +45,23 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
 	'lknFraudDetectionForWoocommerceBannedIps',
 	'lknFraudDetectionForWoocommerceEnableIpCheck',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',
+	'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',
+	// Block by Data
+	'lknFraudDetectionForWoocommerceEnableDataBlock_email',
+	'lknFraudDetectionForWoocommerceEnableDataBlock_email_domain',
+	'lknFraudDetectionForWoocommerceEnableDataBlock_phone',
+	'lknFraudDetectionForWoocommerceEnableDataBlock_country',
+	'lknFraudDetectionForWoocommerceEnableDataBlock_device_identity',
+	'lknFraudDetectionForWoocommerceBlockedEmails',
+	'lknFraudDetectionForWoocommerceBlockedEmailDomains',
+	'lknFraudDetectionForWoocommerceBlockedPhones',
+	'lknFraudDetectionForWoocommerceBlockedCountries',
+	'lknFraudDetectionForWoocommerceBlockedDeviceIdentities',
+	// Ban expiration
+	'lknFraudDetectionForWoocommerceBanDuration',
+	'lknFraudDetectionForWoocommerceBanDurationUnit',
 );
 
 if ( is_multisite() ) {
