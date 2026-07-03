@@ -7,6 +7,7 @@ module.exports = {
         'lknFraudDetectionForWoocommerceOrderIpLinks.COMPILED':    './Admin/js/lknFraudDetectionForWoocommerceOrderIpLinks.js',
         'lknFraudDetectionForWoocommerceAdminBannedIps.COMPILED':  './Admin/js/lknFraudDetectionForWoocommerceAdminBannedIps.js',
         'lknFraudDetectionForWoocommerceAdminBlockedData.COMPILED': './Admin/js/lknFraudDetectionForWoocommerceAdminBlockedData.js',
+        'lknFraudDetectionForWoocommerceOrderDataBan.COMPILED':   './Admin/js/lknFraudDetectionForWoocommerceOrderDataBan.js',
     },
     output: {
         path:     path.resolve(__dirname, 'Admin/js/compiled'),

@@ -154,6 +154,29 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 			);
 		}
 
+		// ── Data Block: ban links on order detail (server-side container) ──
+		if (
+			$screen &&
+			in_array( $screen->id, array( 'woocommerce_page_wc-orders', 'shop_order' ), true ) &&
+			isset( $_GET['action'] ) && 'edit' === $_GET['action'] && // phpcs:ignore WordPress.Security.NonceVerification
+			get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) === 'yes'
+		) {
+			wp_enqueue_script(
+				$this->plugin_name . '-order-data-ban',
+				plugin_dir_url( __FILE__ ) . 'js/compiled/lknFraudDetectionForWoocommerceOrderDataBan.COMPILED.js',
+				array( 'jquery' ),
+				$this->version,
+				true
+			);
+			wp_localize_script(
+				$this->plugin_name . '-order-data-ban',
+				'lknFsdwOrderDataBanVars',
+				array(
+					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+				)
+			);
+		}
+
 	}
 
 }
