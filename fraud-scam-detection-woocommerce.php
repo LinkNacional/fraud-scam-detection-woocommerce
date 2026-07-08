@@ -20,6 +20,8 @@
  * Author:            Link Nacional
  * Author URI:        https://linknacional.com.br/
  * License:           GPL-2.0+
+ * Requires PHP:      8.2
+ * Requires at least: 5.8
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       fraud-and-scam-detection-for-woocommerce
  * Domain Path:       /languages
