@@ -2,10 +2,10 @@
 Contributors: linknacional
 Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
-Requires at least: 5.7
-Tested up to: 6.9
-Stable tag: 1.3.0
-Requires PHP: 7.2
+Requires at least: 5.8
+Tested up to: 7.0
+Stable tag: 1.3.1
+Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -131,6 +131,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.1 =
+* New option to ban by phone number via order notes.
+
 = 1.3.0 =
 * New data-based blocking system.
 
@@ -175,6 +178,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.1 =
+* New option to ban by phone number via order notes.
+
 = 1.3.0 =
 * New antifraud behavior controls, configurable IP ban duration, and data-based blocking by email, phone, country, and device fingerprint.
 

@@ -152,6 +152,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		// Admin notice: update layout warning
 		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
+
+		// Data block: inject ban-container into order edit billing section
+		$this->loader->add_action( 'woocommerce_admin_order_data_after_billing_address', $this, 'render_data_ban_container' );
 	}
 
 	/**
@@ -368,6 +371,81 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
         }
         $settings[] = new LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage();
         return $settings;
+    }
+
+    /**
+     * Inject hidden container with customer data for JS ban links.
+     *
+     * Hook: woocommerce_admin_order_data_after_billing_address
+     *
+     * @param \WC_Order $order
+     */
+    public function render_data_ban_container( $order ) {
+        if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
+            return;
+        }
+
+        $email_block = get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email', 'no' ) === 'yes';
+        $phone_block = get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_phone', 'no' ) === 'yes';
+
+        if ( ! $email_block && ! $phone_block ) {
+            return;
+        }
+
+        $email = $email_block ? $order->get_billing_email() : '';
+        $phone = $phone_block ? $order->get_billing_phone()  : '';
+
+        // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+        // Data attributes are consumed by JS, not rendered as visible text.
+        printf(
+            '<div id="lkn-fsdw-data-ban-container" style="display:none;"'
+            . ' data-email="%s"'
+            . ' data-phone="%s"'
+            . ' data-nonce-get="%s"'
+            . ' data-nonce-add="%s"'
+            . ' data-nonce-remove="%s"'
+            . ' data-i18n-ban="%s"'
+            . ' data-i18n-unban="%s"'
+            . ' data-i18n-ban-title-email="%s"'
+            . ' data-i18n-ban-confirm-email="%s"'
+            . ' data-i18n-ban-success-email="%s"'
+            . ' data-i18n-unban-title-email="%s"'
+            . ' data-i18n-unban-confirm-email="%s"'
+            . ' data-i18n-unban-success-email="%s"'
+            . ' data-i18n-ban-title-phone="%s"'
+            . ' data-i18n-ban-confirm-phone="%s"'
+            . ' data-i18n-ban-success-phone="%s"'
+            . ' data-i18n-unban-title-phone="%s"'
+            . ' data-i18n-unban-confirm-phone="%s"'
+            . ' data-i18n-unban-success-phone="%s"'
+            . ' data-i18n-cancel="%s"'
+            . ' data-i18n-ban-confirm-btn="%s"'
+            . ' data-i18n-unban-confirm-btn="%s"'
+            . '></div>',
+            esc_attr( $email ),
+            esc_attr( $phone ),
+            esc_attr( wp_create_nonce( 'lkn_fsdw_get_blocked_data' ) ),
+            esc_attr( wp_create_nonce( 'lkn_fsdw_add_blocked_data' ) ),
+            esc_attr( wp_create_nonce( 'lkn_fsdw_remove_blocked_data' ) ),
+            esc_attr( __( 'ban', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'unban', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Ban Email', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Do you want to ban this email from checkout?', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Email banned.', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Unban Email', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Do you want to unban this email?', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Email unbanned.', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Ban Phone', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Do you want to ban this phone from checkout?', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Phone banned.', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Unban Phone', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Do you want to unban this phone?', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Phone unbanned.', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Cancel', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Confirm Ban', 'fraud-and-scam-detection-for-woocommerce' ) ),
+            esc_attr( __( 'Confirm Unban', 'fraud-and-scam-detection-for-woocommerce' ) )
+        );
+        // phpcs:enable
     }
 
 }

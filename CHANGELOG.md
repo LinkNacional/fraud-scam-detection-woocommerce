@@ -1,3 +1,6 @@
+# 1.3.1 - 08/07/2026
+* Nova opção de banimento por número de telefone nas notas do pedido.
+
 # 1.3.0 - 21/05/2026
 * Novo sistema de banimento através dos dados.
 

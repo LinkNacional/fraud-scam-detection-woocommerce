@@ -16,10 +16,12 @@
  * Plugin Name:       Fraud and Scam Detection For WooCommerce
  * Plugin URI:        https://www.linknacional.com.br/wordpress/woocommerce/antifraude/
  * Description:       Performs verification and prevention of malicious payments.
- * Version:           1.3.0
+ * Version:           1.3.1
  * Author:            Link Nacional
  * Author URI:        https://linknacional.com.br/
  * License:           GPL-2.0+
+ * Requires PHP:      8.2
+ * Requires at least: 5.8
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       fraud-and-scam-detection-for-woocommerce
  * Domain Path:       /languages

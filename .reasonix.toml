@@ -1,0 +1,81 @@
+# .reasonix.toml — Pipeline de Comportamento Obrigatório
+#
+# Todo ciclo de modificação segue esta ordem rígida.
+# Pular etapa = violação de pipeline.
+
+[pipeline]
+name = "TDD + Segurança"
+stages = ["read-spec", "red", "green", "security", "refactor"]
+enforce_order = true
+
+# ── Stage 1: READ SPEC ────────────────────────────────────
+[pipeline.stages.read-spec]
+description = "Ler AGENTS.md, documentação relevante e código afetado antes de qualquer edição"
+require = ["AGENTS.md"]
+block_edit_before = ["read_file", "search_content"]
+message = "⚠️  STAGE 1/5 — Read Spec: leia o código afetado antes de editar."
+
+# ── Stage 2: RED ──────────────────────────────────────────
+[pipeline.stages.red]
+description = "Criar teste unitário que FALHA, provando que o bug existe ou que a feature está ausente"
+require_test = true
+test_must_fail = true
+test_dir = "tests/"
+message = "🔴  STAGE 2/5 — RED: escreva um teste que FALHE antes de codificar."
+
+# ── Stage 3: GREEN ────────────────────────────────────────
+[pipeline.stages.green]
+description = "Escrever o código MÍNIMO necessário para o teste passar"
+max_lines_per_edit = 50
+forbid_overengineering = true
+message = "🟢  STAGE 3/5 — GREEN: código mínimo para o teste passar. Sem overengineering."
+
+# ── Stage 4: SECURITY ─────────────────────────────────────
+[pipeline.stages.security]
+description = "Validar sanitização, nonces, escaping e SQL prepare antes de prosseguir"
+checks = [
+    "nonce_verified",
+    "superglobals_sanitized",
+    "output_escaped",
+    "sql_prepared",
+    "abspath_guard",
+]
+nonce_pattern = "wp_verify_nonce"
+sanitize_pattern = "wp_unslash"
+escape_pattern = "esc_html|esc_attr|esc_url|wp_kses_post"
+message = "🛡️  STAGE 4/5 — SECURITY: validar nonces, sanitização, escaping e SQL."
+
+# ── Stage 5: REFACTOR ─────────────────────────────────────
+[pipeline.stages.refactor]
+description = "Refatorar mantendo testes verdes. Extrair métodos. Eliminar duplicação. Simplificar."
+keep_tests_green = true
+allow_extract_method = true
+allow_rename = true
+forbid_new_features = true
+message = "🔵  STAGE 5/5 — REFACTOR: limpar código, testes continuam passando. Nada de feature nova."
+
+# ── Regras de Bloqueio ────────────────────────────────────
+[blocks]
+# NUNCA editar sem ler o arquivo antes
+require_read_before_edit = true
+
+# NUNCA codificar antes do teste falhar em RED
+require_failing_test = true
+
+# NUNCA pular validação de segurança
+require_security_check = true
+
+# ⛔ Anti-padrões bloqueados
+deny_direct_superglobal = true        # $_POST, $_GET sem wp_unslash
+deny_unescaped_output = true          # echo de variável não escapada
+deny_direct_sql = true                # query sem $wpdb->prepare
+deny_inline_add_action = true         # add_action fora do Loader
+deny_multi_class_file = true          # >1 classe por arquivo
+
+# ── Modo Caveman + RTK ────────────────────────────────────
+[style]
+caveman_mode = true                   # Respostas telegráficas, 3 linhas máx
+rtk_mode = true                       # Logs truncados, zero ruído
+max_prose_lines = 3
+terminal_log_max_lines = 5
+prefer_search_over_cat = true
