@@ -131,6 +131,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.1 =
+* New option to ban by phone number via order notes.
+
 = 1.3.0 =
 * New data-based blocking system.
 
