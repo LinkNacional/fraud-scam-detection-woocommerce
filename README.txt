@@ -178,6 +178,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.1 =
+* New option to ban by phone number via order notes.
+
 = 1.3.0 =
 * New antifraud behavior controls, configurable IP ban duration, and data-based blocking by email, phone, country, and device fingerprint.
 
