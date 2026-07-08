@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.0
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
