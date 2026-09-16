@@ -2,3 +2,31 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+/* ── Missing-credentials placeholder (replaces the captcha widget) ─────── */
+.lkn-fsdw-credentials-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    max-width: 300px;
+    min-height: 65px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border: 1px dashed #c3c4c7;
+    border-radius: 4px;
+    background: #f6f7f7;
+}
+
+.lkn-fsdw-credentials-notice-icon {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    opacity: 0.65;
+}
+
+.lkn-fsdw-credentials-notice-text {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #3c434a;
+}

@@ -112,3 +112,36 @@ msgstr "A score mínima validado pelo Recaptcha para que o pagamento seja aceito
 
 msgid "Customer's ANTIFRAUD score:"
 msgstr "Nota ANTIFRAUDE do cliente:"
+
+msgid "The security credentials are not filled in. Fill them in to activate this feature."
+msgstr "As credenciais de segurança não foram preenchidas. Preencha-as para ativar este recurso."
+
+msgid "Click here to fill them in."
+msgstr "Clique aqui para preenchê-las."
+
+msgid "Credentials are not configured. Configure them in the antifraud panel."
+msgstr "Credenciais não configuradas. Configure no painel antifraude."
+
+msgid "Enable Security Verification"
+msgstr "Ativar Versão de Segurança"
+
+msgid "Enable security verification during checkout."
+msgstr "Ative a verificação de segurança na finalização de compra."
+
+msgid "Turn on and choose the security verification used at checkout."
+msgstr "Ative e escolha a verificação de segurança usada na finalização de compra."
+
+msgid "Security Provider"
+msgstr "Provedor de Segurança"
+
+msgid "Security verification is disabled. Activate it to use {provider}."
+msgstr "A verificação de segurança está desativada. Ative-a para usar o {provider}."
+
+msgid "No provider selected. Select {provider} to activate it."
+msgstr "Nenhum provedor selecionado. Selecione o {provider} para ativá-lo."
+
+msgid "{active} is the active provider. To use {provider}, change it in the security settings."
+msgstr "O {active} é o provedor ativo. Para usar o {provider}, altere nas configurações de segurança."
+
+msgid "Click here to configure it."
+msgstr "Clique aqui para configurá-lo."

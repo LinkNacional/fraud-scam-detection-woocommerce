@@ -19,6 +19,13 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 
+		// Credentials not configured: render a neutral placeholder instead of
+		// loading the captcha service (which would break checkout with an error).
+		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
+			$this->enqueueMissingCredentialsNotice( $provider );
+			return;
+		}
+
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$cf_site_key = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey' );
 			wp_enqueue_script(
@@ -56,7 +63,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			}
 		} else {
 			// Google reCAPTCHA V3 (default)
-			$googleKey = get_option( 'lknFraudDetectionForWoocommercegoogleRecaptchaV3Key' );
+			$googleKey = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key' );
 			// phpcs:ignore PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent -- Google reCAPTCHA requires loading from Google servers; local hosting is not supported by the service.
 			wp_enqueue_script(
 				'google-recaptcha',
@@ -92,6 +99,83 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 	}
 
+	/**
+	 * Returns the credential keys missing for the given captcha provider.
+	 *
+	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @return string[] Empty when fully configured.
+	 */
+	public function getMissingCredentials( $provider ) {
+		$missing = array();
+
+		if ( 'cloudflareTurnstile' === $provider ) {
+			$site   = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey', '' );
+			$secret = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey', '' );
+		} elseif ( 'googleRecaptchaV3' === $provider ) {
+			$site   = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key', '' );
+			$secret = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret', '' );
+		} else {
+			return $missing;
+		}
+
+		if ( '' === trim( (string) $site ) ) {
+			$missing[] = 'site_key';
+		}
+		if ( '' === trim( (string) $secret ) ) {
+			$missing[] = 'secret_key';
+		}
+
+		return $missing;
+	}
+
+	/**
+	 * Render a neutral placeholder when the enabled captcha has no credentials.
+	 *
+	 * Avoids loading the provider script (which would error at checkout) and
+	 * shows the shopper that the security check is not configured.
+	 *
+	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 */
+	public function enqueueMissingCredentialsNotice( $provider ) {
+		// Only meaningful on the checkout form; never on cart, order-received
+		// (thank-you) or other checkout endpoints.
+		if ( ! is_checkout() ) {
+			return;
+		}
+
+		if (
+			( function_exists( 'is_order_received_page' ) && is_order_received_page() ) ||
+			( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url() )
+		) {
+			return;
+		}
+
+		$is_cloudflare = ( 'cloudflareTurnstile' === $provider );
+		$slug          = $is_cloudflare ? 'cloudflare' : 'google';
+		$label         = $is_cloudflare
+			? __( 'Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce' )
+			: __( 'Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce' );
+
+		wp_enqueue_script(
+			'lkn-fsdw-credentials-notice',
+			FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Public/js/lknFraudDetectionForWoocommerceCredentialsNotice.js',
+			array( 'jquery' ),
+			FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'lkn-fsdw-credentials-notice',
+			'lknFsdwCredentialsNoticeVars',
+			array(
+				'provider'      => $slug,
+				'providerLabel' => $label,
+				'iconUrl'       => FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Includes/assets/icons/' . $slug . '.svg',
+				'message'       => __( 'Credentials are not configured. Configure them in the antifraud panel.', 'fraud-and-scam-detection-for-woocommerce' ),
+			)
+		);
+	}
+
 	public function processPayments($context, $result) {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
@@ -100,6 +184,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$provider     = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
 
 		if ( $provider === 'none' ) {
+			return;
+		}
+
+		// Skip verification when credentials are missing so checkout is not
+		// blocked by an error the store owner cannot act on.
+		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
 			return;
 		}
 
@@ -120,6 +210,12 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$provider = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
 
 		if ( $provider === 'none' ) {
+			return;
+		}
+
+		// Skip verification when credentials are missing so checkout is not
+		// blocked by an error the store owner cannot act on.
+		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
 			return;
 		}
 
