@@ -14,6 +14,7 @@ foreach ($form_fields as $key => $field) {
             $first_block_id = $current_block;
         }
         $blocks[$current_block]['title'] = $field['title'];
+        $blocks[$current_block]['tab_notice'] = !empty($field['tab_notice']) ? $field['tab_notice'] : '';
         continue;
     }
     if ($current_block !== null) {
@@ -50,6 +51,12 @@ foreach ($form_fields as $key => $field) {
                 <?php wp_nonce_field('woocommerce-options'); ?>
                 <?php foreach ($blocks as $block_id => $block): ?>
                     <div class="admin-layout-block<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" id="block-<?php echo esc_attr($block_id); ?>">
+                        <?php if (!empty($block['tab_notice'])): ?>
+                            <div class="lkn-fsdw-tab-notice" data-provider="<?php echo esc_attr($block['tab_notice']); ?>" style="display:none;">
+                                <span class="lkn-fsdw-tab-notice-text"></span>
+                                <a href="#" class="lkn-fsdw-tab-notice-link"></a>
+                            </div>
+                        <?php endif; ?>
                         <?php
                         foreach (($block['fields'] ?? []) as $key => $field):
                             if (!empty($field['join'])) continue;
@@ -287,6 +294,12 @@ foreach ($form_fields as $key => $field) {
                                             <?php echo esc_html($field['input_description']); ?>
                                         </div>
                                     <?php endif; ?>
+                                    <?php if (!empty($field['credentials_notice'])): ?>
+                                        <div class="lkn-fsdw-credentials-warning" style="display:none;">
+                                            <span class="lkn-fsdw-credentials-warning-text"></span>
+                                            <a href="#" class="lkn-fsdw-credentials-warning-link" data-goto-tab=""></a>
+                                        </div>
+                                    <?php endif; ?>
                                     <?php if (!empty($field['input_tab_link'])): ?>
                                         <div class="admin-layout-input-tab-link">
                                             <?php echo wp_kses($field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
@@ -507,7 +520,14 @@ foreach ($form_fields as $key => $field) {
                                                 <div class="admin-layout-input-description">
                                                     <?php echo esc_html($child_field['input_description']); ?>
                                                 </div>
-                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_tab_link'])): ?>
+                                            <?php endif; ?>
+                                            <?php if (!empty($child_field['credentials_notice'])): ?>
+                                                <div class="lkn-fsdw-credentials-warning" style="display:none;">
+                                                    <span class="lkn-fsdw-credentials-warning-text"></span>
+                                                    <a href="#" class="lkn-fsdw-credentials-warning-link" data-goto-tab=""></a>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($child_field['input_tab_link'])): ?>
                                                 <div class="admin-layout-input-tab-link">
                                                     <?php echo wp_kses($child_field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
                                                 </div>

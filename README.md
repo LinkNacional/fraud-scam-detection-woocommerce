@@ -73,22 +73,33 @@ Demais recursos da gestão de IPs:
 - filtrar pedidos por IP para identificar padrões de uso;
 - impedir checkout quando o IP estiver dentro do período de banimento.
 
-### 7. Compatibilidade com diferentes fluxos de checkout
+### 7. Bloqueio por dados
+Além do bloqueio por IP, o plugin permite bloquear pedidos com base nos dados informados no checkout. Tipos suportados:
+
+- **E-mail** — bloqueia endereços de e-mail específicos;
+- **Domínio de e-mail** — bloqueia domínios inteiros (ex.: `example.com`);
+- **Telefone** — bloqueia números de telefone específicos;
+- **País** — bloqueia países por código ISO de 2 letras (ex.: `BR`, `US`);
+- **Identidade de dispositivo** — bloqueia fingerprints de dispositivo coletados no checkout.
+
+Cada lista é gerenciada na aba **Block by Data** e pode ter banimentos temporários ou permanentes, seguindo a mesma duração configurável do banimento de IPs. Ao detectar um pedido bloqueado, o comportamento antifraude configurado é aplicado.
+
+### 8. Compatibilidade com diferentes fluxos de checkout
 A validação antifraude é aplicada em diferentes contextos do WooCommerce, incluindo:
 
 - checkout clássico;
 - checkout baseado em blocos / Store API.
 
-### 8. Status personalizado de pedido: Fraud
+### 9. Status personalizado de pedido: Fraud
 Quando uma tentativa é considerada inválida ou suspeita, o plugin pode alterar o pedido para um status personalizado de fraude.
 
-### 9. Notas internas no pedido
-No caso do Google reCAPTCHA v3, o plugin adiciona notas ao pedido com informações sobre o score retornado e uma interpretação do nível de risco detectado.
+### 10. Notas internas no pedido
+No caso do Google reCAPTCHA v3, o plugin adiciona notas ao pedido com informações sobre o score retornado e uma interpretação do nível de risco detectado. No Cloudflare Turnstile, registra o resultado da verificação como `PASS`.
 
-### 10. Logs de depuração
+### 11. Logs de depuração
 O plugin possui uma opção de **debug** para registrar informações técnicas no log do WooCommerce, auxiliando em testes, integração e diagnóstico de problemas.
 
-### 11. Área de configuração no WooCommerce
+### 12. Área de configuração no WooCommerce
 O plugin adiciona uma aba própria de configurações nas opções do WooCommerce para centralizar os controles antifraude.
 
 ## Requisitos
@@ -117,8 +128,9 @@ O plugin adiciona uma aba própria de configurações nas opções do WooCommerc
 5. Informe as credenciais correspondentes ao provedor selecionado.
 6. Caso utilize Google reCAPTCHA v3, defina a pontuação mínima desejada.
 7. Se necessário, ative a verificação e o gerenciamento de IPs.
-8. Opcionalmente, habilite o modo de depuração.
-9. Clique em **Salvar**.
+8. Opcionalmente, ative o **bloqueio por dados** (e-mail, domínio, telefone, país ou dispositivo) e cadastre os itens na aba **Block by Data**.
+9. Opcionalmente, habilite o modo de depuração.
+10. Clique em **Salvar**.
 
 ## Fluxo básico de funcionamento
 

@@ -297,6 +297,59 @@
     text-decoration: underline;
 }
 
+.lkn-fsdw-credentials-warning {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    color: #7a4a00;
+    background: #fff8e5;
+    border-left: 4px solid #dba617;
+    border-radius: 3px;
+}
+
+.lkn-fsdw-credentials-warning-link {
+    color: #2271b1;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.lkn-fsdw-credentials-warning-link:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
+.lkn-fsdw-tab-notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    margin: 0 0 16px 0;
+    padding: 10px 14px;
+    font-size: 0.9em;
+    color: #7a4a00;
+    background: #fff8e5;
+    border-left: 4px solid #dba617;
+    border-radius: 3px;
+}
+
+.lkn-fsdw-tab-notice-link {
+    color: #2271b1;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.lkn-fsdw-tab-notice-link:hover {
+    color: #135e96;
+    text-decoration: underline;
+}
+
 .lkn-fsdw-expiration-note {
     font-size: 0.85em;
     color: #646970;

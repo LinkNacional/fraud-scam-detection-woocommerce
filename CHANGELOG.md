@@ -1,3 +1,7 @@
+# 1.3.2 - 16/09/2026
+* Antifraude com credenciais vazias não quebra mais o checkout: quando o CAPTCHA está ativo sem chaves configuradas, o plugin exibe um aviso neutro e pula a verificação em vez de bloquear o pedido.
+* Melhorias de UX na página de configurações: avisos de credenciais ausentes nos campos e nas abas dos provedores (Google reCAPTCHA / Cloudflare Turnstile), com link para preenchimento.
+
 # 1.3.1 - 08/07/2026
 * Nova opção de banimento por número de telefone nas notas do pedido.
 
