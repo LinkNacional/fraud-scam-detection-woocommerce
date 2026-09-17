@@ -251,17 +251,22 @@ foreach ($form_fields as $key => $field) {
                                             break;
                                         case 'select':
                                             ?>
-                                            <select
-                                                name="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
-                                                id="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
-                                                class="admin-layout-select"
-                                            >
-                                                <?php foreach ($field['options'] as $option_key => $option_label): ?>
-                                                    <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ?: $key, $field['default'] ?? '') === $option_key); ?>>
-                                                        <?php echo esc_html($option_label); ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <div class="admin-layout-select-row">
+                                                <select
+                                                    name="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
+                                                    id="<?php echo esc_attr($field['id'] ? $field['id'] : $key); ?>"
+                                                    class="admin-layout-select"
+                                                >
+                                                    <?php foreach ($field['options'] as $option_key => $option_label): ?>
+                                                        <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($field['id'] ?: $key, $field['default'] ?? '') === $option_key); ?>>
+                                                            <?php echo esc_html($option_label); ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <?php if (!empty($field['credentials_notice'])): ?>
+                                                    <span class="lkn-fsdw-credentials-indicator dashicons" style="display:none;" aria-hidden="true"></span>
+                                                <?php endif; ?>
+                                            </div>
                                             <?php
                                             break;
                                         case 'file':
@@ -479,17 +484,22 @@ foreach ($form_fields as $key => $field) {
                                                     break;
                                                 case 'select':
                                                     ?>
-                                                    <select
-                                                        name="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
-                                                        id="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
-                                                        class="admin-layout-select"
-                                                    >
-                                                        <?php foreach ($child_field['options'] as $option_key => $option_label): ?>
-                                                            <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === $option_key); ?>>
-                                                                <?php echo esc_html($option_label); ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <div class="admin-layout-select-row">
+                                                        <select
+                                                            name="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
+                                                            id="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
+                                                            class="admin-layout-select"
+                                                        >
+                                                            <?php foreach ($child_field['options'] as $option_key => $option_label): ?>
+                                                                <option value="<?php echo esc_attr($option_key); ?>" <?php selected(get_option($child_field['id'] ?: $child_key, $child_field['default'] ?? '') === $option_key); ?>>
+                                                                    <?php echo esc_html($option_label); ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <?php if (!empty($child_field['credentials_notice'])): ?>
+                                                            <span class="lkn-fsdw-credentials-indicator dashicons" style="display:none;" aria-hidden="true"></span>
+                                                        <?php endif; ?>
+                                                    </div>
                                                     <?php
                                                     break;
                                                 case 'file':
