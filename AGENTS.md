@@ -125,6 +125,7 @@ echo wp_kses_post( $html );
 - Text domain: `fraud-and-scam-detection-for-woocommerce`.
 - Toda string visível ao usuário: `__()`, `esc_html__()`, `esc_attr__()`.
 - Nunca concatenar strings traduzíveis. Usar placeholders `%s`, `%d`.
+- **NUNCA editar `languages/*.pot`/`.po`/`.mo`.** As traduções vêm do WordPress.org; a pasta `languages/` é só backup e não é usada em runtime.
 
 ### WooCommerce
 - Verificar `class_exists( 'WooCommerce' )` antes de hooks WC.

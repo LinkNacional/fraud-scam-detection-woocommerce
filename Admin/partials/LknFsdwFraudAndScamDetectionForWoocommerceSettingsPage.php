@@ -418,6 +418,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
         $template_path = plugin_dir_path(dirname(__DIR__)) . 'Includes/templates/';
 
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettings', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettings.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
+        wp_enqueue_style( 'dashicons' );
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminSettingLinkCard', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminSettingLinkCard.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
         wp_enqueue_style( 'lknFraudDetectionForWoocommerceAdminToggleFields', FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL . 'Admin/css/lknFraudDetectionForWoocommerceAdminToggleFields.css', array(), FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION, 'all' );
 
@@ -569,6 +570,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'i18n'      => array(
                     'missing' => __('The security credentials are not filled in. Fill them in to activate this feature.', 'fraud-and-scam-detection-for-woocommerce'),
                     'link'    => __('Click here to fill them in.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'filled'  => __('Security credentials filled in.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {provider} = provider name (e.g. "Cloudflare Turnstile"). */
                     'tabDisabled' => __('Security verification is disabled. Activate it to use {provider}.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {provider} = provider name (e.g. "Cloudflare Turnstile"). */

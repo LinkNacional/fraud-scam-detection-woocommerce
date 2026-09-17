@@ -297,6 +297,29 @@
     text-decoration: underline;
 }
 
+.admin-layout-select-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lkn-fsdw-credentials-indicator {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+}
+
+.lkn-fsdw-credentials-indicator.is-missing {
+    color: #dba617;
+    cursor: pointer;
+}
+
+.lkn-fsdw-credentials-indicator.is-ok {
+    color: #46b450;
+    cursor: default;
+}
+
 .lkn-fsdw-credentials-warning {
     display: flex;
     flex-wrap: wrap;

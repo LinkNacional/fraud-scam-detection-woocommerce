@@ -79,6 +79,7 @@
             var $providerSelect = $('#' + creds.selectId);
             var $enableToggle   = $('#' + creds.enableId);
             var $credsWarning   = $('.lkn-fsdw-credentials-warning');
+            var $indicator      = $('.lkn-fsdw-credentials-indicator');
             var $tabNotices     = $('.lkn-fsdw-tab-notice');
 
             function providerMissing(providerKey) {
@@ -130,6 +131,47 @@
                 }
             }
 
+            // Inline indicator beside the provider select: a gear when the
+            // selected provider still needs credentials (clicking jumps to its
+            // tab, like the warning link) and a check when they are filled in
+            // (decoration only).
+            function syncCredentialsIndicator() {
+                if (!$indicator.length || !$providerSelect.length) {
+                    return;
+                }
+
+                var provider    = $providerSelect.val();
+                var hasProvider = provider && provider !== 'none' && creds.providers[provider];
+
+                if (!hasProvider) {
+                    $indicator.hide();
+                    return;
+                }
+
+                var missing = providerMissing(provider);
+
+                $indicator
+                    .removeClass('dashicons-admin-generic dashicons-yes-alt is-missing is-ok')
+                    .addClass(missing ? 'dashicons-admin-generic' : 'dashicons-yes-alt')
+                    .toggleClass('is-missing', missing)
+                    .toggleClass('is-ok', !missing)
+                    .attr('title', missing ? creds.i18n.missing : creds.i18n.filled);
+
+                if (missing) {
+                    $indicator
+                        .attr('data-goto-tab', creds.providers[provider].tab)
+                        .attr('role', 'button')
+                        .attr('tabindex', '0');
+                } else {
+                    $indicator
+                        .removeAttr('data-goto-tab')
+                        .removeAttr('role')
+                        .removeAttr('tabindex');
+                }
+
+                $indicator.show();
+            }
+
             // Contextual notice on the Google reCAPTCHA / Cloudflare Turnstile
             // tabs: tells the admin which provider is active (or to enable /
             // select one) and links back to the security settings field.
@@ -171,8 +213,17 @@
 
             function refresh() {
                 syncCredentialsWarning();
+                syncCredentialsIndicator();
                 syncTabNotices();
             }
+
+            // Keyboard activation for the gear indicator (role=button).
+            $(document).on('keydown', '.lkn-fsdw-credentials-indicator[data-goto-tab]', function (e) {
+                if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+                    e.preventDefault();
+                    $(this).trigger('click');
+                }
+            });
 
             // Notice button: switch to the Antifraud tab and smooth-scroll to
             // the field that enables the security verification.
