@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 use Lkn\FsdwFraudAndScamDetectionForWoocommerce\Admin\LknFsdwFraudAndScamDetectionForWoocommerceAdmin;
 use Lkn\FsdwFraudAndScamDetectionForWoocommerce\PublicView\LknFsdwFraudAndScamDetectionForWoocommercePublic;
 use \Lkn\FsdwFraudAndScamDetectionForWoocommerce\Admin\partials\LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage;
+use \Lkn\FsdwFraudAndScamDetectionForWoocommerce\Admin\partials\LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu;
 use Automattic\WooCommerce\StoreApi\Utilities\NoticeHandler;
 use Exception;
 
@@ -152,6 +153,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		// Admin notice: update layout warning
 		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
+
+		// Menu lateral "Antifraude" com atalhos para as abas de configurações
+		$admin_menu = new LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu();
+		$this->loader->add_action( 'admin_menu', $admin_menu, 'register' );
+		$this->loader->add_action( 'admin_init', $admin_menu, 'redirect' );
 
 		// Data block: inject ban-container into order edit billing section
 		$this->loader->add_action( 'woocommerce_admin_order_data_after_billing_address', $this, 'render_data_ban_container' );
