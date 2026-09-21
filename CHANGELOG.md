@@ -1,6 +1,6 @@
 # 1.3.4 - 21/09/2026
 * Segurança: o salvamento das configurações do antifraude é restrito às options do próprio plugin, impedindo que perfis de menor privilégio sobrescrevam options arbitrárias do WordPress.
-* Segurança: o checkout passa a ser bloqueado (em vez de ignorar a verificação) quando o provedor de captcha ativo está sem credenciais.
+* Segurança: ativar a verificação de segurança agora exige que as credenciais do provedor estejam preenchidas, e o checkout passa a ser bloqueado (em vez de ignorar a verificação) quando um provedor mal configurado está sem credenciais.
 * Novo menu lateral "AntiFraude" com atalhos para as abas de configurações, IPs banidos e bloqueio por dados.
 
 # 1.3.3 - 21/09/2026

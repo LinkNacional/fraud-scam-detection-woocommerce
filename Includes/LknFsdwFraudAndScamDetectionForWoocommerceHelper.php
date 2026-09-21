@@ -103,18 +103,20 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	/**
 	 * Returns the credential keys missing for the given captcha provider.
 	 *
-	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param string     $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param array|null $settings Optional submitted settings that override the
+	 *                             stored options (used to validate before saving).
 	 * @return string[] Empty when fully configured.
 	 */
-	public function getMissingCredentials( $provider ) {
+	public function getMissingCredentials( $provider, $settings = null ) {
 		$missing = array();
 
 		if ( 'cloudflareTurnstile' === $provider ) {
-			$site   = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey', '' );
-			$secret = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey', '' );
+			$site   = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey' );
+			$secret = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey' );
 		} elseif ( 'googleRecaptchaV3' === $provider ) {
-			$site   = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key', '' );
-			$secret = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret', '' );
+			$site   = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key' );
+			$secret = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret' );
 		} else {
 			return $missing;
 		}
@@ -127,6 +129,21 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		return $missing;
+	}
+
+	/**
+	 * Reads a credential value from the submitted settings when present,
+	 * falling back to the stored option.
+	 *
+	 * @param array|null $settings Submitted settings, or null to use the option.
+	 * @param string     $key      Option/field key.
+	 * @return string
+	 */
+	private function readCredential( $settings, $key ) {
+		if ( is_array( $settings ) && array_key_exists( $key, $settings ) ) {
+			return (string) $settings[ $key ];
+		}
+		return (string) get_option( $key, '' );
 	}
 
 	/**
