@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -136,8 +136,10 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.4 =
+* New "AntiFraude" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
+
 = 1.3.3 =
-* New "Antifraud" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
 * IP verification and data-based (email/phone) banning no longer require the security verification to be enabled.
 * Fixed the settings page scroll jump when toggling the security verification option.
 * Removed an unused admin settings script.
@@ -193,8 +195,11 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.4 =
+* Add the "AntiFraude" admin menu with shortcuts to the settings tabs.
+
 = 1.3.3 =
-* Add Antifraud admin menu; decouple IP and data-based banning from the security verification; fix settings scroll jump.
+* Decouple IP and data-based banning from the security verification; fix settings scroll jump.
 
 = 1.3.2 =
 * Fix checkout when CAPTCHA credentials are empty; add settings UX warnings.

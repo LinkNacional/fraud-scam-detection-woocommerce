@@ -1,5 +1,7 @@
-# 1.3.3 - 21/09/2026
+# 1.3.4 - 21/09/2026
 * Novo menu lateral "AntiFraude" com atalhos para as abas de configurações, IPs banidos e bloqueio por dados.
+
+# 1.3.3 - 21/09/2026
 * Recursos de verificação de IP e de banimento por dados (e-mail/telefone) deixam de exigir a verificação de segurança ativa.
 * Corrigido o salto de scroll ao alternar a opção de verificação de segurança na página de configurações.
 * Removido script não utilizado das configurações do admin.
