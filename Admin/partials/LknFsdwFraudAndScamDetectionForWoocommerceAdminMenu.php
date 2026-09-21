@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Registra o menu lateral "AntiFraude" e seus atalhos para as abas da
+ * Registra o menu lateral "AntiFraud" e seus atalhos para as abas da
  * página de configurações do WooCommerce.
  *
  * O redirect para a aba alvo é feito no hook `admin_init` (antes de qualquer
@@ -25,7 +25,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
      */
     public function register(): void
     {
-        $title = __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce');
+        $title = __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce');
 
         add_menu_page(
             $title,

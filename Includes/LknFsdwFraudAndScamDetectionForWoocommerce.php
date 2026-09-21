@@ -154,7 +154,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
 
-		// Menu lateral "AntiFraude" com atalhos para as abas de configurações
+		// Menu lateral "AntiFraud" com atalhos para as abas de configurações
 		$admin_menu = new LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu();
 		$this->loader->add_action( 'admin_menu', $admin_menu, 'register' );
 		$this->loader->add_action( 'admin_init', $admin_menu, 'redirect' );

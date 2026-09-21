@@ -14,7 +14,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     public function __construct()
     {
         $this->id    = 'lkn_anti_fraud';
-        $this->label = __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce');
+        $this->label = __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_title       = esc_attr__('Detecção de Fraudes e Golpes', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_description = esc_attr__('Configure as opções de proteção antifraude e integração com reCAPTCHA para maior segurança nas transações.', 'fraud-and-scam-detection-for-woocommerce');
         parent::__construct();
@@ -26,14 +26,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
 
             /* ── Bloco principal ─────────────────────────────────── */
             'section_title' => array(
-                'title'             => __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_section_title',
                 'block_id'          => 'antifraud',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
-                'block_title'       => __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('General antifraud protection settings.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),

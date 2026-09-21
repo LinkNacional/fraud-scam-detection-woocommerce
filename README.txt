@@ -139,7 +139,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 = 1.3.4 =
 * Security: the antifraud settings save is restricted to the plugin's own options, preventing lower-privileged roles from overwriting arbitrary WordPress options.
 * Security: enabling security verification now requires the provider credentials to be filled in — a settings-page warning links straight to the provider configuration — and checkout is blocked (instead of skipping verification) when a misconfigured provider has none.
-* New "AntiFraude" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
+* New "AntiFraud" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
 
 = 1.3.3 =
 * IP verification and data-based (email/phone) banning no longer require the security verification to be enabled.
@@ -198,7 +198,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 == Upgrade Notice ==
 = 1.3.4 =
-* Security fixes; add the "AntiFraude" admin menu with shortcuts to the settings tabs.
+* Security fixes; add the "AntiFraud" admin menu with shortcuts to the settings tabs.
 
 = 1.3.3 =
 * Decouple IP and data-based banning from the security verification; fix settings scroll jump.
