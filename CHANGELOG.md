@@ -1,5 +1,9 @@
+# 1.3.4 - 21/09/2026
+* Segurança: o salvamento das configurações do antifraude é restrito às options do próprio plugin, impedindo que perfis de menor privilégio sobrescrevam options arbitrárias do WordPress.
+* Segurança: ativar a verificação de segurança agora exige que as credenciais do provedor estejam preenchidas — um aviso na página de configurações leva direto à configuração do provedor — e o checkout passa a ser bloqueado (em vez de ignorar a verificação) quando um provedor mal configurado está sem credenciais.
+* Novo menu lateral "AntiFraud" com atalhos para as abas de configurações, IPs banidos e bloqueio por dados.
+
 # 1.3.3 - 21/09/2026
-* Novo menu lateral "Antifraude" com atalhos para as abas de configurações, IPs banidos e bloqueio por dados.
 * Recursos de verificação de IP e de banimento por dados (e-mail/telefone) deixam de exigir a verificação de segurança ativa.
 * Corrigido o salto de scroll ao alternar a opção de verificação de segurança na página de configurações.
 * Removido script não utilizado das configurações do admin.

@@ -38,6 +38,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			);
 			if ( is_checkout() ) {
 				$terms_text = sprintf(
+					// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare Turnstile terms links; not offloaded assets.
 					'<p>%s <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">%s</a> %s <a href="https://www.cloudflare.com/website-terms/" target="_blank">%s</a> %s</p>',
 					__( 'This site is protected by Cloudflare Turnstile and the', 'fraud-and-scam-detection-for-woocommerce' ),
 					__( 'Privacy Policy', 'fraud-and-scam-detection-for-woocommerce' ),
@@ -102,18 +103,20 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	/**
 	 * Returns the credential keys missing for the given captcha provider.
 	 *
-	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param string     $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param array|null $settings Optional submitted settings that override the
+	 *                             stored options (used to validate before saving).
 	 * @return string[] Empty when fully configured.
 	 */
-	public function getMissingCredentials( $provider ) {
+	public function getMissingCredentials( $provider, $settings = null ) {
 		$missing = array();
 
 		if ( 'cloudflareTurnstile' === $provider ) {
-			$site   = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey', '' );
-			$secret = get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey', '' );
+			$site   = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey' );
+			$secret = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey' );
 		} elseif ( 'googleRecaptchaV3' === $provider ) {
-			$site   = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key', '' );
-			$secret = get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret', '' );
+			$site   = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key' );
+			$secret = $this->readCredential( $settings, 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret' );
 		} else {
 			return $missing;
 		}
@@ -126,6 +129,21 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		return $missing;
+	}
+
+	/**
+	 * Reads a credential value from the submitted settings when present,
+	 * falling back to the stored option.
+	 *
+	 * @param array|null $settings Submitted settings, or null to use the option.
+	 * @param string     $key      Option/field key.
+	 * @return string
+	 */
+	private function readCredential( $settings, $key ) {
+		if ( is_array( $settings ) && array_key_exists( $key, $settings ) ) {
+			return (string) $settings[ $key ];
+		}
+		return (string) get_option( $key, '' );
 	}
 
 	/**
@@ -176,6 +194,22 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		);
 	}
 
+	/**
+	 * Fail closed: when the enabled captcha provider is missing credentials,
+	 * block checkout instead of silently skipping verification. A misconfigured
+	 * store must not let orders through without the anti-fraud check.
+	 *
+	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @throws Exception
+	 */
+	private function blockIfCredentialsMissing( $provider ) {
+		if ( empty( $this->getMissingCredentials( $provider ) ) ) {
+			return;
+		}
+
+		throw new Exception( esc_html( __( 'Security verification is temporarily unavailable because the anti-fraud provider is not fully configured. Please contact the store.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+	}
+
 	public function processPayments($context, $result) {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
@@ -187,11 +221,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 
-		// Skip verification when credentials are missing so checkout is not
-		// blocked by an error the store owner cannot act on.
-		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
-			return;
-		}
+		// Block checkout when the enabled provider has no credentials.
+		$this->blockIfCredentialsMissing( $provider );
 
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$token = isset( $payment_data['lkncfturnstileresponse'] ) ? sanitize_text_field( $payment_data['lkncfturnstileresponse'] ) : null;
@@ -213,11 +244,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 
-		// Skip verification when credentials are missing so checkout is not
-		// blocked by an error the store owner cannot act on.
-		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
-			return;
-		}
+		// Block checkout when the enabled provider has no credentials.
+		$this->blockIfCredentialsMissing( $provider );
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		if ( ! isset( $_POST['lknFraudNonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['lknFraudNonce'] ), 'lkn_fraud_detection_checkout_nonce' ) ) {
@@ -811,6 +839,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			'remoteip' => $remote_ip,
 		];
 
+		// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare Turnstile server-side verification endpoint, required to validate the token.
 		$response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
 			'body' => $body,
 		] );
@@ -826,7 +855,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			'verifyTurnstile',
 			[
 				'orderId'      => $order->get_id(),
-				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare endpoint stored in the debug log.
 				'success'      => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
 				'error-codes'  => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
 				'hostname'     => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,

@@ -14,7 +14,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     public function __construct()
     {
         $this->id    = 'lkn_anti_fraud';
-        $this->label = __('Antifraude', 'fraud-and-scam-detection-for-woocommerce');
+        $this->label = __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_title       = esc_attr__('Detecção de Fraudes e Golpes', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_description = esc_attr__('Configure as opções de proteção antifraude e integração com reCAPTCHA para maior segurança nas transações.', 'fraud-and-scam-detection-for-woocommerce');
         parent::__construct();
@@ -26,14 +26,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
 
             /* ── Bloco principal ─────────────────────────────────── */
             'section_title' => array(
-                'title'             => __('Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_section_title',
                 'block_id'          => 'antifraud',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
-                'block_title'       => __('Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('General antifraud protection settings.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),
@@ -111,7 +111,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'custom_attributes' => array(),
             ),
             'antifraud_behavior' => array(
-                'title'             => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('AntiFraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'multicheck',
                 'id'                => 'lknFraudDetectionForWoocommerceAntiFraudBehavior',
                 'options'           => array(
@@ -132,7 +132,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'default'           => 'yes',
                 'description'       => __('Choose how the system should behave when a blocked customer attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
-                'block_title'       => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('AntiFraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Define the action taken when a blocked customer tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
@@ -318,7 +318,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'url',
                 'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileKeysInfo',
-                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile',
+                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare dashboard link shown to the admin.
                 'label'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'description'       => __('Click to access the Cloudflare dashboard and generate your Turnstile site and secret keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
@@ -527,9 +527,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorBan'       => __('Error banning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorUnban'     => __('Error unbanning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorEmpty'     => __('Enter an IP address.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );
@@ -633,9 +633,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorLoad'                 => __('Failed to load list.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorAdd'                  => __('Error adding item.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorRemove'               => __('Error removing item.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );

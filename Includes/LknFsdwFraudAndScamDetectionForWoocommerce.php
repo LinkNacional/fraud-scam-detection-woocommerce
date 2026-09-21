@@ -154,7 +154,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		$this->loader->add_action( 'admin_notices', $this, 'lkn_fsdw_render_update_notice' );
 		$this->loader->add_action( 'wp_ajax_lkn_fsdw_dismiss_update_notice', $this, 'ajax_dismiss_update_notice' );
 
-		// Menu lateral "Antifraude" com atalhos para as abas de configurações
+		// Menu lateral "AntiFraud" com atalhos para as abas de configurações
 		$admin_menu = new LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu();
 		$this->loader->add_action( 'admin_menu', $admin_menu, 'register' );
 		$this->loader->add_action( 'admin_init', $admin_menu, 'redirect' );
@@ -178,8 +178,39 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 			wp_send_json_error(array('message' => __('Invalid settings data.', 'fraud-and-scam-detection-for-woocommerce')));
 		}
 
-		// Save each field as option (same as Woo default)
+		// Refuse to enable the security verification while the selected provider
+		// has no credentials. Otherwise the store would be left in an
+		// "enabled but unconfigured" state, where checkout runs without any
+		// verification (fail-open). Force the admin to configure it first.
+		$enable   = isset($settings['lknFraudDetectionForWoocommerceEnableRecaptcha'])
+			? $settings['lknFraudDetectionForWoocommerceEnableRecaptcha']
+			: 'no';
+		$provider = isset($settings['lknFraudDetectionForWoocommerceRecaptchaSelected'])
+			? $settings['lknFraudDetectionForWoocommerceRecaptchaSelected']
+			: 'none';
+
+		if ('yes' === $enable && in_array($provider, array('googleRecaptchaV3', 'cloudflareTurnstile'), true)) {
+			$missing = $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->getMissingCredentials($provider, $settings);
+			if (!empty($missing)) {
+				wp_send_json_error(array(
+					'code'    => 'lkn_fsdw_missing_credentials',
+					'tab'     => ('cloudflareTurnstile' === $provider) ? 'cloudflare-turnstile' : 'google-recaptcha',
+					'title'   => __('Security verification', 'fraud-and-scam-detection-for-woocommerce'),
+					'button'  => __('Configure credentials', 'fraud-and-scam-detection-for-woocommerce'),
+					'message' => __('Security verification cannot be enabled until the provider credentials are filled in. Click the button below to configure them.', 'fraud-and-scam-detection-for-woocommerce'),
+				));
+			}
+		}
+
+		// Only persist options owned by this plugin. Without this restriction a
+		// limited role (e.g. Shop Manager) could overwrite arbitrary WordPress
+		// options such as users_can_register or default_role and escalate to
+		// administrator.
+		$allowed_prefix = 'lknFraudDetectionForWoocommerce';
 		foreach ($settings as $key => $value) {
+			if (!is_string($key) || strpos($key, $allowed_prefix) !== 0) {
+				continue;
+			}
 			update_option($key, $value);
 		}
 

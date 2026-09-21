@@ -1,4 +1,4 @@
-# Fraud and Scam Detection For WooCommerce AntiFraude
+# Fraud and Scam Detection For WooCommerce AntiFraud
 
 Plugin para [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) focado em prevenção de fraudes e golpes durante o checkout, adicionando validação [antifraude](https://www.linknacional.com.br/wordpress/woocommerce/antifraude/) com Google reCAPTCHA v3 ou Cloudflare Turnstile, além de recursos de bloqueio por IP e monitoramento administrativo.
 
@@ -120,7 +120,7 @@ O plugin adiciona uma aba própria de configurações nas opções do WooCommerc
 ## Configuração
 
 1. Vá para **WooCommerce > Configurações**.
-2. Acesse a aba **Antifraude**.
+2. Acesse a aba **AntiFraud**.
 3. Ative a proteção antifraude.
 4. Escolha o provedor de segurança:
    - Google reCAPTCHA v3; ou
