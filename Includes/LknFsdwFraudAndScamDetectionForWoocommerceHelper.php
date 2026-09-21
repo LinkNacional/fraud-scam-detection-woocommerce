@@ -38,6 +38,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			);
 			if ( is_checkout() ) {
 				$terms_text = sprintf(
+					// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare Turnstile terms links; not offloaded assets.
 					'<p>%s <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">%s</a> %s <a href="https://www.cloudflare.com/website-terms/" target="_blank">%s</a> %s</p>',
 					__( 'This site is protected by Cloudflare Turnstile and the', 'fraud-and-scam-detection-for-woocommerce' ),
 					__( 'Privacy Policy', 'fraud-and-scam-detection-for-woocommerce' ),
@@ -821,6 +822,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			'remoteip' => $remote_ip,
 		];
 
+		// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare Turnstile server-side verification endpoint, required to validate the token.
 		$response = wp_remote_post( 'https://challenges.cloudflare.com/turnstile/v0/siteverify', [
 			'body' => $body,
 		] );
@@ -836,7 +838,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			'verifyTurnstile',
 			[
 				'orderId'      => $order->get_id(),
-				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare endpoint stored in the debug log.
 				'success'      => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
 				'error-codes'  => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
 				'hostname'     => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,

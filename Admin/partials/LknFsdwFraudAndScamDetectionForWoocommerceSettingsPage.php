@@ -318,7 +318,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'title'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'url',
                 'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileKeysInfo',
-                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile',
+                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare dashboard link shown to the admin.
                 'label'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'description'       => __('Click to access the Cloudflare dashboard and generate your Turnstile site and secret keys.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
