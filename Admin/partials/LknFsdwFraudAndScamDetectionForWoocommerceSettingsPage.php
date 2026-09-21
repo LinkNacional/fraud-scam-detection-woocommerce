@@ -111,7 +111,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'custom_attributes' => array(),
             ),
             'antifraud_behavior' => array(
-                'title'             => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('AntiFraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'multicheck',
                 'id'                => 'lknFraudDetectionForWoocommerceAntiFraudBehavior',
                 'options'           => array(
@@ -132,7 +132,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'default'           => 'yes',
                 'description'       => __('Choose how the system should behave when a blocked customer attempts to place an order.', 'fraud-and-scam-detection-for-woocommerce'),
                 'desc_tip'          => true,
-                'block_title'       => __('Antifraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('AntiFraud Behavior', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Define the action taken when a blocked customer tries to checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'custom_attributes' => array(),
             ),
@@ -527,9 +527,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorBan'       => __('Error banning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorUnban'     => __('Error unbanning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorEmpty'     => __('Enter an IP address.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );
@@ -633,9 +633,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorLoad'                 => __('Failed to load list.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorAdd'                  => __('Error adding item.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorRemove'               => __('Error removing item.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Antifraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );
