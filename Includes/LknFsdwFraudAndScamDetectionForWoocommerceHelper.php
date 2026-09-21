@@ -176,6 +176,22 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		);
 	}
 
+	/**
+	 * Fail closed: when the enabled captcha provider is missing credentials,
+	 * block checkout instead of silently skipping verification. A misconfigured
+	 * store must not let orders through without the anti-fraud check.
+	 *
+	 * @param string $provider Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @throws Exception
+	 */
+	private function blockIfCredentialsMissing( $provider ) {
+		if ( empty( $this->getMissingCredentials( $provider ) ) ) {
+			return;
+		}
+
+		throw new Exception( esc_html( __( 'Security verification is temporarily unavailable because the anti-fraud provider is not fully configured. Please contact the store.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
+	}
+
 	public function processPayments($context, $result) {
 		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
 			return;
@@ -187,11 +203,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 
-		// Skip verification when credentials are missing so checkout is not
-		// blocked by an error the store owner cannot act on.
-		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
-			return;
-		}
+		// Block checkout when the enabled provider has no credentials.
+		$this->blockIfCredentialsMissing( $provider );
 
 		if ( $provider === 'cloudflareTurnstile' ) {
 			$token = isset( $payment_data['lkncfturnstileresponse'] ) ? sanitize_text_field( $payment_data['lkncfturnstileresponse'] ) : null;
@@ -213,11 +226,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			return;
 		}
 
-		// Skip verification when credentials are missing so checkout is not
-		// blocked by an error the store owner cannot act on.
-		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
-			return;
-		}
+		// Block checkout when the enabled provider has no credentials.
+		$this->blockIfCredentialsMissing( $provider );
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
 		if ( ! isset( $_POST['lknFraudNonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['lknFraudNonce'] ), 'lkn_fraud_detection_checkout_nonce' ) ) {

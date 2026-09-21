@@ -178,8 +178,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 			wp_send_json_error(array('message' => __('Invalid settings data.', 'fraud-and-scam-detection-for-woocommerce')));
 		}
 
-		// Save each field as option (same as Woo default)
+		// Only persist options owned by this plugin. Without this restriction a
+		// limited role (e.g. Shop Manager) could overwrite arbitrary WordPress
+		// options such as users_can_register or default_role and escalate to
+		// administrator.
+		$allowed_prefix = 'lknFraudDetectionForWoocommerce';
 		foreach ($settings as $key => $value) {
+			if (!is_string($key) || strpos($key, $allowed_prefix) !== 0) {
+				continue;
+			}
 			update_option($key, $value);
 		}
 
