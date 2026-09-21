@@ -102,13 +102,12 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
                     confirmButtonText: data.button || 'Configurar credenciais',
                 }).then(function (result) {
                     if (result.isConfirmed && data.tab) {
-                        var $nav = jQuery('#nav-' + data.tab);
-                        if ($nav.length) {
-                            $nav.trigger('click');
-                            var block = document.getElementById('block-' + data.tab);
-                            if (block) {
-                                block.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }
+                        // Focus the tab itself (same as the data-goto-tab links),
+                        // not the configuration block below it.
+                        jQuery('.admin-layout-title-link[data-target="block-' + data.tab + '"]').trigger('click');
+                        var navLink = document.getElementById('nav-' + data.tab);
+                        if (navLink) {
+                            navLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
                     }
                 });
