@@ -14,7 +14,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     public function __construct()
     {
         $this->id    = 'lkn_anti_fraud';
-        $this->label = __('Antifraude', 'fraud-and-scam-detection-for-woocommerce');
+        $this->label = __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_title       = esc_attr__('Detecção de Fraudes e Golpes', 'fraud-and-scam-detection-for-woocommerce');
         $this->method_description = esc_attr__('Configure as opções de proteção antifraude e integração com reCAPTCHA para maior segurança nas transações.', 'fraud-and-scam-detection-for-woocommerce');
         parent::__construct();
