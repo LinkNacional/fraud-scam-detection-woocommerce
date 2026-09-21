@@ -100,6 +100,10 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
                     title: data.title || 'Atenção',
                     text: data.message || 'Configure as credenciais do provedor antes de ativar a verificação de segurança.',
                     confirmButtonText: data.button || 'Configurar credenciais',
+                    // Keep the tab focus below instead of letting SweetAlert
+                    // restore focus to the submit button (which would scroll
+                    // the page back to it ~100ms after closing).
+                    returnFocus: false,
                 }).then(function (result) {
                     if (result.isConfirmed && data.tab) {
                         // Focus the tab itself (same as the data-goto-tab links),
