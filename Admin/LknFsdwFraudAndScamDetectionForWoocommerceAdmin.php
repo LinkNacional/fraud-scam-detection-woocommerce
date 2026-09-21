@@ -107,7 +107,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 			$screen &&
 			in_array( $screen->id, array( 'woocommerce_page_wc-orders', 'shop_order' ), true ) &&
 			isset( $_GET['action'] ) && 'edit' === $_GET['action'] && // phpcs:ignore WordPress.Security.NonceVerification
-			get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) === 'yes' &&
 			( $ip_lookup_enabled || $ip_filter_enabled || $ip_ban_enabled )
 		) {
 			wp_enqueue_script(
@@ -158,8 +157,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdmin {
 		if (
 			$screen &&
 			in_array( $screen->id, array( 'woocommerce_page_wc-orders', 'shop_order' ), true ) &&
-			isset( $_GET['action'] ) && 'edit' === $_GET['action'] && // phpcs:ignore WordPress.Security.NonceVerification
-			get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) === 'yes'
+			isset( $_GET['action'] ) && 'edit' === $_GET['action'] // phpcs:ignore WordPress.Security.NonceVerification
 		) {
 			wp_enqueue_script(
 				$this->plugin_name . '-order-data-ban',

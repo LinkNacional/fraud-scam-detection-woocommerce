@@ -1,3 +1,8 @@
+# 1.3.3 - 21/09/2026
+* Recursos de verificação de IP e de banimento por dados (e-mail/telefone) deixam de exigir a verificação de segurança ativa.
+* Corrigido o salto de scroll ao alternar a opção de verificação de segurança na página de configurações.
+* Removido script não utilizado das configurações do admin.
+
 # 1.3.2 - 16/09/2026
 * Antifraude com credenciais vazias não quebra mais o checkout: quando o CAPTCHA está ativo sem chaves configuradas, o plugin exibe um aviso neutro e pula a verificação em vez de bloquear o pedido.
 * Melhorias de UX na página de configurações: avisos de credenciais ausentes nos campos e nas abas dos provedores (Google reCAPTCHA / Cloudflare Turnstile), com link para preenchimento.

@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -136,6 +136,11 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.3 =
+* IP verification and data-based (email/phone) banning no longer require the security verification to be enabled.
+* Fixed the settings page scroll jump when toggling the security verification option.
+* Removed an unused admin settings script.
+
 = 1.3.2 =
 * Fix checkout breaking when CAPTCHA is enabled without credentials: shows a neutral notice and skips verification instead of blocking the order.
 * UX improvements on the settings page: missing-credential warnings on the provider fields and tabs, with a link to fill them in.
@@ -187,6 +192,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.3 =
+* Decouple IP and data-based banning from the security verification; fix settings scroll jump.
+
 = 1.3.2 =
 * Fix checkout when CAPTCHA credentials are empty; add settings UX warnings.
 

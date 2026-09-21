@@ -381,10 +381,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
      * @param \WC_Order $order
      */
     public function render_data_ban_container( $order ) {
-        if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
-            return;
-        }
-
         $email_block = get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email', 'no' ) === 'yes';
         $phone_block = get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_phone', 'no' ) === 'yes';
 

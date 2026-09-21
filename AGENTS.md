@@ -161,7 +161,7 @@ vendor/bin/phpunit                 # testes
 ```
 
 - **NUNCA editar `Admin/js/compiled/*.COMPILED.js`** — são artefatos gerados pelo webpack via `npm run build`. Edite os fontes em `Admin/js/*.js` e rode o build para regenerar.
-- Fontes **sem** webpack (carregados direto, editáveis): `Public/js/*.js` e `Admin/js/lknFraudDetectionForWoocommerceAdminTabs.js`, `...AdminToggleFields.js`, `...AdminSettings.js`, `...AdminMinimumScore.js`, `...AdminUpdateNotice.js`.
+- Fontes **sem** webpack (carregados direto, editáveis): `Public/js/*.js` e `Admin/js/lknFraudDetectionForWoocommerceAdminTabs.js`, `...AdminToggleFields.js`, `...AdminMinimumScore.js`, `...AdminUpdateNotice.js`.
 - Em mudanças de JS que afetam UX, aplicar a regra também no handler de digitação ao vivo, não só na carga inicial do valor salvo.
 
 ---
