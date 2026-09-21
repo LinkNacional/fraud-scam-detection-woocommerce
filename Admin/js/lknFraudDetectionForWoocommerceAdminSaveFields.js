@@ -90,10 +90,35 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
                 title: response.data.message || 'Configurações salvas com sucesso!',
             });
         } else {
+            var data = response.data || {};
+
+            // Provider enabled without credentials: warn and offer a button to
+            // jump straight to the provider configuration tab.
+            if (data.code === 'lkn_fsdw_missing_credentials') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: data.title || 'Atenção',
+                    text: data.message || 'Configure as credenciais do provedor antes de ativar a verificação de segurança.',
+                    confirmButtonText: data.button || 'Configurar credenciais',
+                }).then(function (result) {
+                    if (result.isConfirmed && data.tab) {
+                        var $nav = jQuery('#nav-' + data.tab);
+                        if ($nav.length) {
+                            $nav.trigger('click');
+                            var block = document.getElementById('block-' + data.tab);
+                            if (block) {
+                                block.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+                    }
+                });
+                return;
+            }
+
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
-                text: response.data.message || 'Ocorreu um erro ao salvar as configurações.',
+                text: data.message || 'Ocorreu um erro ao salvar as configurações.',
             });
         }
     })

@@ -193,7 +193,11 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 			$missing = $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass->getMissingCredentials($provider, $settings);
 			if (!empty($missing)) {
 				wp_send_json_error(array(
-					'message' => __('Security verification cannot be enabled until the provider credentials are filled in. Enter the site and secret keys for the selected provider, then save again.', 'fraud-and-scam-detection-for-woocommerce'),
+					'code'    => 'lkn_fsdw_missing_credentials',
+					'tab'     => ('cloudflareTurnstile' === $provider) ? 'cloudflare-turnstile' : 'google-recaptcha',
+					'title'   => __('Security verification', 'fraud-and-scam-detection-for-woocommerce'),
+					'button'  => __('Configure credentials', 'fraud-and-scam-detection-for-woocommerce'),
+					'message' => __('Security verification cannot be enabled until the provider credentials are filled in. Click the button below to configure them.', 'fraud-and-scam-detection-for-woocommerce'),
 				));
 			}
 		}
