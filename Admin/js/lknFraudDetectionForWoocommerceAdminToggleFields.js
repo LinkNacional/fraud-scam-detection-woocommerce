@@ -8,15 +8,8 @@
             return;
         }
 
-        // Field wrappers that depend on the security verification being active.
         // The provider select is a joined child of the enable checkbox, so it
         // is hidden via its joined blocks instead of the whole parent card.
-        var $dependents = $(
-            '#lknFraudDetectionForWoocommerceEnableIpLookup'
-        ).map(function () {
-            return $(this).closest('.admin-layout-field-parent-flex').get(0);
-        });
-
         var $providerJoined      = $('#lknFraudDetectionForWoocommerceRecaptchaSelected')
             .closest('.admin-layout-joined-component-bg');
         var $providerJoinedLabel = $providerJoined.prev('.admin-layout-joined-label-desc');
@@ -30,17 +23,36 @@
         function syncDependents() {
             var active = $antifraud.is(':checked');
 
-            $($dependents).each(function () {
-                $(this).toggleClass('lkn-disabled-field', !active);
-            });
-
             $providerJoined.add($providerJoinedLabel).toggleClass('lkn-disabled-field', !active);
 
             $dependentTabs.toggleClass('lkn-disabled-tab', !active);
         }
 
         syncDependents();
-        $antifraud.on('change', syncDependents);
+
+        // Toggling changes the layout around this checkbox, so the checkbox
+        // can shift vertically and the viewport would otherwise appear to
+        // jump. Keep the checkbox pinned to the same on-screen position by
+        // compensating the scroll by the exact delta.
+        function syncDependentsKeepAnchor() {
+            var anchor = $antifraud[0];
+            var topBefore = anchor.getBoundingClientRect().top;
+
+            syncDependents();
+
+            var delta = anchor.getBoundingClientRect().top - topBefore;
+            if (!delta) {
+                return;
+            }
+
+            var root = document.documentElement;
+            var prevBehavior = root.style.scrollBehavior;
+            root.style.scrollBehavior = 'auto';
+            window.scrollBy(0, delta);
+            root.style.scrollBehavior = prevBehavior;
+        }
+
+        $antifraud.on('change', syncDependentsKeepAnchor);
 
         // ── Ban duration: disable number field when unit = "forever" ───────
         var $durationUnit  = $('#lknFraudDetectionForWoocommerceBanDurationUnit');
