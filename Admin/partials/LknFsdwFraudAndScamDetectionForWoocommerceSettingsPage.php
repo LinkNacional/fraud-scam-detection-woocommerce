@@ -26,14 +26,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
 
             /* ── Bloco principal ─────────────────────────────────── */
             'section_title' => array(
-                'title'             => __('Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_section_title',
                 'block_id'          => 'antifraud',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
-                'block_title'       => __('Antifraud', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('AntiFraude', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('General antifraud protection settings.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),
