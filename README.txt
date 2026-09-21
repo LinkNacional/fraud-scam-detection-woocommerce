@@ -137,6 +137,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 == Changelog ==
 = 1.3.3 =
+* New "Antifraud" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
 * IP verification and data-based (email/phone) banning no longer require the security verification to be enabled.
 * Fixed the settings page scroll jump when toggling the security verification option.
 * Removed an unused admin settings script.
@@ -193,7 +194,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 == Upgrade Notice ==
 = 1.3.3 =
-* Decouple IP and data-based banning from the security verification; fix settings scroll jump.
+* Add Antifraud admin menu; decouple IP and data-based banning from the security verification; fix settings scroll jump.
 
 = 1.3.2 =
 * Fix checkout when CAPTCHA credentials are empty; add settings UX warnings.

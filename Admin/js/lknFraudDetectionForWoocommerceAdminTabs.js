@@ -86,9 +86,15 @@ jQuery(document).ready(function ($) {
         }, 320); // slightly above the 300ms CSS transition
     });
 
-    // Activate initial tab (marked active in PHP)
+    // Activate the tab requested via the admin menu (?lkn_fsdw_tab=...),
+    // falling back to the tab marked active in PHP.
+    var params = new URLSearchParams(window.location.search);
+    var requested = params.get('lkn_fsdw_tab');
     var $firstActive = $('.admin-layout-title-link.active');
-    if ($firstActive.length) {
+
+    if (requested && $('#nav-' + requested).length) {
+        activateTab(requested);
+    } else if ($firstActive.length) {
         activateTab($firstActive.attr('id').replace('nav-', ''));
     }
 });
