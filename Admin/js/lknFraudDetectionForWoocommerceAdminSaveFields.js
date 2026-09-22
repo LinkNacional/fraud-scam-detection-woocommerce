@@ -87,7 +87,7 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
         if (response.success) {
             Swal.fire({
                 icon: 'success',
-                title: response.data.message || 'Configurações salvas com sucesso!',
+                title: response.data.message || 'Settings saved successfully!',
             });
         } else {
             var data = response.data || {};
@@ -97,9 +97,9 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
             if (data.code === 'lkn_fsdw_missing_credentials') {
                 Swal.fire({
                     icon: 'warning',
-                    title: data.title || 'Atenção',
-                    text: data.message || 'Configure as credenciais do provedor antes de ativar a verificação de segurança.',
-                    confirmButtonText: data.button || 'Configurar credenciais',
+                    title: data.title || 'Warning',
+                    text: data.message || 'Configure the provider credentials before enabling security verification.',
+                    confirmButtonText: data.button || 'Configure credentials',
                     // Keep the tab focus below instead of letting SweetAlert
                     // restore focus to the submit button (which would scroll
                     // the page back to it ~100ms after closing).
@@ -120,19 +120,19 @@ jQuery(document).on('click', '.admin-layout-submit-wrapper button', function (e)
 
             Swal.fire({
                 icon: 'error',
-                title: 'Erro',
-                text: data.message || 'Ocorreu um erro ao salvar as configurações.',
+                title: 'Error',
+                text: data.message || 'An error occurred while saving the settings.',
             });
         }
     })
     .error(function(xhr) {
         const response = xhr.responseJSON;
-        const message = response?.data?.message || 'Ocorreu um erro inesperado.';
+        const message = response?.data?.message || 'An unexpected error occurred.';
 
-        console.error('Erro AJAX:', xhr.status, message);
+        console.error('AJAX error:', xhr.status, message);
         Swal.fire({
             icon: 'error',
-            title: 'Erro',
+            title: 'Error',
             text: message,
         });
     });

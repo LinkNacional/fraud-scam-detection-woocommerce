@@ -38,20 +38,29 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
         );
 
         // Primeiro item clona o slug do pai (evita a entrada duplicada do WP)
-        // e aponta para a aba principal de configurações. O callback já está
+        // e aponta para a aba principal (Captcha). O callback já está
         // registrado pelo add_menu_page acima.
         add_submenu_page(
             self::MENU_SLUG,
-            __('Configurações', 'fraud-and-scam-detection-for-woocommerce'),
-            __('Configurações', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Captcha', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Captcha', 'fraud-and-scam-detection-for-woocommerce'),
             self::CAPABILITY,
             self::MENU_SLUG
         );
 
         add_submenu_page(
             self::MENU_SLUG,
-            __('IPs Banidos', 'fraud-and-scam-detection-for-woocommerce'),
-            __('IPs Banidos', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+            self::CAPABILITY,
+            self::MENU_SLUG . '-data-blocking',
+            array($this, 'redirect')
+        );
+
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
             self::CAPABILITY,
             self::MENU_SLUG . '-banned-ips',
             array($this, 'redirect')
@@ -59,8 +68,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
 
         add_submenu_page(
             self::MENU_SLUG,
-            __('Bloqueio por Dados', 'fraud-and-scam-detection-for-woocommerce'),
-            __('Bloqueio por Dados', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Blocked Data', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Blocked Data', 'fraud-and-scam-detection-for-woocommerce'),
             self::CAPABILITY,
             self::MENU_SLUG . '-block-by-data',
             array($this, 'redirect')
@@ -78,7 +87,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
         $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : '';
 
         $tabs = array(
-            self::MENU_SLUG                    => 'antifraud',
+            self::MENU_SLUG                    => 'captcha',
+            self::MENU_SLUG . '-data-blocking' => 'antifraud',
             self::MENU_SLUG . '-banned-ips'    => 'banned-ips',
             self::MENU_SLUG . '-block-by-data' => 'block-by-data',
         );
