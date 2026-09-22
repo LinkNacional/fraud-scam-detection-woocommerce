@@ -15,8 +15,8 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     {
         $this->id    = 'lkn_anti_fraud';
         $this->label = __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce');
-        $this->method_title       = esc_attr__('Detecção de Fraudes e Golpes', 'fraud-and-scam-detection-for-woocommerce');
-        $this->method_description = esc_attr__('Configure as opções de proteção antifraude e integração com reCAPTCHA para maior segurança nas transações.', 'fraud-and-scam-detection-for-woocommerce');
+        $this->method_title       = esc_attr__('Fraud and Scam Detection', 'fraud-and-scam-detection-for-woocommerce');
+        $this->method_description = esc_attr__('Configure the antifraud protection options and reCAPTCHA integration for greater security in transactions.', 'fraud-and-scam-detection-for-woocommerce');
         parent::__construct();
     }
 
@@ -24,17 +24,179 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     {
         $settings = array(
 
+            /* ── Captcha (Google reCAPTCHA / Cloudflare Turnstile) ── */
+            'captcha_section_title' => array(
+                'title'             => __('Captcha', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'title',
+                'id'                => 'lkn_anti_fraud_captcha_section_title',
+                'block_id'          => 'captcha',
+                'description'       => '',
+                'default'           => '',
+                'desc_tip'          => false,
+                'block_title'       => __('Captcha', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Pick a provider to turn on checkout verification and reveal its credentials.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
+            ),
+            'enable_recaptcha' => array(
+                'title'             => __('Enable Security Verification', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceEnableRecaptcha',
+                'label'             => __('Enable security verification during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Enable security verification during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'hidden'            => true,
+                'block_title'       => __('Enable Security Verification', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => '',
+                'custom_attributes' => array(),
+            ),
+            'security_version' => array(
+                'title'             => __('Security Provider', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'select',
+                'id'                => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
+                'options'           => array(
+                    'none'                => __('None', 'fraud-and-scam-detection-for-woocommerce'),
+                    'googleRecaptchaV3'   => __('Google reCAPTCHA V3', 'fraud-and-scam-detection-for-woocommerce'),
+                    'cloudflareTurnstile' => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'           => get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'none' ),
+                'description'       => __('Select the security service to use at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Security Provider', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Selecting a provider turns verification on and reveals its credentials below. Selecting "None" turns it off.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'recaptcha_keys_info' => array(
+                'title'             => __('Generate Google reCAPTCHA V3 Keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'url',
+                'id'                => 'lknFraudDetectionForWoocommerceRecaptchaKeysInfo',
+                'default'           => 'https://www.google.com/recaptcha/admin/',
+                'label'             => __('Generate Google reCAPTCHA V3 Keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'description'       => __('Click to access the Google reCAPTCHA panel and generate your integration keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Generate Google reCAPTCHA V3 Keys', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Click to generate new keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'googleRecaptchaV3',
+            ),
+            'recaptcha_site_key' => array(
+                'title'             => __('reCAPTCHA Site Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'text',
+                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key',
+                'default'           => '',
+                'description'       => __('Google reCAPTCHA V3 service key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('reCAPTCHA Site Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Enter your Google reCAPTCHA V3 site key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Google reCAPTCHA V3 public key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'googleRecaptchaV3',
+                'custom_attributes' => array(),
+            ),
+            'recaptcha_secret_key' => array(
+                'title'             => __('reCAPTCHA Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'text',
+                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret',
+                'default'           => '',
+                'description'       => __('Google reCAPTCHA V3 secret key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('reCAPTCHA Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Enter your Google reCAPTCHA V3 secret key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Google reCAPTCHA V3 private key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'googleRecaptchaV3',
+                'custom_attributes' => array(),
+            ),
+            'recaptcha_score' => array(
+                'title'             => __('Minimum Score', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'number',
+                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score',
+                'default'           => '0.5',
+                'description'       => __('The minimum score validated by reCAPTCHA for payment acceptance. Range: 0 to 1. It is recommended to use a score above 0.7.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Minimum Score', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Set the minimum score for approval.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Value between 0 and 1. Recommended above 0.7.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'googleRecaptchaV3',
+                'custom_attributes' => array(
+                    'step' => '0.1',
+                    'min'  => '0',
+                    'max'  => '1',
+                ),
+            ),
+            'cloudflare_keys_info' => array(
+                'title'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'url',
+                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileKeysInfo',
+                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare dashboard link shown to the admin.
+                'label'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'description'       => __('Click to access the Cloudflare dashboard and generate your Turnstile site and secret keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Generate Cloudflare Turnstile Keys', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Click to generate new keys.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'cloudflareTurnstile',
+            ),
+            'cloudflare_site_key' => array(
+                'title'             => __('Turnstile Site Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'text',
+                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey',
+                'default'           => '',
+                'description'       => __('Cloudflare Turnstile public site key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Turnstile Site Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Enter your Cloudflare Turnstile site key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Cloudflare Turnstile public key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'cloudflareTurnstile',
+                'custom_attributes' => array(),
+            ),
+            'cloudflare_secret_key' => array(
+                'title'             => __('Turnstile Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'text',
+                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey',
+                'default'           => '',
+                'description'       => __('Cloudflare Turnstile secret key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Turnstile Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Enter your Cloudflare Turnstile secret key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Cloudflare Turnstile private key.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'cloudflareTurnstile',
+                'custom_attributes' => array(),
+            ),
+            'cloudflare_theme' => array(
+                'title'             => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'select',
+                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
+                'options'           => array(
+                    'auto'  => __('Auto', 'fraud-and-scam-detection-for-woocommerce'),
+                    'light' => __('Light', 'fraud-and-scam-detection-for-woocommerce'),
+                    'dark'  => __('Dark', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+                'default'           => get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme', 'light' ),
+                'description'       => __('Choose the visual theme of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Select light, dark or auto.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Visual appearance of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'security_version',
+                'provider'          => 'cloudflareTurnstile',
+                'custom_attributes' => array(),
+            ),
+
             /* ── Bloco principal ─────────────────────────────────── */
             'section_title' => array(
-                'title'             => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_section_title',
                 'block_id'          => 'antifraud',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
-                'block_title'       => __('AntiFraud', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('General antifraud protection settings.', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('General data blocking settings.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),
             'enable_data_block' => array(
@@ -68,9 +230,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'block_title'               => __('Enable Data Blocking', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'           => __('Select which data types should block orders at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_tab_link'            => sprintf(
-                    /* translators: %s: "Block by Data" tab name */
+                    /* translators: %s: "Blocked Data" tab name */
                     __('To manage the blocked data lists, visit the <a href="#" data-goto-tab="block-by-data">%s</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
-                    __('Block by Data', 'fraud-and-scam-detection-for-woocommerce')
+                    __('Blocked Data', 'fraud-and-scam-detection-for-woocommerce')
                 ),
                 'custom_attributes'         => array(),
             ),
@@ -183,38 +345,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'join'              => 'enable_ip_lookup',
                 'custom_attributes' => array(),
             ),
-            'enable_recaptcha' => array(
-                'title'             => __('Enable Security Verification', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'checkbox',
-                'id'                => 'lknFraudDetectionForWoocommerceEnableRecaptcha',
-                'label'             => __('Enable security verification during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
-                'default'           => 'no',
-                'description'       => __('Enable security verification during checkout.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Security Version', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Turn on and choose the security verification used at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Enable to require security validation at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-            'security_version' => array(
-                'title'             => __('Security Provider', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'select',
-                'id'                => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
-                'options'           => array(
-                    'none'                => __('None', 'fraud-and-scam-detection-for-woocommerce'),
-                    'googleRecaptchaV3'   => __('Google reCAPTCHA V3', 'fraud-and-scam-detection-for-woocommerce'),
-                    'cloudflareTurnstile' => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
-                ),
-                'default'           => get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' ),
-                'description'       => __('Select the security service to use at checkout.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Security Provider', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Choose between Google reCAPTCHA or Cloudflare Turnstile.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Select the provider for checkout validation.', 'fraud-and-scam-detection-for-woocommerce'),
-                'credentials_notice' => true,
-                'custom_attributes' => array(),
-                'join'              => 'enable_recaptcha',
-            ),
             'debug' => array(
                 'title'             => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'checkbox',
@@ -233,141 +363,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'custom_attributes' => array(),
             ),
 
-            /* ── Google reCAPTCHA ────────────────────────────────── */
-            'google_section_title' => array(
-                'title'             => __('Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'title',
-                'id'                => 'lkn_anti_fraud_google_section_title',
-                'block_id'          => 'google-recaptcha',
-                'description'       => '',
-                'default'           => '',
-                'desc_tip'          => false,
-                'block_title'       => __('Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Configure your Google reCAPTCHA V3 credentials.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => '',
-                'tab_notice'        => 'googleRecaptchaV3',
-            ),
-            'recaptcha_keys_info' => array(
-                'title'             => __('Generate Google reCAPTCHA V3 Keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'url',
-                'id'                => 'lknFraudDetectionForWoocommerceRecaptchaKeysInfo',
-                'default'           => 'https://www.google.com/recaptcha/admin/',
-                'label'             => __('Generate Google reCAPTCHA V3 Keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'description'       => __('Click to access the Google reCAPTCHA panel and generate your integration keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Generate Google reCAPTCHA V3 Keys', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Click to generate new keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Get your Google reCAPTCHA V3 keys.', 'fraud-and-scam-detection-for-woocommerce'),
-            ),
-            'recaptcha_site_key' => array(
-                'title'             => __('reCAPTCHA Site Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'text',
-                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key',
-                'default'           => '',
-                'description'       => __('Google reCAPTCHA V3 service key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('reCAPTCHA Site Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Enter your Google reCAPTCHA V3 site key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Google reCAPTCHA V3 public key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-            'recaptcha_secret_key' => array(
-                'title'             => __('reCAPTCHA Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'text',
-                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret',
-                'default'           => '',
-                'description'       => __('Google reCAPTCHA V3 secret key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('reCAPTCHA Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Enter your Google reCAPTCHA V3 secret key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Google reCAPTCHA V3 private key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-            'recaptcha_score' => array(
-                'title'             => __('Minimum Score', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'number',
-                'id'                => 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score',
-                'default'           => '0.5',
-                'description'       => __('The minimum score validated by reCAPTCHA for payment acceptance. Range: 0 to 1. It is recommended to use a score above 0.7.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Minimum Score', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Set the minimum score for approval.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Value between 0 and 1. Recommended above 0.7.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(
-                    'step' => '0.1',
-                    'min'  => '0',
-                    'max'  => '1',
-                ),
-            ),
-
-            /* ── Cloudflare Turnstile ────────────────────────────── */
-            'cloudflare_section_title' => array(
-                'title'             => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'title',
-                'id'                => 'lkn_anti_fraud_cloudflare_section_title',
-                'block_id'          => 'cloudflare-turnstile',
-                'description'       => '',
-                'default'           => '',
-                'desc_tip'          => false,
-                'block_title'       => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Configure your Cloudflare Turnstile credentials.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => '',
-                'tab_notice'        => 'cloudflareTurnstile',
-            ),
-            'cloudflare_keys_info' => array(
-                'title'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'url',
-                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileKeysInfo',
-                'default'           => 'https://dash.cloudflare.com/?to=/:account/turnstile', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare dashboard link shown to the admin.
-                'label'             => __('Generate Cloudflare Turnstile Keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'description'       => __('Click to access the Cloudflare dashboard and generate your Turnstile site and secret keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Generate Cloudflare Turnstile Keys', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Click to generate new keys.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Get your Cloudflare Turnstile keys.', 'fraud-and-scam-detection-for-woocommerce'),
-            ),
-            'cloudflare_site_key' => array(
-                'title'             => __('Turnstile Site Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'text',
-                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey',
-                'default'           => '',
-                'description'       => __('Cloudflare Turnstile public site key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Turnstile Site Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Enter your Cloudflare Turnstile site key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Cloudflare Turnstile public key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-            'cloudflare_secret_key' => array(
-                'title'             => __('Turnstile Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'text',
-                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey',
-                'default'           => '',
-                'description'       => __('Cloudflare Turnstile secret key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Turnstile Secret Key', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Enter your Cloudflare Turnstile secret key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Cloudflare Turnstile private key.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-            'cloudflare_theme' => array(
-                'title'             => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'select',
-                'id'                => 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme',
-                'options'           => array(
-                    'auto'  => __('Auto', 'fraud-and-scam-detection-for-woocommerce'),
-                    'light' => __('Light', 'fraud-and-scam-detection-for-woocommerce'),
-                    'dark'  => __('Dark', 'fraud-and-scam-detection-for-woocommerce'),
-                ),
-                'default'           => get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme', 'light' ),
-                'description'       => __('Choose the visual theme of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
-                'desc_tip'          => true,
-                'block_title'       => __('Turnstile Theme', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Select light, dark or auto.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Visual appearance of the Turnstile widget.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-
             /* ── Banned IPs ──────────────────────────────────────── */
             'banned_ips_section_title' => array(
                 'title'             => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
@@ -382,16 +377,16 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => '',
             ),
 
-            /* ── Block by Data ───────────────────────────────────── */
+            /* ── Blocked Data ───────────────────────────────────── */
             'blocked_data_section_title' => array(
-                'title'             => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'title'             => __('Blocked Data', 'fraud-and-scam-detection-for-woocommerce'),
                 'type'              => 'title',
                 'id'                => 'lkn_anti_fraud_blocked_data_section_title',
                 'block_id'          => 'block-by-data',
                 'description'       => '',
                 'default'           => '',
                 'desc_tip'          => false,
-                'block_title'       => __('Block by Data', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_title'       => __('Blocked Data', 'fraud-and-scam-detection-for-woocommerce'),
                 'block_sub_title'   => __('Manage blocked emails, phone numbers, countries and device identities.', 'fraud-and-scam-detection-for-woocommerce'),
                 'input_description' => '',
             ),
@@ -527,9 +522,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorBan'       => __('Error banning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorUnban'     => __('Error unbanning IP.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorEmpty'     => __('Enter an IP address.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'    => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'      => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );
@@ -542,43 +537,16 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
             true
         );
 
-        // Provider credential fields used to warn when Security Version is configured without credentials.
+        // Captcha tab: the provider select drives the (hidden) enable checkbox
+        // and reveals the matching provider credential fields.
         wp_localize_script(
             'lkn-fraud-detection-for-woocommerce-admin-toggle-fields',
-            'lknFsdwCredentialsVars',
+            'lknFsdwCaptchaVars',
             array(
-                'selectId'  => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
-                'enableId'  => 'lknFraudDetectionForWoocommerceEnableRecaptcha',
-                'providers' => array(
-                    'googleRecaptchaV3' => array(
-                        'tab'    => 'google-recaptcha',
-                        'label'  => __('Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce'),
-                        'fields' => array(
-                            'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key',
-                            'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret',
-                        ),
-                    ),
-                    'cloudflareTurnstile' => array(
-                        'tab'    => 'cloudflare-turnstile',
-                        'label'  => __('Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce'),
-                        'fields' => array(
-                            'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey',
-                            'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey',
-                        ),
-                    ),
-                ),
-                'i18n'      => array(
-                    'missing' => __('The security credentials are not filled in. Fill them in to activate this feature.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'link'    => __('Click here to fill them in.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'filled'  => __('Security credentials filled in.', 'fraud-and-scam-detection-for-woocommerce'),
-                    /* translators: {provider} = provider name (e.g. "Cloudflare Turnstile"). */
-                    'tabDisabled' => __('Security verification is disabled. Activate it to use {provider}.', 'fraud-and-scam-detection-for-woocommerce'),
-                    /* translators: {provider} = provider name (e.g. "Cloudflare Turnstile"). */
-                    'tabNone'     => __('No provider selected. Select {provider} to activate it.', 'fraud-and-scam-detection-for-woocommerce'),
-                    /* translators: {active} = active provider name, {provider} = this tab provider name. */
-                    'tabOther'    => __('{active} is the active provider. To use {provider}, change it in the security settings.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'tabAction'   => __('Click here to configure it.', 'fraud-and-scam-detection-for-woocommerce'),
-                ),
+                'selectId'       => 'lknFraudDetectionForWoocommerceRecaptchaSelected',
+                'enableId'       => 'lknFraudDetectionForWoocommerceEnableRecaptcha',
+                'googleProvider' => 'googleRecaptchaV3',
+                'noneValue'      => 'none',
             )
         );
 
@@ -633,9 +601,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'errorLoad'                 => __('Failed to load list.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorAdd'                  => __('Error adding item.', 'fraud-and-scam-detection-for-woocommerce'),
                     'errorRemove'               => __('Error removing item.', 'fraud-and-scam-detection-for-woocommerce'),
-                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
-                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">AntiFraud</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );

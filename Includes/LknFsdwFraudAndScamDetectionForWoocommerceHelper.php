@@ -775,7 +775,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		// Verificar se ocorreu um erro na requisição
 		if (is_wp_error($response)) {
 			$error_message = $response->get_error_message();
-			throw new Exception( esc_html( 'Erro na verificação do reCAPTCHA: ' . $error_message ) );
+			throw new Exception( esc_html( __( 'reCAPTCHA verification error: ', 'fraud-and-scam-detection-for-woocommerce' ) . $error_message ) );
 		}
 
 		$responseBody = json_decode(wp_remote_retrieve_body($response), true);
@@ -845,7 +845,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		] );
 
 		if ( is_wp_error( $response ) ) {
-			throw new Exception( esc_html( 'Erro na verificação do Turnstile: ' . $response->get_error_message() ) );
+			throw new Exception( esc_html( __( 'Turnstile verification error: ', 'fraud-and-scam-detection-for-woocommerce' ) . $response->get_error_message() ) );
 		}
 
 		$responseBody = json_decode( wp_remote_retrieve_body( $response ), true );

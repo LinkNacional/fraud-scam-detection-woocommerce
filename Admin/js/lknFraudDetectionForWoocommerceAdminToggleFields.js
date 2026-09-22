@@ -2,57 +2,48 @@
     'use strict';
 
     $(document).ready(function () {
-        var $antifraud = $('#lknFraudDetectionForWoocommerceEnableRecaptcha');
+        // ── Captcha: the provider select drives the hidden enable checkbox and
+        //    reveals the matching provider credential fields. ────────────────
+        var captcha = (typeof lknFsdwCaptchaVars !== 'undefined') ? lknFsdwCaptchaVars : null;
 
-        if (!$antifraud.length) {
-            return;
-        }
+        if (captcha) {
+            var $select = $('#' + captcha.selectId);
+            var $enable = $('#' + captcha.enableId);
+            var $groups = $('[data-captcha-provider]');
 
-        // The provider select is a joined child of the enable checkbox, so it
-        // is hidden via its joined blocks instead of the whole parent card.
-        var $providerJoined      = $('#lknFraudDetectionForWoocommerceRecaptchaSelected')
-            .closest('.admin-layout-joined-component-bg');
-        var $providerJoinedLabel = $providerJoined.prev('.admin-layout-joined-label-desc');
-
-        // Nav tabs that depend on the security verification being active
-        var $dependentTabs = $(
-            '[data-target="block-google-recaptcha"], ' +
-            '[data-target="block-cloudflare-turnstile"]'
-        );
-
-        function syncDependents() {
-            var active = $antifraud.is(':checked');
-
-            $providerJoined.add($providerJoinedLabel).toggleClass('lkn-disabled-field', !active);
-
-            $dependentTabs.toggleClass('lkn-disabled-tab', !active);
-        }
-
-        syncDependents();
-
-        // Toggling changes the layout around this checkbox, so the checkbox
-        // can shift vertically and the viewport would otherwise appear to
-        // jump. Keep the checkbox pinned to the same on-screen position by
-        // compensating the scroll by the exact delta.
-        function syncDependentsKeepAnchor() {
-            var anchor = $antifraud[0];
-            var topBefore = anchor.getBoundingClientRect().top;
-
-            syncDependents();
-
-            var delta = anchor.getBoundingClientRect().top - topBefore;
-            if (!delta) {
-                return;
+            function syncProviderFields() {
+                var provider = $select.val();
+                $groups.each(function () {
+                    var $group = $(this);
+                    $group.toggle($group.attr('data-captcha-provider') === provider);
+                });
             }
 
-            var root = document.documentElement;
-            var prevBehavior = root.style.scrollBehavior;
-            root.style.scrollBehavior = 'auto';
-            window.scrollBy(0, delta);
-            root.style.scrollBehavior = prevBehavior;
-        }
+            // Legacy installs enabled the (previously Google-only) feature before
+            // the provider option existed. Default them to Google so the stored
+            // "enabled" state stays visible and consistent with the select.
+            if ($enable.length && $enable.is(':checked') &&
+                (!$select.val() || $select.val() === captcha.noneValue)) {
+                $select.val(captcha.googleProvider);
+            }
 
-        $antifraud.on('change', syncDependentsKeepAnchor);
+            // The select is the single source of truth for the hidden enable
+            // checkbox: a provider means "on", "None" means "off". On load this
+            // keeps the stored checkbox consistent with the selected provider
+            // (fresh stores keep "none", so they stay disabled).
+            function syncEnableFromProvider() {
+                var provider = $select.val();
+                $enable.prop('checked', !!provider && provider !== captcha.noneValue);
+            }
+
+            syncEnableFromProvider();
+            syncProviderFields();
+
+            $select.on('change', function () {
+                syncEnableFromProvider();
+                syncProviderFields();
+            });
+        }
 
         // ── Ban duration: disable number field when unit = "forever" ───────
         var $durationUnit  = $('#lknFraudDetectionForWoocommerceBanDurationUnit');
@@ -83,190 +74,6 @@
                 navLink.scrollIntoView({ block: 'center' });
             }
         });
-
-        // ── Security Version: warn when the selected provider has no creds ──
-        var creds = (typeof lknFsdwCredentialsVars !== 'undefined') ? lknFsdwCredentialsVars : null;
-
-        if (creds && creds.providers) {
-            var $providerSelect = $('#' + creds.selectId);
-            var $enableToggle   = $('#' + creds.enableId);
-            var $credsWarning   = $('.lkn-fsdw-credentials-warning');
-            var $indicator      = $('.lkn-fsdw-credentials-indicator');
-            var $tabNotices     = $('.lkn-fsdw-tab-notice');
-
-            function providerMissing(providerKey) {
-                var provider = creds.providers[providerKey];
-                if (!provider) {
-                    return false;
-                }
-                var missing = false;
-                $.each(provider.fields, function (_, fieldId) {
-                    var $field = $('#' + fieldId);
-                    if ($field.length && $.trim($field.val()) === '') {
-                        missing = true;
-                    }
-                });
-                return missing;
-            }
-
-            function providerLabel(providerKey) {
-                return (creds.providers[providerKey] && creds.providers[providerKey].label)
-                    ? creds.providers[providerKey].label
-                    : providerKey;
-            }
-
-            function fill(template, map) {
-                return String(template).replace(/\{(\w+)\}/g, function (match, key) {
-                    return Object.prototype.hasOwnProperty.call(map, key) ? map[key] : match;
-                });
-            }
-
-            function syncCredentialsWarning() {
-                if (!$credsWarning.length || !$providerSelect.length) {
-                    return;
-                }
-
-                var provider = $providerSelect.val();
-                var enabled  = !$enableToggle.length || $enableToggle.is(':checked');
-                var show     = enabled && provider && provider !== 'none' &&
-                    creds.providers[provider] && providerMissing(provider);
-
-                if (show) {
-                    $credsWarning.find('.lkn-fsdw-credentials-warning-text').text(creds.i18n.missing);
-                    $credsWarning.find('.lkn-fsdw-credentials-warning-link')
-                        .data('goto-tab', creds.providers[provider].tab)
-                        .attr('data-goto-tab', creds.providers[provider].tab)
-                        .text(creds.i18n.link);
-                    $credsWarning.show();
-                } else {
-                    $credsWarning.hide();
-                }
-            }
-
-            // Inline indicator beside the provider select: a gear when the
-            // selected provider still needs credentials (clicking jumps to its
-            // tab, like the warning link) and a check when they are filled in
-            // (decoration only).
-            function syncCredentialsIndicator() {
-                if (!$indicator.length || !$providerSelect.length) {
-                    return;
-                }
-
-                var provider    = $providerSelect.val();
-                var hasProvider = provider && provider !== 'none' && creds.providers[provider];
-
-                if (!hasProvider) {
-                    $indicator.hide();
-                    return;
-                }
-
-                var missing = providerMissing(provider);
-
-                $indicator
-                    .removeClass('dashicons-admin-generic dashicons-yes-alt is-missing is-ok')
-                    .addClass(missing ? 'dashicons-admin-generic' : 'dashicons-yes-alt')
-                    .toggleClass('is-missing', missing)
-                    .toggleClass('is-ok', !missing)
-                    .attr('title', missing ? creds.i18n.missing : creds.i18n.filled);
-
-                if (missing) {
-                    $indicator
-                        .attr('data-goto-tab', creds.providers[provider].tab)
-                        .attr('role', 'button')
-                        .attr('tabindex', '0');
-                } else {
-                    $indicator
-                        .removeAttr('data-goto-tab')
-                        .removeAttr('role')
-                        .removeAttr('tabindex');
-                }
-
-                $indicator.show();
-            }
-
-            // Contextual notice on the Google reCAPTCHA / Cloudflare Turnstile
-            // tabs: tells the admin which provider is active (or to enable /
-            // select one) and links back to the security settings field.
-            function syncTabNotices() {
-                if (!$tabNotices.length || !$providerSelect.length) {
-                    return;
-                }
-
-                var active  = $providerSelect.val();
-                var enabled = !$enableToggle.length || $enableToggle.is(':checked');
-
-                $tabNotices.each(function () {
-                    var $notice     = $(this);
-                    var providerKey = $notice.data('provider');
-                    var message     = '';
-
-                    if (!enabled) {
-                        message = fill(creds.i18n.tabDisabled, { provider: providerLabel(providerKey) });
-                    } else if (!active || active === 'none') {
-                        message = fill(creds.i18n.tabNone, { provider: providerLabel(providerKey) });
-                    } else if (active !== providerKey) {
-                        // Only the non-active provider tab warns; the selected
-                        // provider relies on the field-level credentials notice.
-                        message = fill(creds.i18n.tabOther, {
-                            active: providerLabel(active),
-                            provider: providerLabel(providerKey)
-                        });
-                    }
-
-                    if (message) {
-                        $notice.find('.lkn-fsdw-tab-notice-text').text(message);
-                        $notice.find('.lkn-fsdw-tab-notice-link').text(creds.i18n.tabAction);
-                        $notice.show();
-                    } else {
-                        $notice.hide();
-                    }
-                });
-            }
-
-            function refresh() {
-                syncCredentialsWarning();
-                syncCredentialsIndicator();
-                syncTabNotices();
-            }
-
-            // Keyboard activation for the gear indicator (role=button).
-            $(document).on('keydown', '.lkn-fsdw-credentials-indicator[data-goto-tab]', function (e) {
-                if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
-                    e.preventDefault();
-                    $(this).trigger('click');
-                }
-            });
-
-            // Notice button: switch to the Antifraud tab and smooth-scroll to
-            // the field that enables the security verification.
-            $(document).on('click', '.lkn-fsdw-tab-notice-link', function (e) {
-                e.preventDefault();
-                var $navLink = $('.admin-layout-title-link[data-target="block-antifraud"]');
-                if ($navLink.length) {
-                    $navLink.trigger('click');
-                }
-                var anchor = document.getElementById('lknFraudDetectionForWoocommerceEnableRecaptcha');
-                if (anchor) {
-                    window.setTimeout(function () {
-                        var target = anchor.closest('.admin-layout-field-parent-flex') || anchor;
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 80);
-                }
-            });
-
-            if ($providerSelect.length) {
-                $providerSelect.on('change', refresh);
-                if ($enableToggle.length) {
-                    $enableToggle.on('change', refresh);
-                }
-                $.each(creds.providers, function (_, provider) {
-                    $.each(provider.fields, function (_, fieldId) {
-                        $('#' + fieldId).on('input change', refresh);
-                    });
-                });
-                refresh();
-            }
-        }
     });
 
 }(jQuery));

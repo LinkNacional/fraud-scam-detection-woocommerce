@@ -14,7 +14,6 @@ foreach ($form_fields as $key => $field) {
             $first_block_id = $current_block;
         }
         $blocks[$current_block]['title'] = $field['title'];
-        $blocks[$current_block]['tab_notice'] = !empty($field['tab_notice']) ? $field['tab_notice'] : '';
         continue;
     }
     if ($current_block !== null) {
@@ -51,12 +50,6 @@ foreach ($form_fields as $key => $field) {
                 <?php wp_nonce_field('woocommerce-options'); ?>
                 <?php foreach ($blocks as $block_id => $block): ?>
                     <div class="admin-layout-block<?php echo $block_id === $first_block_id ? ' active' : ''; ?>" id="block-<?php echo esc_attr($block_id); ?>">
-                        <?php if (!empty($block['tab_notice'])): ?>
-                            <div class="lkn-fsdw-tab-notice" data-provider="<?php echo esc_attr($block['tab_notice']); ?>" style="display:none;">
-                                <span class="lkn-fsdw-tab-notice-text"></span>
-                                <a href="#" class="lkn-fsdw-tab-notice-link"></a>
-                            </div>
-                        <?php endif; ?>
                         <?php
                         foreach (($block['fields'] ?? []) as $key => $field):
                             if (!empty($field['join'])) continue;
@@ -69,7 +62,7 @@ foreach ($form_fields as $key => $field) {
                                 }
                             }
                         ?>
-                        <div class="admin-layout-field-parent-flex">
+                        <div class="admin-layout-field-parent-flex<?php echo !empty($field['hidden']) ? ' lkn-disabled-field' : ''; ?>">
                             <div class="admin-layout-field-label-desc">
                                 <?php if (!empty($field['title']) && $field['type'] !== 'title'): ?>
                                     <span class="admin-layout-label">
@@ -263,9 +256,6 @@ foreach ($form_fields as $key => $field) {
                                                         </option>
                                                     <?php endforeach; ?>
                                                 </select>
-                                                <?php if (!empty($field['credentials_notice'])): ?>
-                                                    <span class="lkn-fsdw-credentials-indicator dashicons" style="display:none;" aria-hidden="true"></span>
-                                                <?php endif; ?>
                                             </div>
                                             <?php
                                             break;
@@ -299,12 +289,6 @@ foreach ($form_fields as $key => $field) {
                                             <?php echo esc_html($field['input_description']); ?>
                                         </div>
                                     <?php endif; ?>
-                                    <?php if (!empty($field['credentials_notice'])): ?>
-                                        <div class="lkn-fsdw-credentials-warning" style="display:none;">
-                                            <span class="lkn-fsdw-credentials-warning-text"></span>
-                                            <a href="#" class="lkn-fsdw-credentials-warning-link" data-goto-tab=""></a>
-                                        </div>
-                                    <?php endif; ?>
                                     <?php if (!empty($field['input_tab_link'])): ?>
                                         <div class="admin-layout-input-tab-link">
                                             <?php echo wp_kses($field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
@@ -316,7 +300,19 @@ foreach ($form_fields as $key => $field) {
                                         </div>
                                     <?php endif; ?>
                                 </div>
-                                <?php foreach ($children as $child_key => $child_field): ?>
+                                <?php
+                                $provider_groups = [];
+                                foreach (($children ?? []) as $child_key => $child_field) {
+                                    $provider_key = !empty($child_field['provider']) ? $child_field['provider'] : '';
+                                    $provider_groups[$provider_key][$child_key] = $child_field;
+                                }
+                                foreach ($provider_groups as $provider_key => $group_children):
+                                    $wrap_provider_group = '' !== $provider_key;
+                                    if ($wrap_provider_group) {
+                                        echo '<div class="admin-layout-provider-group" data-captcha-provider="' . esc_attr($provider_key) . '">';
+                                    }
+                                    foreach ($group_children as $child_key => $child_field):
+                                ?>
                                     <div class="admin-layout-joined-label-desc">
                                         <?php if (!empty($child_field['block_title'])): ?>
                                             <span class="admin-layout-label">
@@ -496,9 +492,6 @@ foreach ($form_fields as $key => $field) {
                                                                 </option>
                                                             <?php endforeach; ?>
                                                         </select>
-                                                        <?php if (!empty($child_field['credentials_notice'])): ?>
-                                                            <span class="lkn-fsdw-credentials-indicator dashicons" style="display:none;" aria-hidden="true"></span>
-                                                        <?php endif; ?>
                                                     </div>
                                                     <?php
                                                     break;
@@ -531,23 +524,20 @@ foreach ($form_fields as $key => $field) {
                                                     <?php echo esc_html($child_field['input_description']); ?>
                                                 </div>
                                             <?php endif; ?>
-                                            <?php if (!empty($child_field['credentials_notice'])): ?>
-                                                <div class="lkn-fsdw-credentials-warning" style="display:none;">
-                                                    <span class="lkn-fsdw-credentials-warning-text"></span>
-                                                    <a href="#" class="lkn-fsdw-credentials-warning-link" data-goto-tab=""></a>
-                                                </div>
-                                            <?php endif; ?>
                                             <?php if (!empty($child_field['input_tab_link'])): ?>
                                                 <div class="admin-layout-input-tab-link">
                                                     <?php echo wp_kses($child_field['input_tab_link'], array('a' => array('href' => array(), 'data-goto-tab' => array()))); ?>
                                                 </div>
-                                            <?php endif; ?>                                            <?php if (!empty($child_field['input_warning'])): ?>
+                                            <?php endif; ?>
+                                            <?php if (!empty($child_field['input_warning'])): ?>
                                                 <div class="admin-layout-input-warning">
                                                     <?php echo wp_kses($child_field['input_warning'], array('strong' => array(), 'a' => array('href' => array(), 'target' => array()), 'br' => array())); ?>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
                                     </div>
+                                    <?php endforeach; ?>
+                                    <?php if ($wrap_provider_group): ?></div><?php endif; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
