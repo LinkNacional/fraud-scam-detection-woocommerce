@@ -42,19 +42,24 @@
             return;
         }
 
-        // Insere o container acima dos gateways de pagamento
-        var container = document.createElement('div');
-        container.id  = 'lkn-cf-turnstile';
+        // Container: usa o que o servidor já imprimiu (recibo / order-received);
+        // caso contrário, cria e insere acima dos gateways de pagamento (checkout).
+        var container = document.getElementById('lkn-cf-turnstile');
 
-        var paymentSection = document.querySelector('#payment.woocommerce-checkout-payment')
-            || document.querySelector('fieldset.wc-block-checkout__payment-method');
+        if (!container) {
+            container = document.createElement('div');
+            container.id  = 'lkn-cf-turnstile';
 
-        if (paymentSection) {
-            paymentSection.parentNode.insertBefore(container, paymentSection);
-        } else {
-            // Fallback: fixo no canto inferior direito
-            container.style.cssText = 'position:fixed;bottom:14px;right:25px;z-index:9999;';
-            document.body.appendChild(container);
+            var paymentSection = document.querySelector('#payment.woocommerce-checkout-payment')
+                || document.querySelector('fieldset.wc-block-checkout__payment-method');
+
+            if (paymentSection) {
+                paymentSection.parentNode.insertBefore(container, paymentSection);
+            } else {
+                // Fallback: fixo no canto inferior direito
+                container.style.cssText = 'position:fixed;bottom:14px;right:25px;z-index:9999;';
+                document.body.appendChild(container);
+            }
         }
 
         widgetId = turnstile.render('#lkn-cf-turnstile', {
