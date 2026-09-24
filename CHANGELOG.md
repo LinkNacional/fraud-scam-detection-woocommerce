@@ -1,3 +1,6 @@
+# 1.3.6 - 24/09/2026
+* O captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora é exibido na página de recibo, logo acima das notas do pedido.
+
 # 1.3.5 - 22/09/2026
 * Nova aba "Captcha": selecionar o provedor (Google reCAPTCHA ou Cloudflare Turnstile) ativa a verificação e revela as credenciais em cascata, sem sair da tela.
 * Página de configurações reorganizada em 4 abas: Captcha, Data Blocking, Banned IPs e Blocked Data.
