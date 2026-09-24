@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -136,6 +136,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.6 =
+* Captcha (Google reCAPTCHA or Cloudflare Turnstile) is now rendered on the order-received (receipt) page, right above the order notes.
+
 = 1.3.5 =
 * New "Captcha" tab: picking a provider (Google reCAPTCHA or Cloudflare Turnstile) enables verification and reveals the credentials in cascade, without leaving the screen.
 * Settings page reorganized into 4 tabs: Captcha, Data Blocking, Banned IPs, and Blocked Data.
@@ -203,6 +206,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.6 =
+* Captcha now shows on the receipt page, above the order notes.
+
 = 1.3.5 =
 * New Captcha tab with cascading provider setup; settings reorganized into 4 tabs.
 

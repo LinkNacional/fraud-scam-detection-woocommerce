@@ -45,15 +45,24 @@
         }
 
         // ── Reposiciona o badge acima dos gateways de pagamento ───────────
-        var badgeContainer = document.createElement('div');
-        badgeContainer.id = 'lkn-grecaptcha-badge-container';
+        // No recibo (order-received) o container já vem do servidor; no
+        // checkout ele é criado aqui e inserido acima dos gateways.
+        var badgeContainer = document.getElementById('lkn-grecaptcha-badge-container');
+        var hasServerContainer = !!badgeContainer;
+
+        if (!badgeContainer) {
+            badgeContainer = document.createElement('div');
+            badgeContainer.id = 'lkn-grecaptcha-badge-container';
+        }
 
         var paymentSection = document.querySelector('#payment.woocommerce-checkout-payment')
             || document.querySelector('fieldset.wc-block-checkout__payment-method');
 
-        if (paymentSection) {
+        if (paymentSection && !hasServerContainer) {
             paymentSection.parentNode.insertBefore(badgeContainer, paymentSection);
+        }
 
+        if (hasServerContainer || paymentSection) {
             // Injeta CSS para anular o posicionamento fixo do badge original
             var style = document.createElement('style');
             style.textContent = '#lkn-grecaptcha-badge-container .grecaptcha-badge {'
@@ -62,15 +71,25 @@
                 + 'display:block!important;margin-bottom:10px!important;}';
             document.head.appendChild(style);
 
-            // Move o badge quando ele for adicionado ao DOM pelo script do Google
-            var badgeObserver = new MutationObserver(function () {
+            // Move o badge: tanto se já estiver no DOM quanto quando o
+            // script do Google adicioná-lo depois.
+            var moveBadge = function () {
                 var badge = document.querySelector('.grecaptcha-badge');
                 if (badge && badge.parentNode !== badgeContainer) {
                     badgeContainer.appendChild(badge);
-                    badgeObserver.disconnect();
+                    return true;
                 }
-            });
-            badgeObserver.observe(document.body, { childList: true, subtree: true });
+                return false;
+            };
+
+            if (!moveBadge()) {
+                var badgeObserver = new MutationObserver(function () {
+                    if (moveBadge()) {
+                        badgeObserver.disconnect();
+                    }
+                });
+                badgeObserver.observe(document.body, { childList: true, subtree: true });
+            }
         }
 
         // ── Classic checkout (XHR) ─────────────────────────────────────────

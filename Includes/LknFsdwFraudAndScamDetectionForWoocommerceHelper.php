@@ -195,6 +195,47 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	}
 
 	/**
+	 * Render the captcha container on the order-received (receipt) page.
+	 *
+	 * The captcha is normally injected by JS above the payment section on the
+	 * checkout. On the receipt there is no payment section, so a container is
+	 * printed here — after the "Order details" title and after the other
+	 * templates (e.g. the Pix layout at priority 10), close to the order notes
+	 * — for the JS to render the widget into, instead of the fixed bottom-right
+	 * fallback. Priority 300 pushes it after any other hook on this action.
+	 *
+	 * Hook: woocommerce_order_details_before_order_table (priority 300).
+	 *
+	 * @return void
+	 */
+	public function renderReceiptCaptcha() {
+		if ( ! function_exists( 'is_order_received_page' ) || ! is_order_received_page() ) {
+			return;
+		}
+
+		if ( get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ) !== 'yes' ) {
+			return;
+		}
+
+		$provider = get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'googleRecaptchaV3' );
+
+		if ( 'none' === $provider || '' === $provider ) {
+			return;
+		}
+
+		// No credentials: nothing to render (checkout already blocks this case).
+		if ( ! empty( $this->getMissingCredentials( $provider ) ) ) {
+			return;
+		}
+
+		if ( 'cloudflareTurnstile' === $provider ) {
+			echo '<div id="lkn-cf-turnstile"></div>';
+		} else {
+			echo '<div id="lkn-grecaptcha-badge-container"></div>';
+		}
+	}
+
+	/**
 	 * Fail closed: when the enabled captcha provider is missing credentials,
 	 * block checkout instead of silently skipping verification. A misconfigured
 	 * store must not let orders through without the anti-fraud check.

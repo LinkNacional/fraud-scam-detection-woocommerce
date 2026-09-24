@@ -283,6 +283,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action( 'enqueue_block_assets', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'enqueueRecaptchaScripts');
+		$this->loader->add_action( 'woocommerce_order_details_before_order_table', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'renderReceiptCaptcha', 300, 1 );
 		$this->loader->add_action( 'woocommerce_rest_checkout_process_payment_with_context', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'processPayments', 1, 2 );
 		$this->loader->add_action( 'woocommerce_checkout_order_processed', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'verifyAjaxRequsets', 1, 3 );
 
