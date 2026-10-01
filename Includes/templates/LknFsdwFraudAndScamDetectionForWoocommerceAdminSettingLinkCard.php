@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
         <div class="linkn-support-links">
             <div class="linkn-stars-div">
                 <a target="_blank" href="<?php echo esc_url('https://br.wordpress.org/plugins/woo-better-shipping-calculator-for-brazil/#reviews'); ?>">
-                    <p><?php echo esc_attr__('Avaliar o plugin', 'fraud-and-scam-detection-for-woocommerce'); ?></p>
+                    <p><?php echo esc_attr__('Rate the plugin', 'fraud-and-scam-detection-for-woocommerce'); ?></p>
                     <div class="linkn-stars">
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>

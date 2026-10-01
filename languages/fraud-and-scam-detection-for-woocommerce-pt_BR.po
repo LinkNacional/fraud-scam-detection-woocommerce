@@ -1,0 +1,1008 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fraud-scam-"
+"detection-woocommerce\n"
+"POT-Creation-Date: 2026-10-01T16:31:15+00:00\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.6\n"
+
+msgid "Fraud and Scam Detection For WooCommerce"
+msgstr "Detecção de Fraudes e Golpes para WooCommerce"
+
+msgid "https://www.linknacional.com.br/wordpress/woocommerce/antifraude/"
+msgstr "https://www.linknacional.com.br/wordpress/woocommerce/antifraude/"
+
+#. Description of the plugin
+#: fraud-scam-detection-woocommerce.php
+msgid "Performs verification and prevention of malicious payments."
+msgstr "Realiza verificação e prevenção de pagamentos maliciosos."
+
+#. Author of the plugin
+#: fraud-scam-detection-woocommerce.php
+msgid "Link Nacional"
+msgstr "Link Nacional"
+
+#. Author URI of the plugin
+#: fraud-scam-detection-woocommerce.php
+msgid "https://linknacional.com.br/"
+msgstr "https://linknacional.com.br/"
+
+msgid "Order Filter by IP"
+msgstr "Filtrar pedidos por IP"
+
+msgid "Loading…"
+msgstr "Carregando…"
+
+msgid "No orders found for this IP."
+msgstr "Nenhum pedido encontrado para este IP."
+
+msgid "Order"
+msgstr "Pedido"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "View Order"
+msgstr "Ver pedido"
+
+msgid "ban"
+msgstr "banir"
+
+msgid "unban"
+msgstr "desbanir"
+
+msgid "Unban IP"
+msgstr "Desbanir IP"
+
+msgid "Do you want to unban the following IP?"
+msgstr "Deseja desbanir o seguinte IP?"
+
+msgid "Confirm Unban"
+msgstr "Confirmar desbanimento"
+
+msgid "…"
+msgstr "…"
+
+msgid "IP:"
+msgstr "IP:"
+
+msgid "Ban IP"
+msgstr "Banir IP"
+
+msgid "Do you want to ban the following IP from checkout?"
+msgstr "Deseja banir o seguinte IP da finalização de compra?"
+
+msgid "Confirm Ban"
+msgstr "Confirmar banimento"
+
+msgid "Banning…"
+msgstr "Banindo…"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "AntiFraud"
+msgstr "AntiFraude"
+
+msgid "Captcha"
+msgstr "Captcha"
+
+msgid "Data Blocking"
+msgstr "Bloqueio de dados"
+
+msgid "Banned IPs"
+msgstr "IPs banidos"
+
+msgid "Blocked Data"
+msgstr "Dados bloqueados"
+
+msgid "Fraud and Scam Detection"
+msgstr "Detecção de Fraudes e Golpes"
+
+msgid ""
+"Configure the antifraud protection options and reCAPTCHA integration for "
+"greater security in transactions."
+msgstr ""
+"Configure as opções de proteção antifraude e a integração do reCAPTCHA para "
+"maior segurança nas transações."
+
+msgid ""
+"Pick a provider to turn on checkout verification and reveal its credentials."
+msgstr ""
+"Escolha um provedor para ativar a verificação na finalização de compra e "
+"revelar suas credenciais."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:41
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:49
+msgid "Enable Security Verification"
+msgstr "Ativar Versão de Segurança"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:44
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:46
+msgid "Enable security verification during checkout."
+msgstr "Ative a verificação de segurança na finalização de compra."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:54
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:65
+msgid "Security Provider"
+msgstr "Provedor de Segurança"
+
+msgid "None"
+msgstr "Nenhum"
+
+msgid "Google reCAPTCHA V3"
+msgstr "Google reCAPTCHA V3"
+
+msgid "Cloudflare Turnstile"
+msgstr "Cloudflare Turnstile"
+
+msgid "Select the security service to use at checkout."
+msgstr "Selecione o serviço de segurança a usar na finalização de compra."
+
+msgid ""
+"Selecting a provider turns verification on and reveals its credentials "
+"below. Selecting \"None\" turns it off."
+msgstr ""
+"Selecionar um provedor ativa a verificação e revela suas credenciais abaixo. "
+"Selecionar \"Nenhum\" a desativa."
+
+msgid "Generate Google reCAPTCHA V3 Keys."
+msgstr "Gerar chaves do Google reCAPTCHA V3."
+
+msgid ""
+"Click to access the Google reCAPTCHA panel and generate your integration "
+"keys."
+msgstr ""
+"Clique para acessar o painel do Google reCAPTCHA e gerar suas chaves de "
+"integração."
+
+msgid "Generate Google reCAPTCHA V3 Keys"
+msgstr "Gerar chaves do Google reCAPTCHA V3"
+
+msgid "Click to generate new keys."
+msgstr "Clique para gerar novas chaves."
+
+msgid "reCAPTCHA Site Key"
+msgstr "Chave de site do reCAPTCHA"
+
+msgid "Google reCAPTCHA V3 service key."
+msgstr "Chave de serviço do Google reCAPTCHA V3."
+
+msgid "Enter your Google reCAPTCHA V3 site key."
+msgstr "Informe sua chave de site do Google reCAPTCHA V3."
+
+msgid "Google reCAPTCHA V3 public key."
+msgstr "Chave pública do Google reCAPTCHA V3."
+
+msgid "reCAPTCHA Secret Key"
+msgstr "Chave secreta do reCAPTCHA"
+
+msgid "Google reCAPTCHA V3 secret key."
+msgstr "Chave secreta do Google reCAPTCHA V3."
+
+msgid "Enter your Google reCAPTCHA V3 secret key."
+msgstr "Informe sua chave secreta do Google reCAPTCHA V3."
+
+msgid "Google reCAPTCHA V3 private key."
+msgstr "Chave privada do Google reCAPTCHA V3."
+
+msgid "Minimum Score"
+msgstr "Pontuação mínima"
+
+msgid ""
+"The minimum score validated by reCAPTCHA for payment acceptance. Range: 0 to "
+"1. It is recommended to use a score above 0.7."
+msgstr ""
+"A pontuação mínima validada pelo reCAPTCHA para aceitar o pagamento. Faixa: "
+"0 a 1. Recomenda-se usar uma pontuação acima de 0.7."
+
+msgid "Set the minimum score for approval."
+msgstr "Defina a pontuação mínima para aprovação."
+
+msgid "Value between 0 and 1. Recommended above 0.7."
+msgstr "Valor entre 0 e 1. Recomendado acima de 0.7."
+
+msgid "Generate Cloudflare Turnstile Keys."
+msgstr "Gerar chaves do Cloudflare Turnstile."
+
+msgid ""
+"Click to access the Cloudflare dashboard and generate your Turnstile site "
+"and secret keys."
+msgstr ""
+"Clique para acessar o painel da Cloudflare e gerar suas chaves de site e "
+"secreta do Turnstile."
+
+msgid "Generate Cloudflare Turnstile Keys"
+msgstr "Gerar chaves do Cloudflare Turnstile"
+
+msgid "Turnstile Site Key"
+msgstr "Chave de site do Turnstile"
+
+msgid "Cloudflare Turnstile public site key."
+msgstr "Chave de site pública do Cloudflare Turnstile."
+
+msgid "Enter your Cloudflare Turnstile site key."
+msgstr "Informe sua chave de site do Cloudflare Turnstile."
+
+msgid "Cloudflare Turnstile public key."
+msgstr "Chave pública do Cloudflare Turnstile."
+
+msgid "Turnstile Secret Key"
+msgstr "Chave secreta do Turnstile"
+
+msgid "Cloudflare Turnstile secret key."
+msgstr "Chave secreta do Cloudflare Turnstile."
+
+msgid "Enter your Cloudflare Turnstile secret key."
+msgstr "Informe sua chave secreta do Cloudflare Turnstile."
+
+msgid "Cloudflare Turnstile private key."
+msgstr "Chave privada do Cloudflare Turnstile."
+
+msgid "Turnstile Theme"
+msgstr "Tema do Turnstile"
+
+msgid "Auto"
+msgstr "Automático"
+
+msgid "Light"
+msgstr "Claro"
+
+msgid "Dark"
+msgstr "Escuro"
+
+msgid "Choose the visual theme of the Turnstile widget."
+msgstr "Escolha o tema visual do widget do Turnstile."
+
+msgid "Select light, dark or auto."
+msgstr "Selecione claro, escuro ou automático."
+
+msgid "Visual appearance of the Turnstile widget."
+msgstr "Aparência visual do widget do Turnstile."
+
+msgid "General data blocking settings."
+msgstr "Configurações gerais de bloqueio de dados."
+
+msgid "Enable Data Blocking"
+msgstr "Ativar bloqueio de dados"
+
+msgid "Block by Email"
+msgstr "Bloquear por e-mail"
+
+msgid "Block by Email Domain"
+msgstr "Bloquear por domínio de e-mail"
+
+msgid "Block by Phone"
+msgstr "Bloquear por telefone"
+
+msgid "Block by Country"
+msgstr "Bloquear por país"
+
+msgid "Block by Device Identity"
+msgstr "Bloquear por identidade do dispositivo"
+
+msgid ""
+"Block orders from specific email addresses. Manage blocked emails in the "
+"list below."
+msgstr ""
+"Bloqueie pedidos de endereços de e-mail específicos. Gerencie os e-mails "
+"bloqueados na lista abaixo."
+
+msgid ""
+"Block orders from specific email domains. Manage blocked domains in the list "
+"below."
+msgstr ""
+"Bloqueie pedidos de domínios de e-mail específicos. Gerencie os domínios "
+"bloqueados na lista abaixo."
+
+msgid ""
+"Block orders from specific phone numbers. Manage blocked phones in the list "
+"below."
+msgstr ""
+"Bloqueie pedidos de números de telefone específicos. Gerencie os telefones "
+"bloqueados na lista abaixo."
+
+msgid ""
+"Block orders from specific countries. Use 2-letter ISO codes (e.g. BR, US). "
+"Manage the list below."
+msgstr ""
+"Bloqueie pedidos de países específicos. Use códigos ISO de 2 letras (ex.: "
+"BR, US). Gerencie a lista abaixo."
+
+msgid ""
+"Block orders from specific device fingerprints. Fingerprints are collected "
+"at checkout — copy them from order details to block a device."
+msgstr ""
+"Bloqueie pedidos de impressões digitais de dispositivo específicas. As "
+"impressões digitais são coletadas na finalização de compra — copie-as dos "
+"detalhes do pedido para bloquear um dispositivo."
+
+msgid "When enabled, orders are checked against the blocked data lists."
+msgstr ""
+"Quando ativado, os pedidos são verificados em relação às listas de dados "
+"bloqueados."
+
+msgid "Select which data types should block orders at checkout."
+msgstr ""
+"Selecione quais tipos de dados devem bloquear pedidos na finalização de "
+"compra."
+
+msgid ""
+"To manage the blocked data lists, visit the <a href=\"#\" data-goto-"
+"tab=\"block-by-data\">%s</a> tab."
+msgstr ""
+"Para gerenciar as listas de dados bloqueados, acesse a aba <a href=\"#\" "
+"data-goto-tab=\"block-by-data\">%s</a>."
+
+msgid "Ban Duration"
+msgstr "Duração do banimento"
+
+msgid ""
+"How long each ban lasts. Use 0 with unit \"Forever\" for permanent bans."
+msgstr ""
+"Quanto tempo cada banimento dura. Use 0 com a unidade \"Para sempre\" para "
+"banimentos permanentes."
+
+msgid "How long each ban lasts."
+msgstr "Quanto tempo cada banimento dura."
+
+msgid "Enter the numeric duration. Pair with the unit field below."
+msgstr "Informe a duração numérica. Combine com o campo de unidade abaixo."
+
+msgid "Ban Duration Unit"
+msgstr "Unidade de duração do banimento"
+
+msgid "Forever"
+msgstr "Para sempre"
+
+msgid "Years"
+msgstr "Anos"
+
+msgid "Months"
+msgstr "Meses"
+
+msgid "Weeks"
+msgstr "Semanas"
+
+msgid "Days"
+msgstr "Dias"
+
+msgid "Hours"
+msgstr "Horas"
+
+msgid "Time unit for the ban duration. Select \"Forever\" for permanent bans."
+msgstr ""
+"Unidade de tempo para a duração do banimento. Selecione \"Para sempre\" para "
+"banimentos permanentes."
+
+msgid "Select the unit of time for the ban."
+msgstr "Selecione a unidade de tempo do banimento."
+
+msgid "When \"Forever\" is selected, the duration field is disabled."
+msgstr ""
+"Quando \"Para sempre\" está selecionado, o campo de duração fica "
+"desabilitado."
+
+msgid "AntiFraud Behavior"
+msgstr "Comportamento antifraude"
+
+msgid "Block Order (do not allow the order to be placed)"
+msgstr "Bloquear pedido (não permitir que o pedido seja realizado)"
+
+msgid "Mark Order as Fraud"
+msgstr "Marcar pedido como fraude"
+
+msgid "Add Note to Order Only"
+msgstr "Apenas adicionar nota ao pedido"
+
+msgid "Prevents the order from being placed when fraud is detected."
+msgstr "Impede que o pedido seja realizado quando uma fraude é detectada."
+
+msgid "Marks the order status as fraudulent for review."
+msgstr "Marca o status do pedido como fraudulento para revisão."
+
+msgid "Adds a note to the order without blocking it."
+msgstr "Adiciona uma nota ao pedido sem bloqueá-lo."
+
+msgid ""
+"Choose how the system should behave when a blocked customer attempts to "
+"place an order."
+msgstr ""
+"Escolha como o sistema deve se comportar quando um cliente bloqueado tenta "
+"fazer um pedido."
+
+msgid "Define the action taken when a blocked customer tries to checkout."
+msgstr ""
+"Defina a ação tomada quando um cliente bloqueado tenta finalizar a compra."
+
+msgid "IP Verify"
+msgstr "Verificação de IP"
+
+msgid "Enable IP location lookup link on the order detail page."
+msgstr ""
+"Ative o link de consulta de localização do IP na página de detalhes do "
+"pedido."
+
+msgid "Show IP lookup, filter and ban actions on the order page."
+msgstr "Exibe ações de consulta, filtro e banimento de IP na página do pedido."
+
+msgid "IP Verification"
+msgstr "Verificação de IP"
+
+msgid "Enables an IP location lookup link on the order detail page."
+msgstr ""
+"Ativa um link de consulta de localização do IP na página de detalhes do "
+"pedido."
+
+msgid "Filter Orders by IP"
+msgstr "Filtrar pedidos por IP"
+
+msgid ""
+"Enable a link to filter orders by the customer IP on the order detail page."
+msgstr ""
+"Ative um link para filtrar pedidos pelo IP do cliente na página de detalhes "
+"do pedido."
+
+msgid "Show a filter link to list orders by the same IP on the order page."
+msgstr ""
+"Exibe um link de filtro para listar pedidos do mesmo IP na página do pedido."
+
+msgid "List all orders placed from the same IP."
+msgstr "Lista todos os pedidos feitos do mesmo IP."
+
+msgid ""
+"Enables a link to filter orders by the customer IP on the order detail page."
+msgstr ""
+"Ativa um link para filtrar pedidos pelo IP do cliente na página de detalhes "
+"do pedido."
+
+msgid "Ban IPs"
+msgstr "Banir IPs"
+
+msgid "Enable ban/unban IP link on the order detail page."
+msgstr "Ative o link de banir/desbanir IP na página de detalhes do pedido."
+
+msgid "Show a ban/unban link to block IPs from checkout on the order page."
+msgstr ""
+"Exibe um link de banir/desbanir para bloquear IPs da finalização de compra "
+"na página do pedido."
+
+msgid "Block suspicious IPs from completing checkout."
+msgstr "Bloqueia IPs suspeitos de concluir a finalização de compra."
+
+msgid "Enables a ban/unban IP link on the order detail page."
+msgstr "Ativa um link de banir/desbanir IP na página de detalhes do pedido."
+
+msgid ""
+"To manage the full list of banned IPs, visit the <a href=\"#\" data-goto-"
+"tab=\"banned-ips\">%s</a> tab."
+msgstr ""
+"Para gerenciar a lista completa de IPs banidos, acesse a aba <a href=\"#\" "
+"data-goto-tab=\"banned-ips\">%s</a>."
+
+msgid ""
+"<strong>⚠ Important:</strong> For this feature to correctly identify the "
+"customer's real IP, your server proxy settings must be properly configured "
+"(e.g. trusted proxies / X-Forwarded-For headers). If you are unsure, contact "
+"your server administrator before enabling this option."
+msgstr ""
+"<strong>⚠ Importante:</strong> Para que este recurso identifique "
+"corretamente o IP real do cliente, as configurações de proxy do seu servidor "
+"devem estar configuradas corretamente (ex.: proxies confiáveis / cabeçalhos "
+"X-Forwarded-For). Se tiver dúvidas, contate o administrador do servidor "
+"antes de ativar esta opção."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:349
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:360
+msgid "Debug"
+msgstr "Depuração"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:352
+msgid "Enable debug logs."
+msgstr "Ativar logs de depuração."
+
+msgid "Enable debug logs <a href=\"%s\" target=\"_blank\">View logs</a>"
+msgstr "Ativar logs de depuração <a href=\"%s\" target=\"_blank\">Ver logs</a>"
+
+msgid "Enable to record debug logs."
+msgstr "Ative para registrar logs de depuração."
+
+msgid "Logs can be viewed in the WooCommerce status area."
+msgstr "Os logs podem ser vistos na área de status do WooCommerce."
+
+msgid "List of IP addresses blocked from checkout."
+msgstr "Lista de endereços IP bloqueados da finalização de compra."
+
+msgid "Manage blocked emails, phone numbers, countries and device identities."
+msgstr ""
+"Gerencie e-mails, números de telefone, países e identidades de dispositivo "
+"bloqueados."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:445
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:846
+msgid "High likelihood of automated (bot) behavior."
+msgstr "Alta probabilidade de comportamento automatizado (bot)."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:446
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:848
+msgid "Intermediate behavior."
+msgstr "Comportamento intermediário."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:447
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:850
+msgid "Behavior generally human, but with some uncertainty."
+msgstr "Comportamento geralmente humano, mas com alguma incerteza."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:448
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:852
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:926
+msgid "High likelihood of legitimate human behavior."
+msgstr "Alta probabilidade de comportamento humano legítimo."
+
+msgid "hours"
+msgstr "horas"
+
+msgid "days"
+msgstr "dias"
+
+msgid "weeks"
+msgstr "semanas"
+
+msgid "months"
+msgstr "meses"
+
+msgid "years"
+msgstr "anos"
+
+msgid "IPv4 or IPv6"
+msgstr "IPv4 ou IPv6"
+
+msgid "Unban"
+msgstr "Desbanir"
+
+msgid "IP Address"
+msgstr "Endereço IP"
+
+msgid "Banned By"
+msgstr "Banido por"
+
+msgid "Banned At"
+msgstr "Banido em"
+
+msgid "Expires At"
+msgstr "Expira em"
+
+msgid "Actions"
+msgstr "Ações"
+
+msgid "No banned IPs."
+msgstr "Nenhum IP banido."
+
+msgid "IP banned successfully."
+msgstr "IP banido com sucesso."
+
+msgid "IP unbanned successfully."
+msgstr "IP desbanido com sucesso."
+
+msgid "Failed to load IPs."
+msgstr "Falha ao carregar os IPs."
+
+msgid "Error banning IP."
+msgstr "Erro ao banir o IP."
+
+msgid "Error unbanning IP."
+msgstr "Erro ao desbanir o IP."
+
+msgid "Enter an IP address."
+msgstr "Informe um endereço IP."
+
+msgid ""
+"New bans never expire (<strong>Forever</strong>). Configure ban duration in "
+"the <a href=\"#\" data-goto-tab=\"antifraud\">Data Blocking</a> tab."
+msgstr ""
+"Novos banimentos nunca expiram (<strong>Para sempre</strong>). Configure a "
+"duração do banimento na aba <a href=\"#\" data-goto-"
+"tab=\"antifraud\">Bloqueio de dados</a>."
+
+msgid ""
+"New bans expire after <strong>{duration} {unit}</strong>. Configure ban "
+"duration in the <a href=\"#\" data-goto-tab=\"antifraud\">Data Blocking</a> "
+"tab."
+msgstr ""
+"Novos banimentos expiram após <strong>{duration} {unit}</strong>. Configure "
+"a duração do banimento na aba <a href=\"#\" data-goto-"
+"tab=\"antifraud\">Bloqueio de dados</a>."
+
+msgid "Emails"
+msgstr "E-mails"
+
+msgid "Email Domains"
+msgstr "Domínios de e-mail"
+
+msgid "Phones"
+msgstr "Telefones"
+
+msgid "Countries"
+msgstr "Países"
+
+msgid "Device Identities"
+msgstr "Identidades de dispositivo"
+
+msgid "user@example.com"
+msgstr "user@example.com"
+
+msgid "example.com"
+msgstr "example.com"
+
+msgid "+5511999999999"
+msgstr "+5511999999999"
+
+msgid "BR"
+msgstr "BR"
+
+msgid "Fingerprint hash"
+msgstr "Hash da impressão digital"
+
+msgid "Ban"
+msgstr "Banir"
+
+msgid "Ban Item"
+msgstr "Banir item"
+
+msgid "Do you want to add the following item to the blocked list?"
+msgstr "Deseja adicionar o seguinte item à lista de bloqueados?"
+
+msgid "Item added successfully."
+msgstr "Item adicionado com sucesso."
+
+msgid "Unban Item"
+msgstr "Desbanir item"
+
+msgid "Do you want to unban the following item?"
+msgstr "Deseja desbanir o seguinte item?"
+
+msgid "Item removed successfully."
+msgstr "Item removido com sucesso."
+
+msgid "No items."
+msgstr "Nenhum item."
+
+msgid "Failed to load list."
+msgstr "Falha ao carregar a lista."
+
+msgid "Error adding item."
+msgstr "Erro ao adicionar o item."
+
+msgid "Error removing item."
+msgstr "Erro ao remover o item."
+
+msgid "Permission denied."
+msgstr "Permissão negada."
+
+msgid "Invalid settings data."
+msgstr "Dados de configuração inválidos."
+
+msgid "Security verification"
+msgstr "Verificação de segurança"
+
+msgid "Configure credentials"
+msgstr "Configurar credenciais"
+
+msgid ""
+"Security verification cannot be enabled until the provider credentials are "
+"filled in. Click the button below to configure them."
+msgstr ""
+"A verificação de segurança não pode ser ativada até que as credenciais do "
+"provedor sejam preenchidas. Clique no botão abaixo para configurá-las."
+
+msgid "Settings saved successfully!"
+msgstr "Configurações salvas com sucesso!"
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Ban Email"
+msgstr "Banir e-mail"
+
+msgid "Do you want to ban this email from checkout?"
+msgstr "Deseja banir este e-mail da finalização de compra?"
+
+msgid "Email banned."
+msgstr "E-mail banido."
+
+msgid "Unban Email"
+msgstr "Desbanir e-mail"
+
+msgid "Do you want to unban this email?"
+msgstr "Deseja desbanir este e-mail?"
+
+msgid "Email unbanned."
+msgstr "E-mail desbanido."
+
+msgid "Ban Phone"
+msgstr "Banir telefone"
+
+msgid "Do you want to ban this phone from checkout?"
+msgstr "Deseja banir este telefone da finalização de compra?"
+
+msgid "Phone banned."
+msgstr "Telefone banido."
+
+msgid "Unban Phone"
+msgstr "Desbanir telefone"
+
+msgid "Do you want to unban this phone?"
+msgstr "Deseja desbanir este telefone?"
+
+msgid "Phone unbanned."
+msgstr "Telefone desbanido."
+
+msgid "This site is protected by Cloudflare Turnstile and the"
+msgstr "Este site é protegido pelo Cloudflare Turnstile e as"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:44
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:80
+msgid "Privacy Policy"
+msgstr "Políticas de Privacidade"
+
+msgid "and Cloudflare"
+msgstr "e a Cloudflare"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:46
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:82
+msgid "Terms of Service"
+msgstr "Termos de Serviço do Google"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:47
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:83
+msgid "apply."
+msgstr "se aplicam."
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:79
+msgid "This site is protected by reCAPTCHA and the"
+msgstr "Este site é protegido pelo reCAPTCHA e as"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:81
+msgid "and Google"
+msgstr "e Google"
+
+msgid "Google reCAPTCHA"
+msgstr "Google reCAPTCHA"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:192
+msgid "Credentials are not configured. Configure them in the antifraud panel."
+msgstr "Credenciais não configuradas. Configure no painel antifraude."
+
+msgid ""
+"Security verification is temporarily unavailable because the anti-fraud "
+"provider is not fully configured. Please contact the store."
+msgstr ""
+"A verificação de segurança está temporariamente indisponível porque o "
+"provedor antifraude não está totalmente configurado. Entre em contato com a "
+"loja."
+
+msgid "Security verification failed. Please try again."
+msgstr "A verificação de segurança falhou. Tente novamente."
+
+msgid "Invalid IP address."
+msgstr "Endereço IP inválido."
+
+msgid "IP %s has been unbanned."
+msgstr "O IP %s foi desbanido."
+
+msgid "IP %s has been banned."
+msgstr "O IP %s foi banido."
+
+msgid "Order flagged as fraud: customer IP address %s is banned."
+msgstr ""
+"Pedido sinalizado como fraude: o endereço IP %s do cliente está banido."
+
+msgid "Your IP address has been blocked from making purchases."
+msgstr "Seu endereço IP foi bloqueado para realizar compras."
+
+msgid "email address"
+msgstr "endereço de e-mail"
+
+msgid "email domain"
+msgstr "domínio de e-mail"
+
+msgid "phone number"
+msgstr "número de telefone"
+
+msgid "country"
+msgstr "país"
+
+msgid "device identity"
+msgstr "identidade do dispositivo"
+
+msgid "Order flagged as fraud: %1$s \"%2$s\" is blocked."
+msgstr "Pedido sinalizado como fraude: %1$s \"%2$s\" está bloqueado."
+
+msgid "Your order has been blocked due to a %s restriction."
+msgstr "Seu pedido foi bloqueado devido a uma restrição de %s."
+
+msgid "Invalid type."
+msgstr "Tipo inválido."
+
+msgid "Invalid data."
+msgstr "Dados inválidos."
+
+msgid "Item already exists."
+msgstr "O item já existe."
+
+msgid "reCAPTCHA verification error: "
+msgstr "Erro de verificação do reCAPTCHA: "
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:838
+msgid "Invalid recaptcha: recaptcha was not validated."
+msgstr "Recaptcha inválido: recaptcha não foi validado."
+
+msgid ""
+"Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: %1$s. %2$s"
+msgstr ""
+"Verificação do Google reCAPTCHA aprovada. Pontuação ANTIFRAUDE do cliente: "
+"%1$s. %2$s"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:867
+msgid "Invalid recaptcha: score below the limit."
+msgstr "Recaptcha inválido: score abaixo do limite."
+
+msgid "Turnstile verification error: "
+msgstr "Erro de verificação do Turnstile: "
+
+msgid "Invalid Turnstile: verification failed."
+msgstr "Turnstile inválido: falha na verificação."
+
+msgid ""
+"Cloudflare Turnstile verification passed. Customer's ANTIFRAUD score: PASS. "
+"%s"
+msgstr ""
+"Verificação do Cloudflare Turnstile aprovada. Pontuação ANTIFRAUDE do "
+"cliente: PASS. %s"
+
+msgid "Order flagged as fraud: %s verification failed."
+msgstr "Pedido sinalizado como fraude: a verificação de %s falhou."
+
+msgid "Error code: %s."
+msgstr "Código de erro: %s."
+
+msgid "The anti-fraud provider did not return a reason for the failure."
+msgstr "O provedor antifraude não retornou um motivo para a falha."
+
+msgid ""
+"The verification secret key is missing — this is a configuration problem, "
+"not a fraud attempt."
+msgstr ""
+"A chave secreta de verificação está ausente — isto é um problema de "
+"configuração, não uma tentativa de fraude."
+
+msgid ""
+"The verification secret key is invalid — this is a configuration problem, "
+"not a fraud attempt."
+msgstr ""
+"A chave secreta de verificação é inválida — isto é um problema de "
+"configuração, não uma tentativa de fraude."
+
+msgid ""
+"No verification token was sent by the customer (empty challenge response)."
+msgstr ""
+"Nenhum token de verificação foi enviado pelo cliente (resposta de desafio "
+"vazia)."
+
+msgid "The verification token is invalid or malformed."
+msgstr "O token de verificação é inválido ou está malformado."
+
+msgid ""
+"The verification token has expired or was already used (tokens are single-"
+"use)."
+msgstr ""
+"O token de verificação expirou ou já foi usado (os tokens são de uso único)."
+
+msgid "The verification request was rejected because it was malformed."
+msgstr "A solicitação de verificação foi rejeitada porque está malformada."
+
+msgid "The provider reported an internal error during verification."
+msgstr "O provedor relatou um erro interno durante a verificação."
+
+msgid "The provider returned an unrecognized error code: %s."
+msgstr "O provedor retornou um código de erro não reconhecido: %s."
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1056
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1068
+msgid "Fraud"
+msgstr "Fraude"
+
+msgid "Fraud (%s)"
+msgid_plural "Fraud (%s)"
+msgstr[0] "Fraude (%s)"
+msgstr[1] "Fraude (%s)"
+
+msgid "Documentation"
+msgstr "Documentação"
+
+msgid "Hosting"
+msgstr "Hospedagem"
+
+msgid "WP Plugin"
+msgstr "Plugin WP"
+
+msgid "WP Support"
+msgstr "Suporte WP"
+
+msgid "Rate the plugin"
+msgstr "Avaliar o plugin"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Next"
+msgstr "Próximo"
+
+msgid "Last file uploaded:"
+msgstr "Último arquivo enviado:"
+
+msgid "Save changes"
+msgstr "Salvar alterações"
+
+msgid "NEW: Cloudflare Turnstile Security"
+msgstr "NOVO: Segurança com Cloudflare Turnstile"
+
+msgid ""
+"Discover the new LinkNacional Security Verification System for advanced "
+"fraud and scam protection in your store."
+msgstr ""
+"Conheça o novo Sistema de Verificação de Segurança da LinkNacional para "
+"proteção avançada contra fraudes e golpes na sua loja."
+
+msgid "NEW: Robust and Custom Template"
+msgstr "NOVO: Modelo robusto e personalizado"
+
+msgid ""
+"Explore the all-new Fraud Detection plugin interface—modern, intuitive, and "
+"built for your security needs."
+msgstr ""
+"Explore a interface totalmente nova do plugin de Detecção de Fraudes — "
+"moderna, intuitiva e criada para suas necessidades de segurança."
+
+msgid "Plugin: Invoice Payment Link for WooCommerce"
+msgstr "Plugin: Link de Pagamento por Fatura para WooCommerce"
+
+msgid ""
+"The Invoice Payment Plugin is the complete solution for your business. With "
+"it, you can generate payment links, split purchases across multiple cards, "
+"set up recurring charges, apply discounts and fees, and create detailed "
+"quotes."
+msgstr ""
+"O plugin de Pagamento por Fatura é a solução completa para o seu negócio. "
+"Com ele, você pode gerar links de pagamento, dividir compras em vários "
+"cartões, configurar cobranças recorrentes, aplicar descontos e taxas e criar "
+"orçamentos detalhados."
+
+msgid "Learn more"
+msgstr "Saiba mais"
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Fraud &amp; Scam Detection &#8212; Layout Update"
+msgstr "Detecção de Fraudes &amp; Golpes &#8212; Atualização de layout"
+
+msgid ""
+"The plugin settings page has been updated with a new layout. Please take a "
+"moment to review your configuration and confirm that all fields are properly "
+"filled in."
+msgstr ""
+"A página de configurações do plugin foi atualizada com um novo layout. "
+"Reserve um momento para revisar sua configuração e confirmar que todos os "
+"campos estão preenchidos corretamente."
+
+msgid "Check Settings"
+msgstr "Verificar configurações"
