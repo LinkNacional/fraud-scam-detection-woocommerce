@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -23,12 +23,13 @@ Using **Google reCAPTCHA** or **Cloudflare Turnstile**, the plugin automatically
 - Protects WooCommerce checkout against automated bots and fraudulent activity;
 - **Configurable antifraud behavior** — choose whether to block the order, mark it as fraud, add an internal note, or any combination of these actions;
 - Marks suspicious orders with a dedicated **custom fraud order status** for manual review;
-- Adds **internal order notes** with the validation result (reCAPTCHA score interpretation or Turnstile PASS);
+- Adds **internal order notes** with the validation result and, when a block occurs, the detailed reason (the provider error code, e.g. an expired or already-used token, or an invalid key);
+- **Support tab with diagnostics** — enable full **debug logging** of every block (by IP, by data, by Cloudflare or by Google) to the WooCommerce log and to the order itself, view the stored log inside the order, and clear it in one click;
+- **One-click support** — send your plugin settings to the support team via WhatsApp, with secret keys masked;
 - **Advanced IP banning** — ban IPs for a defined duration (hours, days, weeks, months, years) or permanently, with automatic expiration for temporary bans;
 - Banned IPs management panel and IP lookup / order filtering by IP directly from the order detail page;
 - **Data-based blocking** — block orders by email address, email domain, phone number, country, or device fingerprint;
 - Compatible with both the **classic** and the **block-based (Store API)** checkout;
-- Optional **debug logging** to the WooCommerce log for auditing and troubleshooting;
 - Lightweight and optimized for performance.
 
 **Dependencies**
@@ -51,7 +52,7 @@ For Cloudflare Turnstile, you need valid [Cloudflare Turnstile site and secret k
 
 6. Optionally enable **data-based blocking** (email, email domain, phone, country, device) and manage the lists in the **Block by Data** tab;
 
-7. Optionally enable **debug mode** to log requests and responses;
+7. Optionally open the **Support** tab to enable **debug logging** (records the full context of every block in the WooCommerce log and on the order), show the order log inside the order, clear stored logs, and send your settings to the support team;
 
 8. Save the settings. From now on, the WooCommerce checkout will require security validation.
 
@@ -214,6 +215,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
 
 == Upgrade Notice ==
+= 1.3.7 =
+* Captcha blocks now explain the failure reason. New Support tab: debug logging, order log viewer, and one-click settings send to support.
+
 = 1.3.6 =
 * Captcha now shows on the receipt page, above the order notes.
 
