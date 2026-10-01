@@ -44,7 +44,7 @@ if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_BASENAME')) {
 
 // Link Nacional support WhatsApp number (used by the "Send settings" support button).
 if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER')) {
-    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER', '551135223406');
+    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER', '5516996537244');
 }
 
 /**

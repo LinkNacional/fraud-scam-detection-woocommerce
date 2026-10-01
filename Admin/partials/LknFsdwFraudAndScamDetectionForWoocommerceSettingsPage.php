@@ -715,7 +715,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'ajaxUrl'  => admin_url('admin-ajax.php'),
                 'nonce'    => wp_create_nonce('lkn_fsdw_clear_order_logs'),
                 'whatsapp' => array(
-                    'number'  => defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER') ? FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER : '551135223406',
+                    'number'  => defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER') ? FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER : '5516996537244',
                     'domain'  => wp_parse_url( home_url(), PHP_URL_HOST ),
                     'version' => FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
                     'plugin'  => 'fraud-and-scam-detection-for-woocommerce',
