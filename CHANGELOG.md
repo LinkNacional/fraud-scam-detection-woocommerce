@@ -1,3 +1,8 @@
+# 1.3.7 - 01/10/2026
+* Pedidos bloqueados pelo captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora recebem uma nota no pedido explicando o motivo da falha, com o código de erro traduzido (ex.: token expirado/já usado, chave ausente ou inválida).
+* Nota de sucesso do captcha agora deixa explícito que a verificação foi concluída (ex.: "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: …").
+* Corrigido: uma resposta de sucesso do Google reCAPTCHA sem score deixava de ser tratada indevidamente como fraude.
+
 # 1.3.6 - 24/09/2026
 * O captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora é exibido na página de recibo, logo acima das notas do pedido.
 

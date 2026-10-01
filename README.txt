@@ -136,6 +136,11 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.7 =
+* Orders blocked by the captcha (Google reCAPTCHA or Cloudflare Turnstile) now get an order note explaining the failure reason, with the error code translated (e.g. expired/already-used token, missing or invalid key).
+* The captcha success note now makes it explicit that the verification was completed (e.g. "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: ...").
+* Fixed: a successful Google reCAPTCHA response without a score was incorrectly treated as fraud.
+
 = 1.3.6 =
 * Captcha (Google reCAPTCHA or Cloudflare Turnstile) is now rendered on the order-received (receipt) page, right above the order notes.
 

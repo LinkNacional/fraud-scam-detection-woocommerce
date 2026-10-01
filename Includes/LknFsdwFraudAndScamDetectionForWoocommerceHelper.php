@@ -833,28 +833,35 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		if(!isset($responseBody['success']) || $responseBody['success'] !== true){
 			$order->set_status('lkn-fraud');
+			$order->add_order_note( self::buildVerificationFailureNote( 'googleRecaptchaV3', self::normalizeErrorCodes( (array) $responseBody ) ) );
 			$order->save();
 			throw new Exception( esc_html( __( 'Invalid recaptcha: recaptcha was not validated.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Verificar o score do reCAPTCHA
 		if(isset($responseBody['score'])){
-			$orderNote = __("Customer's ANTIFRAUD score:", 'fraud-and-scam-detection-for-woocommerce') . ' ' . $responseBody['score'];
 			$scoreResponse = $responseBody['score'];
 
 			if ($scoreResponse <= 0.3) {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse > 0.3 && $scoreResponse < 0.6) {
-				$orderNote =  $orderNote . ' ' . __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse >= 0.6 && $scoreResponse <= 0.7) {
-				$orderNote =  $orderNote . ' ' . __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce');
 			} else {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			}
 
-			$order->add_order_note($orderNote);
+			$order->add_order_note(
+				sprintf(
+					/* translators: 1: reCAPTCHA score returned by Google, 2: risk interpretation sentence. */
+					__( "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: %1\$s. %2\$s", 'fraud-and-scam-detection-for-woocommerce' ),
+					$scoreResponse,
+					$riskNote
+				)
+			);
 		}
-		if ($responseBody['score'] < $score) {
+		if ( isset( $responseBody['score'] ) && $responseBody['score'] < $score ) {
 			$order->set_status('lkn-fraud');
 			$order->save();
 			throw new Exception( esc_html( __( 'Invalid recaptcha: score below the limit.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
@@ -905,16 +912,136 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		if ( ! isset( $responseBody['success'] ) || $responseBody['success'] !== true ) {
 			$order->set_status( 'lkn-fraud' );
+			$order->add_order_note( self::buildVerificationFailureNote( 'cloudflareTurnstile', self::normalizeErrorCodes( (array) $responseBody ) ) );
 			$order->save();
+
 			throw new Exception( esc_html( __( 'Invalid Turnstile: verification failed.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Cloudflare Turnstile não retorna score numérico — exibe PASS como equivalente ao score do Google
 		$order->add_order_note(
-			__( "Customer's ANTIFRAUD score:", 'fraud-and-scam-detection-for-woocommerce' )
-			. ' PASS (Cloudflare Turnstile) '
-			. __( 'High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce' )
+			sprintf(
+				/* translators: %s: risk interpretation sentence. */
+				__( "Cloudflare Turnstile verification passed. Customer's ANTIFRAUD score: PASS. %s", 'fraud-and-scam-detection-for-woocommerce' ),
+				__( 'High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce' )
+			)
 		);
+	}
+
+	/**
+	 * Extract the provider error codes from a siteverify response body.
+	 *
+	 * Both the Google reCAPTCHA and the Cloudflare Turnstile siteverify
+	 * endpoints return an "error-codes" array describing why verification
+	 * failed. This normalizes it to a clean list of non-empty strings.
+	 *
+	 * @param array $responseBody Decoded siteverify response.
+	 * @return array
+	 */
+	private static function normalizeErrorCodes( array $responseBody ): array {
+		if ( ! isset( $responseBody['error-codes'] ) ) {
+			return [];
+		}
+
+		$codes = $responseBody['error-codes'];
+		if ( ! is_array( $codes ) ) {
+			$codes = [ $codes ];
+		}
+
+		// Keep only scalar entries (defensive: never stringify a nested array).
+		$codes = array_filter( $codes, 'is_scalar' );
+
+		return array_values( array_filter( array_map( 'sanitize_text_field', array_map( 'strval', $codes ) ) ) );
+	}
+
+	/**
+	 * Build the order note explaining why an anti-fraud verification failed.
+	 *
+	 * The note combines a provider-aware headline, a human-readable reason for
+	 * each returned error code and the raw error code(s), so the store admin
+	 * can tell a real fraud attempt apart from a configuration or token problem
+	 * (e.g. an expired or already-used captcha token).
+	 *
+	 * @param string $provider    Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param array  $error_codes Error codes returned by the provider.
+	 * @return string
+	 */
+	public static function buildVerificationFailureNote( string $provider, array $error_codes ): string {
+		$provider_label = ( 'cloudflareTurnstile' === $provider )
+			? __( 'Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce' )
+			: __( 'Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce' );
+
+		$note = sprintf(
+			/* translators: %s: anti-fraud provider name (Google reCAPTCHA or Cloudflare Turnstile). */
+			__( 'Order flagged as fraud: %s verification failed.', 'fraud-and-scam-detection-for-woocommerce' ),
+			$provider_label
+		);
+
+		$note .= ' ' . self::describeVerificationError( $error_codes );
+
+		if ( ! empty( $error_codes ) ) {
+			$note .= ' ' . sprintf(
+				/* translators: %s: raw anti-fraud error code(s) returned by the provider. */
+				__( 'Error code: %s.', 'fraud-and-scam-detection-for-woocommerce' ),
+				implode( ', ', $error_codes )
+			);
+		}
+
+		return $note;
+	}
+
+	/**
+	 * Join the readable reason for every returned error code.
+	 *
+	 * @param array $error_codes Error codes returned by the provider.
+	 * @return string
+	 */
+	private static function describeVerificationError( array $error_codes ): string {
+		if ( empty( $error_codes ) ) {
+			return __( 'The anti-fraud provider did not return a reason for the failure.', 'fraud-and-scam-detection-for-woocommerce' );
+		}
+
+		$reasons = [];
+		foreach ( $error_codes as $code ) {
+			$reasons[] = self::getVerificationErrorReason( (string) $code );
+		}
+
+		return implode( ' ', $reasons );
+	}
+
+	/**
+	 * Translate a single anti-fraud error code into a readable reason.
+	 *
+	 * The siteverify endpoints return error codes (not a fraud score); most of
+	 * them indicate a token or configuration problem rather than a real fraud
+	 * attempt, so each reason is phrased to make that distinction clear.
+	 *
+	 * @param string $code Error code returned by the provider.
+	 * @return string
+	 */
+	private static function getVerificationErrorReason( string $code ): string {
+		switch ( $code ) {
+			case 'missing-input-secret':
+				return __( 'The verification secret key is missing — this is a configuration problem, not a fraud attempt.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'invalid-input-secret':
+				return __( 'The verification secret key is invalid — this is a configuration problem, not a fraud attempt.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'missing-input-response':
+				return __( 'No verification token was sent by the customer (empty challenge response).', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'invalid-input-response':
+				return __( 'The verification token is invalid or malformed.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'timeout-or-duplicate':
+				return __( 'The verification token has expired or was already used (tokens are single-use).', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'bad-request':
+				return __( 'The verification request was rejected because it was malformed.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'internal-error':
+				return __( 'The provider reported an internal error during verification.', 'fraud-and-scam-detection-for-woocommerce' );
+			default:
+				return sprintf(
+					/* translators: %s: anti-fraud error code returned by the provider. */
+					__( 'The provider returned an unrecognized error code: %s.', 'fraud-and-scam-detection-for-woocommerce' ),
+					$code
+				);
+		}
 	}
 
 	public static function regLog($level, $message, $context): void {
