@@ -345,24 +345,6 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'join'              => 'enable_ip_lookup',
                 'custom_attributes' => array(),
             ),
-            'debug' => array(
-                'title'             => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
-                'type'              => 'checkbox',
-                'id'                => 'lknFraudDetectionForWoocommerceDebug',
-                'label'             => __('Enable debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
-                'default'           => 'no',
-                'description'       => sprintf(
-                    /* translators: %s: URL to WooCommerce logs page. */
-                    __( 'Enable debug logs <a href="%s" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce' ),
-                    esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) )
-                ),
-                'desc_tip'          => true,
-                'block_title'       => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
-                'block_sub_title'   => __('Enable to record debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
-                'input_description' => __('Logs can be viewed in the WooCommerce status area.', 'fraud-and-scam-detection-for-woocommerce'),
-                'custom_attributes' => array(),
-            ),
-
             /* ── Banned IPs ──────────────────────────────────────── */
             'banned_ips_section_title' => array(
                 'title'             => __('Banned IPs', 'fraud-and-scam-detection-for-woocommerce'),
@@ -391,6 +373,79 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                 'input_description' => '',
             ),
 
+            /* ── Support (debug & diagnostics) ──────────────────── */
+            'support_section_title' => array(
+                'title'             => __('Support', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'title',
+                'id'                => 'lkn_anti_fraud_support_section_title',
+                'block_id'          => 'support',
+                'description'       => '',
+                'default'           => '',
+                'desc_tip'          => false,
+                'block_title'       => __('Support', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Debugging and diagnostic options for support.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
+            ),
+            'support_debug' => array(
+                'title'             => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceDebug',
+                'label'             => __('Enable debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => sprintf(
+                    /* translators: %s: URL to WooCommerce logs page. */
+                    __( 'Enable debug logs <a href="%s" target="_blank">View logs</a>', 'fraud-and-scam-detection-for-woocommerce' ),
+                    esc_url( admin_url( 'admin.php?page=wc-status&tab=logs' ) )
+                ),
+                'desc_tip'          => true,
+                'block_title'       => __('Debug', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Enable to record debug logs.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('When enabled, the full context of every block (by IP, by data, Cloudflare or Google) is written to the WooCommerce log and stored on the order.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'support_send_configs' => array(
+                'title'             => __('Contact Support', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'button',
+                'id'                => 'lknFsdwSendConfigs',
+                'class'             => 'lkn-fsdw-whatsapp-btn',
+                'label'             => __('Send settings to support', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => '',
+                'description'       => __('Opens WhatsApp with your plugin settings so the support team can help faster. Sensitive credentials are hidden.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Contact Support', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Send your configuration to the support team via WhatsApp.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('No sensitive data is shared: secret keys are masked.', 'fraud-and-scam-detection-for-woocommerce'),
+                'join'              => 'support_debug',
+                'custom_attributes' => array(),
+            ),
+            'support_show_order_logs' => array(
+                'title'             => __('View Order Log', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'checkbox',
+                'id'                => 'lknFraudDetectionForWoocommerceShowOrderLogs',
+                'label'             => __('Enable viewing the log inside the order.', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => 'no',
+                'description'       => __('Displays the detection log inside the WooCommerce order details.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('View Order Log', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Show the detection log on the order page.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => __('Requires debug logs to be enabled.', 'fraud-and-scam-detection-for-woocommerce'),
+                'custom_attributes' => array(),
+            ),
+            'support_clear_logs' => array(
+                'title'             => __('Clear Order Logs', 'fraud-and-scam-detection-for-woocommerce'),
+                'type'              => 'button',
+                'id'                => 'lknFsdwClearOrderLogs',
+                'label'             => __('Clear Order Logs', 'fraud-and-scam-detection-for-woocommerce'),
+                'default'           => '',
+                'description'       => __('Removes the detection logs stored on all orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'desc_tip'          => true,
+                'block_title'       => __('Clear Order Logs', 'fraud-and-scam-detection-for-woocommerce'),
+                'block_sub_title'   => __('Delete the logs stored on the orders.', 'fraud-and-scam-detection-for-woocommerce'),
+                'input_description' => '',
+                'join'              => 'support_show_order_logs',
+                'custom_attributes' => array(),
+            ),
+
         );
         return apply_filters('woocommerce_get_settings_' . $this->id, $settings);
     }
@@ -403,6 +458,43 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
     {
         $settings = $this->get_settings();
         \WC_Admin_Settings::save_fields($settings);
+    }
+
+    /**
+     * Build a flat, secret-masked snapshot of the plugin settings.
+     *
+     * Used by the "Send settings to support" button so the support team can
+     * see the store configuration. Secret keys are masked and never shared.
+     *
+     * @return array<string,string>
+     */
+    private function getSupportSnapshot()
+    {
+        $helper = '\Lkn\FsdwFraudAndScamDetectionForWoocommerce\Includes\LknFsdwFraudAndScamDetectionForWoocommerceHelper';
+
+        return array(
+            'provider'              => get_option( 'lknFraudDetectionForWoocommerceRecaptchaSelected', 'none' ),
+            'security_enabled'      => get_option( 'lknFraudDetectionForWoocommerceEnableRecaptcha', 'no' ),
+            'google_site_key'       => get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key', '' ),
+            'google_secret_key'     => $helper::maskValue( get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret', '' ) ),
+            'google_minimum_score'  => get_option( 'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score', '' ),
+            'cloudflare_site_key'   => get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSiteKey', '' ),
+            'cloudflare_secret_key' => $helper::maskValue( get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileSecretKey', '' ) ),
+            'cloudflare_theme'      => get_option( 'lknFraudDetectionForWoocommerceCloudflareTurnstileTheme', '' ),
+            'ban_duration'          => get_option( 'lknFraudDetectionForWoocommerceBanDuration', '0' ),
+            'ban_duration_unit'     => get_option( 'lknFraudDetectionForWoocommerceBanDurationUnit', 'forever' ),
+            'block_by_email'        => get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email', 'no' ),
+            'block_by_email_domain' => get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_email_domain', 'no' ),
+            'block_by_phone'        => get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_phone', 'no' ),
+            'block_by_country'      => get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_country', 'no' ),
+            'block_by_device'       => get_option( 'lknFraudDetectionForWoocommerceEnableDataBlock_device_identity', 'no' ),
+            'ip_check'              => get_option( 'lknFraudDetectionForWoocommerceEnableIpCheck', 'no' ),
+            'ip_lookup'             => get_option( 'lknFraudDetectionForWoocommerceEnableIpLookup', 'no' ),
+            'ip_filter'             => get_option( 'lknFraudDetectionForWoocommerceEnableIpFilter', 'no' ),
+            'ip_ban'                => get_option( 'lknFraudDetectionForWoocommerceEnableIpBan', 'no' ),
+            'debug'                 => get_option( 'lknFraudDetectionForWoocommerceDebug', 'no' ),
+            'view_order_log'        => get_option( 'lknFraudDetectionForWoocommerceShowOrderLogs', 'no' ),
+        );
     }
 
     public function admin_options()
@@ -604,6 +696,39 @@ class LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage extends \WC_Setting
                     'noteForever'               => __('New bans never expire (<strong>Forever</strong>). Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
                     /* translators: {duration} = number, {unit} = time unit label */
                     'noteTimed'                 => __('New bans expire after <strong>{duration} {unit}</strong>. Configure ban duration in the <a href="#" data-goto-tab="antifraud">Data Blocking</a> tab.', 'fraud-and-scam-detection-for-woocommerce'),
+                ),
+            )
+        );
+
+        // Support tab: debug / view-order-log toggle and clear-logs button.
+        wp_enqueue_script(
+            'lkn-fraud-detection-for-woocommerce-admin-support',
+            plugin_dir_url( __FILE__ ) . '../js/lknFraudDetectionForWoocommerceAdminSupport.js',
+            array('jquery'),
+            FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+            true
+        );
+        wp_localize_script(
+            'lkn-fraud-detection-for-woocommerce-admin-support',
+            'lknFsdwSupportVars',
+            array(
+                'ajaxUrl'  => admin_url('admin-ajax.php'),
+                'nonce'    => wp_create_nonce('lkn_fsdw_clear_order_logs'),
+                'whatsapp' => array(
+                    'number'  => defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER') ? FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER : '551135223406',
+                    'domain'  => wp_parse_url( home_url(), PHP_URL_HOST ),
+                    'version' => FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION,
+                    'plugin'  => 'fraud-and-scam-detection-for-woocommerce',
+                    'report'  => $this->getSupportSnapshot(),
+                ),
+                'i18n'    => array(
+                    'confirm'   => __('Clear the logs stored on all orders?', 'fraud-and-scam-detection-for-woocommerce'),
+                    'clearing'  => __('Clearing…', 'fraud-and-scam-detection-for-woocommerce'),
+                    'success'   => __('Order logs cleared.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'error'     => __('Failed to clear the order logs.', 'fraud-and-scam-detection-for-woocommerce'),
+                    'support'   => __('Send settings to support', 'fraud-and-scam-detection-for-woocommerce'),
+                    'intro'     => __('Hello! I need support with the Fraud & Scam Detection plugin. Here are my settings:', 'fraud-and-scam-detection-for-woocommerce'),
+                    'outro'     => __('Waiting for your reply, thank you!', 'fraud-and-scam-detection-for-woocommerce'),
                 ),
             )
         );

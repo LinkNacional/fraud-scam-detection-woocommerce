@@ -785,3 +785,50 @@ p.submit {
     width: 100px;
     text-align: center;
 }
+
+/* ── Support tab: "Send settings to support" (WhatsApp) button ── */
+.admin-layout-button.lkn-fsdw-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    width: fit-content;
+    max-width: 400px;
+    margin-top: 12px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #1a8f43;
+    color: #fff;
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.admin-layout-button.lkn-fsdw-whatsapp-btn::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    -webkit-mask: url("../../Includes/assets/icons/whatsapp.svg") no-repeat center / contain;
+    mask: url("../../Includes/assets/icons/whatsapp.svg") no-repeat center / contain;
+}
+
+.admin-layout-button.lkn-fsdw-whatsapp-btn:hover,
+.admin-layout-button.lkn-fsdw-whatsapp-btn:focus {
+    background: #146e34;
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(20, 110, 52, 0.45);
+}
+
+.admin-layout-button.lkn-fsdw-whatsapp-btn:active {
+    transform: translateY(1px);
+}
+
+.admin-layout-button.lkn-fsdw-whatsapp-btn:focus-visible {
+    outline: 2px solid #1a8f43;
+    outline-offset: 2px;
+}

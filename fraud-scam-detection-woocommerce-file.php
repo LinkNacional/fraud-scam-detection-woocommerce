@@ -42,6 +42,11 @@ if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_BASENAME')) {
     define('FRAUD_DETECTION_FOR_WOOCOMMERCE_BASENAME', plugin_basename(FRAUD_DETECTION_FOR_WOOCOMMERCE_FILE));
 }
 
+// Link Nacional support WhatsApp number (used by the "Send settings" support button).
+if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER')) {
+    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER', '551135223406');
+}
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-fraud-scam-detection-woocommerce-activator.php

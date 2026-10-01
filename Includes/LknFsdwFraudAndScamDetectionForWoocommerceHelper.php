@@ -459,6 +459,18 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
 			$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
 
+			self::logBlockEvent(
+				$order,
+				'ip-ban',
+				sprintf( 'Banned IP blocked at checkout: %s', $customer_ip ),
+				array(
+					'customer_ip' => $customer_ip,
+					'block_order' => $block_order,
+					'mark_fraud'  => $mark_fraud,
+					'add_note'    => $add_note,
+				)
+			);
+
 			if ( $mark_fraud ) {
 				$order->set_status( 'lkn-fraud' );
 			}
@@ -580,6 +592,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$block_order = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order', 'yes' ) === 'yes';
 		$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
 		$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
+
+		self::logBlockEvent(
+			$order,
+			'data-block',
+			sprintf( 'Blocked %1$s at checkout: %2$s', $type, $value ),
+			array(
+				'type'        => $type,
+				'value'       => $value,
+				'block_order' => $block_order,
+				'mark_fraud'  => $mark_fraud,
+				'add_note'    => $add_note,
+			)
+		);
 
 		if ( $mark_fraud ) {
 			$order->set_status( 'lkn-fraud' );
@@ -820,14 +845,20 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		$responseBody = json_decode(wp_remote_retrieve_body($response), true);
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'processPayments',
+
+		// Log the full verification context for support (secret masked).
+		$log_body = $body;
+		if ( isset( $log_body['secret'] ) ) {
+			$log_body['secret'] = self::maskValue( $log_body['secret'] );
+		}
+		self::logBlockEvent(
+			$order,
+			'google-recaptcha',
+			'reCAPTCHA siteverify request/response',
 			array(
-				'orderId' => $order->get_id(),
-				'url' => 'https://www.google.com/recaptcha/api/siteverify',
-				'body' => $body,
-				'responseBody' => $responseBody
+				'url'      => 'https://www.google.com/recaptcha/api/siteverify',
+				'request'  => $log_body,
+				'response' => $responseBody,
 			)
 		);
 
@@ -871,14 +902,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	public function verifyTurnstile( $token, $order ) {
 		$remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'verifyTurnstile',
-			[
-				'orderId'    => $order->get_id(),
-				'token_len'  => strlen( (string) $token ),
-				'token_empty'=> empty( $token ),
-			]
+		self::logBlockEvent(
+			$order,
+			'cloudflare-turnstile',
+			'Turnstile token received',
+			array(
+				'token_len'   => strlen( (string) $token ),
+				'token_empty' => empty( $token ),
+			)
 		);
 
 		$body = [
@@ -898,16 +929,16 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		$responseBody = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'verifyTurnstile',
-			[
-				'orderId'      => $order->get_id(),
-				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare endpoint stored in the debug log.
-				'success'      => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
-				'error-codes'  => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
-				'hostname'     => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,
-			]
+		self::logBlockEvent(
+			$order,
+			'cloudflare-turnstile',
+			'Turnstile siteverify response',
+			array(
+				'url'         => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'success'     => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
+				'error-codes' => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
+				'hostname'    => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,
+			)
 		);
 
 		if ( ! isset( $responseBody['success'] ) || $responseBody['success'] !== true ) {
@@ -1050,6 +1081,180 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$logger->log($level, $message, $context);
 		}
     }
+
+	/**
+	 * Mask a secret/credential before writing it to a log or sharing it.
+	 *
+	 * @param string $value Raw value.
+	 * @return string Masked value (keeps the first/last four characters).
+	 */
+	public static function maskValue( $value ): string {
+		$value = (string) $value;
+		$len   = strlen( $value );
+		if ( 0 === $len ) {
+			return '';
+		}
+		if ( $len <= 8 ) {
+			return str_repeat( '*', $len );
+		}
+		return substr( $value, 0, 4 ) . str_repeat( '*', $len - 8 ) . substr( $value, -4 );
+	}
+
+	/**
+	 * Record the full context of a detection/block event.
+	 *
+	 * Only runs when debug logging is enabled. The event is written to the
+	 * WooCommerce log (source "lkn-fsdw-antifraud") and appended to the order
+	 * meta "_lkn_fsdw_order_logs", which powers the "View Order Log" meta box.
+	 *
+	 * @param \WC_Order|int|null $order   Order (or order ID) the event belongs to.
+	 * @param string             $source  Short source key (e.g. ip-ban, data-block, google-recaptcha).
+	 * @param string             $summary Human-readable summary.
+	 * @param array              $context Structured context data.
+	 */
+	public static function logBlockEvent( $order, string $source, string $summary, array $context = array() ): void {
+		if ( 'yes' !== get_option( 'lknFraudDetectionForWoocommerceDebug', 'no' ) ) {
+			return;
+		}
+
+		if ( ! $order instanceof \WC_Order && is_numeric( $order ) && function_exists( 'wc_get_order' ) ) {
+			$order = wc_get_order( $order );
+		}
+
+		$order_id = ( $order instanceof \WC_Order ) ? $order->get_id() : null;
+
+		$logger = new WC_Logger();
+		$logger->log(
+			'info',
+			sprintf( '[%1$s] %2$s', $source, $summary ),
+			array_merge(
+				array(
+					'source'   => 'lkn-fsdw-antifraud',
+					'order_id' => $order_id,
+				),
+				$context
+			)
+		);
+
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$stored = $order->get_meta( '_lkn_fsdw_order_logs' );
+		$logs   = array();
+		if ( is_string( $stored ) && '' !== $stored ) {
+			$decoded = json_decode( $stored, true );
+			if ( is_array( $decoded ) ) {
+				$logs = $decoded;
+			}
+		} elseif ( is_array( $stored ) ) {
+			$logs = $stored;
+		}
+
+		$logs[] = array(
+			'time'    => current_time( 'mysql' ),
+			'source'  => $source,
+			'summary' => $summary,
+			'context' => $context,
+		);
+
+		// Keep the stored log bounded (most recent entries only).
+		if ( count( $logs ) > 50 ) {
+			$logs = array_slice( $logs, -50 );
+		}
+
+		$order->update_meta_data( '_lkn_fsdw_order_logs', wp_json_encode( $logs ) );
+		$order->save();
+	}
+
+	/**
+	 * Register the "View Order Log" meta box on the order screen when enabled.
+	 *
+	 * Hook: add_meta_boxes
+	 *
+	 * @param string        $post_type Current screen post type.
+	 * @param \WP_Post|null $post      Current post/order object.
+	 */
+	public function registerOrderLogsMetaBox( $post_type = '', $post = null ): void {
+		if ( 'yes' !== get_option( 'lknFraudDetectionForWoocommerceShowOrderLogs', 'no' ) ) {
+			return;
+		}
+		if ( ! function_exists( 'wc_get_order' ) ) {
+			return;
+		}
+
+		$order_id = 0;
+		if ( $post instanceof \WP_Post ) {
+			$order_id = $post->ID;
+		} elseif ( isset( $_GET['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$order_id = absint( wp_unslash( $_GET['id'] ) );
+		} elseif ( isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$order_id = absint( wp_unslash( $_GET['post'] ) );
+		}
+
+		if ( ! $order_id ) {
+			return;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$logs = $order->get_meta( '_lkn_fsdw_order_logs' );
+		if ( empty( $logs ) ) {
+			return;
+		}
+
+		$screen = 'shop_order';
+		if ( class_exists( '\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' )
+			&& wc_get_container()->get( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' )->custom_orders_table_usage_is_enabled()
+			&& function_exists( 'wc_get_page_screen_id' )
+		) {
+			$screen = wc_get_page_screen_id( 'shop-order' );
+		}
+
+		add_meta_box(
+			'lkn_fsdw_order_logs',
+			__( 'Fraud & Scam Detection — Logs', 'fraud-and-scam-detection-for-woocommerce' ),
+			array( $this, 'renderOrderLogsMetaBox' ),
+			$screen,
+			'advanced',
+			'default'
+		);
+	}
+
+	/**
+	 * Render the stored detection logs inside the order edit screen.
+	 *
+	 * @param \WP_Post|\WC_Order $object Current post or order object.
+	 */
+	public function renderOrderLogsMetaBox( $object ): void {
+		$order = ( $object instanceof \WP_Post ) ? wc_get_order( $object->ID ) : $object;
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$stored = $order->get_meta( '_lkn_fsdw_order_logs' );
+		$logs   = is_string( $stored ) ? json_decode( $stored, true ) : $stored;
+		if ( ! is_array( $logs ) || empty( $logs ) ) {
+			return;
+		}
+
+		foreach ( $logs as $entry ) {
+			$time    = isset( $entry['time'] ) ? $entry['time'] : '';
+			$source  = isset( $entry['source'] ) ? $entry['source'] : '';
+			$summary = isset( $entry['summary'] ) ? $entry['summary'] : '';
+			$context = isset( $entry['context'] ) ? wp_json_encode( $entry['context'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) : '';
+			?>
+			<div class="lkn-fsdw-order-log">
+				<h4><?php echo esc_html( trim( $source . ( $summary ? ' — ' . $summary : '' ) ) ); ?></h4>
+				<p><em><?php echo esc_html( $time ); ?></em></p>
+				<pre class="wc-pre"><?php echo esc_html( (string) $context ); ?></pre>
+			</div>
+			<?php
+		}
+	}
 
 	function createFraudStatus( $order_statuses ) {
 		$order_statuses['wc-lkn-fraud'] = array(

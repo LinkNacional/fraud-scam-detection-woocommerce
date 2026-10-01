@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/fraud-scam-"
 "detection-woocommerce\n"
-"POT-Creation-Date: 2026-10-01T16:31:15+00:00\n"
+"POT-Creation-Date: 2026-10-01T17:06:06+00:00\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,9 +14,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
+#. Plugin Name of the plugin
+#: fraud-scam-detection-woocommerce.php
 msgid "Fraud and Scam Detection For WooCommerce"
 msgstr "Detecção de Fraudes e Golpes para WooCommerce"
 
+#. Plugin URI of the plugin
+#: fraud-scam-detection-woocommerce.php
 msgid "https://www.linknacional.com.br/wordpress/woocommerce/antifraude/"
 msgstr "https://www.linknacional.com.br/wordpress/woocommerce/antifraude/"
 
@@ -35,78 +39,144 @@ msgstr "Link Nacional"
 msgid "https://linknacional.com.br/"
 msgstr "https://linknacional.com.br/"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:133
 msgid "Order Filter by IP"
 msgstr "Filtrar pedidos por IP"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:134
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:602
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:691
 msgid "Loading…"
 msgstr "Carregando…"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:135
 msgid "No orders found for this IP."
 msgstr "Nenhum pedido encontrado para este IP."
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:136
 msgid "Order"
 msgstr "Pedido"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:137
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:685
 msgid "Value"
 msgstr "Valor"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:138
 msgid "View Order"
 msgstr "Ver pedido"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:139
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:515
 msgid "ban"
 msgstr "banir"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:140
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:516
 msgid "unban"
 msgstr "desbanir"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:141
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:608
 msgid "Unban IP"
 msgstr "Desbanir IP"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:142
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:609
 msgid "Do you want to unban the following IP?"
 msgstr "Deseja desbanir o seguinte IP?"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:143
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:610
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:682
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:531
 msgid "Confirm Unban"
 msgstr "Confirmar desbanimento"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:144
 msgid "…"
 msgstr "…"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:145
 msgid "IP:"
 msgstr "IP:"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:146
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:594
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:605
 msgid "Ban IP"
 msgstr "Banir IP"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:147
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:606
 msgid "Do you want to ban the following IP from checkout?"
 msgstr "Deseja banir o seguinte IP da finalização de compra?"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:148
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:607
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:677
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:530
 msgid "Confirm Ban"
 msgstr "Confirmar banimento"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:149
 msgid "Banning…"
 msgstr "Banindo…"
 
+#: Admin/LknFsdwFraudAndScamDetectionForWoocommerceAdmin.php:150
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:604
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:684
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:529
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:28
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:17
 msgid "AntiFraud"
 msgstr "AntiFraude"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:45
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:46
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:29
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:36
 msgid "Captcha"
 msgstr "Captcha"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:53
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:54
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:191
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:198
 msgid "Data Blocking"
 msgstr "Bloqueio de dados"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:62
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:63
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:342
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:350
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:357
 msgid "Banned IPs"
 msgstr "IPs banidos"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:71
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:72
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:235
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:364
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:371
 msgid "Blocked Data"
 msgstr "Dados bloqueados"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:80
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu.php:81
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:378
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:385
+msgid "Support"
+msgstr "Suporte"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:18
 msgid "Fraud and Scam Detection"
 msgstr "Detecção de Fraudes e Golpes"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:19
 msgid ""
 "Configure the antifraud protection options and reCAPTCHA integration for "
 "greater security in transactions."
@@ -114,6 +184,7 @@ msgstr ""
 "Configure as opções de proteção antifraude e a integração do reCAPTCHA para "
 "maior segurança nas transações."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:37
 msgid ""
 "Pick a provider to turn on checkout verification and reveal its credentials."
 msgstr ""
@@ -135,18 +206,25 @@ msgstr "Ative a verificação de segurança na finalização de compra."
 msgid "Security Provider"
 msgstr "Provedor de Segurança"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:58
 msgid "None"
 msgstr "Nenhum"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:59
 msgid "Google reCAPTCHA V3"
 msgstr "Google reCAPTCHA V3"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:60
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:174
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1002
 msgid "Cloudflare Turnstile"
 msgstr "Cloudflare Turnstile"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:63
 msgid "Select the security service to use at checkout."
 msgstr "Selecione o serviço de segurança a usar na finalização de compra."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:66
 msgid ""
 "Selecting a provider turns verification on and reveals its credentials "
 "below. Selecting \"None\" turns it off."
@@ -154,9 +232,12 @@ msgstr ""
 "Selecionar um provedor ativa a verificação e revela suas credenciais abaixo. "
 "Selecionar \"Nenhum\" a desativa."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:70
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:74
 msgid "Generate Google reCAPTCHA V3 Keys."
 msgstr "Gerar chaves do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:75
 msgid ""
 "Click to access the Google reCAPTCHA panel and generate your integration "
 "keys."
@@ -164,39 +245,55 @@ msgstr ""
 "Clique para acessar o painel do Google reCAPTCHA e gerar suas chaves de "
 "integração."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:77
 msgid "Generate Google reCAPTCHA V3 Keys"
 msgstr "Gerar chaves do Google reCAPTCHA V3"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:78
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:137
 msgid "Click to generate new keys."
 msgstr "Clique para gerar novas chaves."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:83
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:89
 msgid "reCAPTCHA Site Key"
 msgstr "Chave de site do reCAPTCHA"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:87
 msgid "Google reCAPTCHA V3 service key."
 msgstr "Chave de serviço do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:90
 msgid "Enter your Google reCAPTCHA V3 site key."
 msgstr "Informe sua chave de site do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:91
 msgid "Google reCAPTCHA V3 public key."
 msgstr "Chave pública do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:97
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:103
 msgid "reCAPTCHA Secret Key"
 msgstr "Chave secreta do reCAPTCHA"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:101
 msgid "Google reCAPTCHA V3 secret key."
 msgstr "Chave secreta do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:104
 msgid "Enter your Google reCAPTCHA V3 secret key."
 msgstr "Informe sua chave secreta do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:105
 msgid "Google reCAPTCHA V3 private key."
 msgstr "Chave privada do Google reCAPTCHA V3."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:111
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:117
 msgid "Minimum Score"
 msgstr "Pontuação mínima"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:115
 msgid ""
 "The minimum score validated by reCAPTCHA for payment acceptance. Range: 0 to "
 "1. It is recommended to use a score above 0.7."
@@ -204,15 +301,20 @@ msgstr ""
 "A pontuação mínima validada pelo reCAPTCHA para aceitar o pagamento. Faixa: "
 "0 a 1. Recomenda-se usar uma pontuação acima de 0.7."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:118
 msgid "Set the minimum score for approval."
 msgstr "Defina a pontuação mínima para aprovação."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:119
 msgid "Value between 0 and 1. Recommended above 0.7."
 msgstr "Valor entre 0 e 1. Recomendado acima de 0.7."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:129
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:133
 msgid "Generate Cloudflare Turnstile Keys."
 msgstr "Gerar chaves do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:134
 msgid ""
 "Click to access the Cloudflare dashboard and generate your Turnstile site "
 "and secret keys."
@@ -220,75 +322,103 @@ msgstr ""
 "Clique para acessar o painel da Cloudflare e gerar suas chaves de site e "
 "secreta do Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:136
 msgid "Generate Cloudflare Turnstile Keys"
 msgstr "Gerar chaves do Cloudflare Turnstile"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:142
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:148
 msgid "Turnstile Site Key"
 msgstr "Chave de site do Turnstile"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:146
 msgid "Cloudflare Turnstile public site key."
 msgstr "Chave de site pública do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:149
 msgid "Enter your Cloudflare Turnstile site key."
 msgstr "Informe sua chave de site do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:150
 msgid "Cloudflare Turnstile public key."
 msgstr "Chave pública do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:156
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:162
 msgid "Turnstile Secret Key"
 msgstr "Chave secreta do Turnstile"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:160
 msgid "Cloudflare Turnstile secret key."
 msgstr "Chave secreta do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:163
 msgid "Enter your Cloudflare Turnstile secret key."
 msgstr "Informe sua chave secreta do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:164
 msgid "Cloudflare Turnstile private key."
 msgstr "Chave privada do Cloudflare Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:170
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:181
 msgid "Turnstile Theme"
 msgstr "Tema do Turnstile"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:174
 msgid "Auto"
 msgstr "Automático"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:175
 msgid "Light"
 msgstr "Claro"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:176
 msgid "Dark"
 msgstr "Escuro"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:179
 msgid "Choose the visual theme of the Turnstile widget."
 msgstr "Escolha o tema visual do widget do Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:182
 msgid "Select light, dark or auto."
 msgstr "Selecione claro, escuro ou automático."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:183
 msgid "Visual appearance of the Turnstile widget."
 msgstr "Aparência visual do widget do Turnstile."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:199
 msgid "General data blocking settings."
 msgstr "Configurações gerais de bloqueio de dados."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:203
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:230
 msgid "Enable Data Blocking"
 msgstr "Ativar bloqueio de dados"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:207
 msgid "Block by Email"
 msgstr "Bloquear por e-mail"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:208
 msgid "Block by Email Domain"
 msgstr "Bloquear por domínio de e-mail"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:209
 msgid "Block by Phone"
 msgstr "Bloquear por telefone"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:210
 msgid "Block by Country"
 msgstr "Bloquear por país"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:211
 msgid "Block by Device Identity"
 msgstr "Bloquear por identidade do dispositivo"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:221
 msgid ""
 "Block orders from specific email addresses. Manage blocked emails in the "
 "list below."
@@ -296,6 +426,7 @@ msgstr ""
 "Bloqueie pedidos de endereços de e-mail específicos. Gerencie os e-mails "
 "bloqueados na lista abaixo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:222
 msgid ""
 "Block orders from specific email domains. Manage blocked domains in the list "
 "below."
@@ -303,6 +434,7 @@ msgstr ""
 "Bloqueie pedidos de domínios de e-mail específicos. Gerencie os domínios "
 "bloqueados na lista abaixo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:223
 msgid ""
 "Block orders from specific phone numbers. Manage blocked phones in the list "
 "below."
@@ -310,6 +442,7 @@ msgstr ""
 "Bloqueie pedidos de números de telefone específicos. Gerencie os telefones "
 "bloqueados na lista abaixo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:224
 msgid ""
 "Block orders from specific countries. Use 2-letter ISO codes (e.g. BR, US). "
 "Manage the list below."
@@ -317,6 +450,7 @@ msgstr ""
 "Bloqueie pedidos de países específicos. Use códigos ISO de 2 letras (ex.: "
 "BR, US). Gerencie a lista abaixo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:225
 msgid ""
 "Block orders from specific device fingerprints. Fingerprints are collected "
 "at checkout — copy them from order details to block a device."
@@ -325,16 +459,21 @@ msgstr ""
 "impressões digitais são coletadas na finalização de compra — copie-as dos "
 "detalhes do pedido para bloquear um dispositivo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:228
 msgid "When enabled, orders are checked against the blocked data lists."
 msgstr ""
 "Quando ativado, os pedidos são verificados em relação às listas de dados "
 "bloqueados."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:231
 msgid "Select which data types should block orders at checkout."
 msgstr ""
 "Selecione quais tipos de dados devem bloquear pedidos na finalização de "
 "compra."
 
+#. translators: %s: "Blocked Data" tab name
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:234
+#, php-format
 msgid ""
 "To manage the blocked data lists, visit the <a href=\"#\" data-goto-"
 "tab=\"block-by-data\">%s</a> tab."
@@ -342,76 +481,104 @@ msgstr ""
 "Para gerenciar as listas de dados bloqueados, acesse a aba <a href=\"#\" "
 "data-goto-tab=\"block-by-data\">%s</a>."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:240
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:246
 msgid "Ban Duration"
 msgstr "Duração do banimento"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:244
 msgid ""
 "How long each ban lasts. Use 0 with unit \"Forever\" for permanent bans."
 msgstr ""
 "Quanto tempo cada banimento dura. Use 0 com a unidade \"Para sempre\" para "
 "banimentos permanentes."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:247
 msgid "How long each ban lasts."
 msgstr "Quanto tempo cada banimento dura."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:248
 msgid "Enter the numeric duration. Pair with the unit field below."
 msgstr "Informe a duração numérica. Combine com o campo de unidade abaixo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:256
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:270
 msgid "Ban Duration Unit"
 msgstr "Unidade de duração do banimento"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:260
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:571
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:600
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:689
 msgid "Forever"
 msgstr "Para sempre"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:261
 msgid "Years"
 msgstr "Anos"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:262
 msgid "Months"
 msgstr "Meses"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:263
 msgid "Weeks"
 msgstr "Semanas"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:264
 msgid "Days"
 msgstr "Dias"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:265
 msgid "Hours"
 msgstr "Horas"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:268
 msgid "Time unit for the ban duration. Select \"Forever\" for permanent bans."
 msgstr ""
 "Unidade de tempo para a duração do banimento. Selecione \"Para sempre\" para "
 "banimentos permanentes."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:271
 msgid "Select the unit of time for the ban."
 msgstr "Selecione a unidade de tempo do banimento."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:272
 msgid "When \"Forever\" is selected, the duration field is disabled."
 msgstr ""
 "Quando \"Para sempre\" está selecionado, o campo de duração fica "
 "desabilitado."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:276
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:297
 msgid "AntiFraud Behavior"
 msgstr "Comportamento antifraude"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:280
 msgid "Block Order (do not allow the order to be placed)"
 msgstr "Bloquear pedido (não permitir que o pedido seja realizado)"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:281
 msgid "Mark Order as Fraud"
 msgstr "Marcar pedido como fraude"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:282
 msgid "Add Note to Order Only"
 msgstr "Apenas adicionar nota ao pedido"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:290
 msgid "Prevents the order from being placed when fraud is detected."
 msgstr "Impede que o pedido seja realizado quando uma fraude é detectada."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:291
 msgid "Marks the order status as fraudulent for review."
 msgstr "Marca o status do pedido como fraudulento para revisão."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:292
 msgid "Adds a note to the order without blocking it."
 msgstr "Adiciona uma nota ao pedido sem bloqueá-lo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:295
 msgid ""
 "Choose how the system should behave when a blocked customer attempts to "
 "place an order."
@@ -419,68 +586,90 @@ msgstr ""
 "Escolha como o sistema deve se comportar quando um cliente bloqueado tenta "
 "fazer um pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:298
 msgid "Define the action taken when a blocked customer tries to checkout."
 msgstr ""
 "Defina a ação tomada quando um cliente bloqueado tenta finalizar a compra."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:302
 msgid "IP Verify"
 msgstr "Verificação de IP"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:305
 msgid "Enable IP location lookup link on the order detail page."
 msgstr ""
 "Ative o link de consulta de localização do IP na página de detalhes do "
 "pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:307
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:310
 msgid "Show IP lookup, filter and ban actions on the order page."
 msgstr "Exibe ações de consulta, filtro e banimento de IP na página do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:309
 msgid "IP Verification"
 msgstr "Verificação de IP"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:311
 msgid "Enables an IP location lookup link on the order detail page."
 msgstr ""
 "Ativa um link de consulta de localização do IP na página de detalhes do "
 "pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:315
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:322
 msgid "Filter Orders by IP"
 msgstr "Filtrar pedidos por IP"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:318
 msgid ""
 "Enable a link to filter orders by the customer IP on the order detail page."
 msgstr ""
 "Ative um link para filtrar pedidos pelo IP do cliente na página de detalhes "
 "do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:320
 msgid "Show a filter link to list orders by the same IP on the order page."
 msgstr ""
 "Exibe um link de filtro para listar pedidos do mesmo IP na página do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:323
 msgid "List all orders placed from the same IP."
 msgstr "Lista todos os pedidos feitos do mesmo IP."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:324
 msgid ""
 "Enables a link to filter orders by the customer IP on the order detail page."
 msgstr ""
 "Ativa um link para filtrar pedidos pelo IP do cliente na página de detalhes "
 "do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:329
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:336
 msgid "Ban IPs"
 msgstr "Banir IPs"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:332
 msgid "Enable ban/unban IP link on the order detail page."
 msgstr "Ative o link de banir/desbanir IP na página de detalhes do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:334
 msgid "Show a ban/unban link to block IPs from checkout on the order page."
 msgstr ""
 "Exibe um link de banir/desbanir para bloquear IPs da finalização de compra "
 "na página do pedido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:337
 msgid "Block suspicious IPs from completing checkout."
 msgstr "Bloqueia IPs suspeitos de concluir a finalização de compra."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:338
 msgid "Enables a ban/unban IP link on the order detail page."
 msgstr "Ativa um link de banir/desbanir IP na página de detalhes do pedido."
 
+#. translators: %s: "Banned IPs" tab name
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:341
+#, php-format
 msgid ""
 "To manage the full list of banned IPs, visit the <a href=\"#\" data-goto-"
 "tab=\"banned-ips\">%s</a> tab."
@@ -488,6 +677,7 @@ msgstr ""
 "Para gerenciar a lista completa de IPs banidos, acesse a aba <a href=\"#\" "
 "data-goto-tab=\"banned-ips\">%s</a>."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:344
 msgid ""
 "<strong>⚠ Important:</strong> For this feature to correctly identify the "
 "customer's real IP, your server proxy settings must be properly configured "
@@ -500,110 +690,213 @@ msgstr ""
 "X-Forwarded-For). Se tiver dúvidas, contate o administrador do servidor "
 "antes de ativar esta opção."
 
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:349
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:360
-msgid "Debug"
-msgstr "Depuração"
-
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:352
-msgid "Enable debug logs."
-msgstr "Ativar logs de depuração."
-
-msgid "Enable debug logs <a href=\"%s\" target=\"_blank\">View logs</a>"
-msgstr "Ativar logs de depuração <a href=\"%s\" target=\"_blank\">Ver logs</a>"
-
-msgid "Enable to record debug logs."
-msgstr "Ative para registrar logs de depuração."
-
-msgid "Logs can be viewed in the WooCommerce status area."
-msgstr "Os logs podem ser vistos na área de status do WooCommerce."
-
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:358
 msgid "List of IP addresses blocked from checkout."
 msgstr "Lista de endereços IP bloqueados da finalização de compra."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:372
 msgid "Manage blocked emails, phone numbers, countries and device identities."
 msgstr ""
 "Gerencie e-mails, números de telefone, países e identidades de dispositivo "
 "bloqueados."
 
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:445
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:846
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:386
+msgid "Debugging and diagnostic options for support."
+msgstr "Opções de depuração e diagnóstico para suporte."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:390
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:401
+msgid "Debug"
+msgstr "Depuração"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:393
+msgid "Enable debug logs."
+msgstr "Ativar logs de depuração."
+
+#. translators: %s: URL to WooCommerce logs page.
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:397
+#, php-format
+msgid "Enable debug logs <a href=\"%s\" target=\"_blank\">View logs</a>"
+msgstr "Ativar logs de depuração <a href=\"%s\" target=\"_blank\">Ver logs</a>"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:402
+msgid "Enable to record debug logs."
+msgstr "Ative para registrar logs de depuração."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:403
+msgid ""
+"When enabled, the full context of every block (by IP, by data, Cloudflare or "
+"Google) is written to the WooCommerce log and stored on the order."
+msgstr ""
+"Quando ativado, o contexto completo de cada bloqueio (por IP, por dados, "
+"Cloudflare ou Google) é gravado no log do WooCommerce e armazenado no pedido."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:407
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:415
+msgid "Contact Support"
+msgstr "Falar com o suporte"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:411
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:729
+msgid "Send settings to support"
+msgstr "Enviar configurações ao suporte"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:413
+msgid ""
+"Opens WhatsApp with your plugin settings so the support team can help "
+"faster. Sensitive credentials are hidden."
+msgstr ""
+"Abre o WhatsApp com as configurações do seu plugin para que o suporte possa "
+"ajudar mais rápido. As credenciais sensíveis ficam ocultas."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:416
+msgid "Send your configuration to the support team via WhatsApp."
+msgstr "Envie sua configuração para a equipe de suporte via WhatsApp."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:417
+msgid "No sensitive data is shared: secret keys are masked."
+msgstr ""
+"Nenhum dado sensível é compartilhado: as chaves secretas são mascaradas."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:422
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:429
+msgid "View Order Log"
+msgstr "Ver log do pedido"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:425
+msgid "Enable viewing the log inside the order."
+msgstr "Ative a visualização do log dentro do pedido."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:427
+msgid "Displays the detection log inside the WooCommerce order details."
+msgstr "Exibe o log de detecção nos detalhes do pedido do WooCommerce."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:430
+msgid "Show the detection log on the order page."
+msgstr "Exibe o log de detecção na página do pedido."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:431
+msgid "Requires debug logs to be enabled."
+msgstr "Requer os logs de depuração ativados."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:435
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:438
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:442
+msgid "Clear Order Logs"
+msgstr "Limpar logs dos pedidos"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:440
+msgid "Removes the detection logs stored on all orders."
+msgstr "Remove os logs de detecção armazenados em todos os pedidos."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:443
+msgid "Delete the logs stored on the orders."
+msgstr "Exclui os logs armazenados nos pedidos."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:537
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:877
 msgid "High likelihood of automated (bot) behavior."
 msgstr "Alta probabilidade de comportamento automatizado (bot)."
 
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:446
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:848
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:538
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:879
 msgid "Intermediate behavior."
 msgstr "Comportamento intermediário."
 
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:447
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:850
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:539
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:881
 msgid "Behavior generally human, but with some uncertainty."
 msgstr "Comportamento geralmente humano, mas com alguma incerteza."
 
-#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:448
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:852
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:926
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:540
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:883
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:957
 msgid "High likelihood of legitimate human behavior."
 msgstr "Alta probabilidade de comportamento humano legítimo."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:566
 msgid "hours"
 msgstr "horas"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:567
 msgid "days"
 msgstr "dias"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:568
 msgid "weeks"
 msgstr "semanas"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:569
 msgid "months"
 msgstr "meses"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:570
 msgid "years"
 msgstr "anos"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:593
 msgid "IPv4 or IPv6"
 msgstr "IPv4 ou IPv6"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:595
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:679
 msgid "Unban"
 msgstr "Desbanir"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:596
 msgid "IP Address"
 msgstr "Endereço IP"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:597
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:686
 msgid "Banned By"
 msgstr "Banido por"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:598
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:687
 msgid "Banned At"
 msgstr "Banido em"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:599
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:688
 msgid "Expires At"
 msgstr "Expira em"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:601
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:690
 msgid "Actions"
 msgstr "Ações"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:603
 msgid "No banned IPs."
 msgstr "Nenhum IP banido."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:611
 msgid "IP banned successfully."
 msgstr "IP banido com sucesso."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:612
 msgid "IP unbanned successfully."
 msgstr "IP desbanido com sucesso."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:613
 msgid "Failed to load IPs."
 msgstr "Falha ao carregar os IPs."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:614
 msgid "Error banning IP."
 msgstr "Erro ao banir o IP."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:615
 msgid "Error unbanning IP."
 msgstr "Erro ao desbanir o IP."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:616
 msgid "Enter an IP address."
 msgstr "Informe um endereço IP."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:617
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:696
 msgid ""
 "New bans never expire (<strong>Forever</strong>). Configure ban duration in "
 "the <a href=\"#\" data-goto-tab=\"antifraud\">Data Blocking</a> tab."
@@ -612,6 +905,9 @@ msgstr ""
 "duração do banimento na aba <a href=\"#\" data-goto-"
 "tab=\"antifraud\">Bloqueio de dados</a>."
 
+#. translators: {duration} = number, {unit} = time unit label
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:619
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:698
 msgid ""
 "New bans expire after <strong>{duration} {unit}</strong>. Configure ban "
 "duration in the <a href=\"#\" data-goto-tab=\"antifraud\">Data Blocking</a> "
@@ -621,81 +917,140 @@ msgstr ""
 "a duração do banimento na aba <a href=\"#\" data-goto-"
 "tab=\"antifraud\">Bloqueio de dados</a>."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:664
 msgid "Emails"
 msgstr "E-mails"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:665
 msgid "Email Domains"
 msgstr "Domínios de e-mail"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:666
 msgid "Phones"
 msgstr "Telefones"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:667
 msgid "Countries"
 msgstr "Países"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:668
 msgid "Device Identities"
 msgstr "Identidades de dispositivo"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:669
 msgid "user@example.com"
 msgstr "user@example.com"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:670
 msgid "example.com"
 msgstr "example.com"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:671
 msgid "+5511999999999"
 msgstr "+5511999999999"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:672
 msgid "BR"
 msgstr "BR"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:673
 msgid "Fingerprint hash"
 msgstr "Hash da impressão digital"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:674
 msgid "Ban"
 msgstr "Banir"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:675
 msgid "Ban Item"
 msgstr "Banir item"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:676
 msgid "Do you want to add the following item to the blocked list?"
 msgstr "Deseja adicionar o seguinte item à lista de bloqueados?"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:678
 msgid "Item added successfully."
 msgstr "Item adicionado com sucesso."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:680
 msgid "Unban Item"
 msgstr "Desbanir item"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:681
 msgid "Do you want to unban the following item?"
 msgstr "Deseja desbanir o seguinte item?"
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:683
 msgid "Item removed successfully."
 msgstr "Item removido com sucesso."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:692
 msgid "No items."
 msgstr "Nenhum item."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:693
 msgid "Failed to load list."
 msgstr "Falha ao carregar a lista."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:694
 msgid "Error adding item."
 msgstr "Erro ao adicionar o item."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:695
 msgid "Error removing item."
 msgstr "Erro ao remover o item."
 
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:725
+msgid "Clear the logs stored on all orders?"
+msgstr "Limpar os logs armazenados em todos os pedidos?"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:726
+msgid "Clearing…"
+msgstr "Limpando…"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:727
+msgid "Order logs cleared."
+msgstr "Logs dos pedidos limpos."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:728
+msgid "Failed to clear the order logs."
+msgstr "Falha ao limpar os logs dos pedidos."
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:730
+msgid ""
+"Hello! I need support with the Fraud & Scam Detection plugin. Here are my "
+"settings:"
+msgstr ""
+"Olá! Preciso de suporte com o plugin de Detecção de Fraudes & Golpes. Seguem "
+"minhas configurações:"
+
+#: Admin/partials/LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage.php:731
+msgid "Waiting for your reply, thank you!"
+msgstr "Aguardo retorno, obrigado!"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:175
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:423
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:307
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:350
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:371
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:399
 msgid "Permission denied."
 msgstr "Permissão negada."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:182
 msgid "Invalid settings data."
 msgstr "Dados de configuração inválidos."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:202
 msgid "Security verification"
 msgstr "Verificação de segurança"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:203
 msgid "Configure credentials"
 msgstr "Configurar credenciais"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:204
 msgid ""
 "Security verification cannot be enabled until the provider credentials are "
 "filled in. Click the button below to configure them."
@@ -703,48 +1058,69 @@ msgstr ""
 "A verificação de segurança não pode ser ativada até que as credenciais do "
 "provedor sejam preenchidas. Clique no botão abaixo para configurá-las."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:221
 msgid "Settings saved successfully!"
 msgstr "Configurações salvas com sucesso!"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:398
 msgid "Settings"
 msgstr "Configurações"
 
+#. translators: %d: number of orders whose logs were cleared.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:459
+#, php-format
+msgid "%d order logs cleared successfully."
+msgstr "%d logs de pedidos limpos com sucesso."
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:517
 msgid "Ban Email"
 msgstr "Banir e-mail"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:518
 msgid "Do you want to ban this email from checkout?"
 msgstr "Deseja banir este e-mail da finalização de compra?"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:519
 msgid "Email banned."
 msgstr "E-mail banido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:520
 msgid "Unban Email"
 msgstr "Desbanir e-mail"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:521
 msgid "Do you want to unban this email?"
 msgstr "Deseja desbanir este e-mail?"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:522
 msgid "Email unbanned."
 msgstr "E-mail desbanido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:523
 msgid "Ban Phone"
 msgstr "Banir telefone"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:524
 msgid "Do you want to ban this phone from checkout?"
 msgstr "Deseja banir este telefone da finalização de compra?"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:525
 msgid "Phone banned."
 msgstr "Telefone banido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:526
 msgid "Unban Phone"
 msgstr "Desbanir telefone"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:527
 msgid "Do you want to unban this phone?"
 msgstr "Deseja desbanir este telefone?"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerce.php:528
 msgid "Phone unbanned."
 msgstr "Telefone desbanido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:43
 msgid "This site is protected by Cloudflare Turnstile and the"
 msgstr "Este site é protegido pelo Cloudflare Turnstile e as"
 
@@ -753,6 +1129,7 @@ msgstr "Este site é protegido pelo Cloudflare Turnstile e as"
 msgid "Privacy Policy"
 msgstr "Políticas de Privacidade"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:45
 msgid "and Cloudflare"
 msgstr "e a Cloudflare"
 
@@ -774,6 +1151,8 @@ msgstr "Este site é protegido pelo reCAPTCHA e as"
 msgid "and Google"
 msgstr "e Google"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:175
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1003
 msgid "Google reCAPTCHA"
 msgstr "Google reCAPTCHA"
 
@@ -781,6 +1160,7 @@ msgstr "Google reCAPTCHA"
 msgid "Credentials are not configured. Configure them in the antifraud panel."
 msgstr "Credenciais não configuradas. Configure no painel antifraude."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:251
 msgid ""
 "Security verification is temporarily unavailable because the anti-fraud "
 "provider is not fully configured. Please contact the store."
@@ -789,78 +1169,116 @@ msgstr ""
 "provedor antifraude não está totalmente configurado. Entre em contato com a "
 "loja."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:293
 msgid "Security verification failed. Please try again."
 msgstr "A verificação de segurança falhou. Tente novamente."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:313
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:377
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:405
 msgid "Invalid IP address."
 msgstr "Endereço IP inválido."
 
+#. translators: %s: IP address
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:392
+#, php-format
 msgid "IP %s has been unbanned."
 msgstr "O IP %s foi desbanido."
 
+#. translators: %s: IP address
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:434
+#, php-format
 msgid "IP %s has been banned."
 msgstr "O IP %s foi banido."
 
+#. translators: %s: customer IP address
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:481
+#, php-format
 msgid "Order flagged as fraud: customer IP address %s is banned."
 msgstr ""
 "Pedido sinalizado como fraude: o endereço IP %s do cliente está banido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:490
 msgid "Your IP address has been blocked from making purchases."
 msgstr "Seu endereço IP foi bloqueado para realizar compras."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:515
 msgid "email address"
 msgstr "endereço de e-mail"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:530
 msgid "email domain"
 msgstr "domínio de e-mail"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:545
 msgid "phone number"
 msgstr "número de telefone"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:559
 msgid "country"
 msgstr "país"
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:575
 msgid "device identity"
 msgstr "identidade do dispositivo"
 
+#. translators: 1: data type (e.g. "email address"), 2: blocked value
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:616
+#, php-format
 msgid "Order flagged as fraud: %1$s \"%2$s\" is blocked."
 msgstr "Pedido sinalizado como fraude: %1$s \"%2$s\" está bloqueado."
 
+#. translators: %s: data type (e.g. "email address", "phone number")
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:629
+#, php-format
 msgid "Your order has been blocked due to a %s restriction."
 msgstr "Seu pedido foi bloqueado devido a uma restrição de %s."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:736
 msgid "Invalid type."
 msgstr "Tipo inválido."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:765
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:808
 msgid "Invalid data."
 msgstr "Dados inválidos."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:781
 msgid "Item already exists."
 msgstr "O item já existe."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:844
 msgid "reCAPTCHA verification error: "
 msgstr "Erro de verificação do reCAPTCHA: "
 
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:838
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:869
 msgid "Invalid recaptcha: recaptcha was not validated."
 msgstr "Recaptcha inválido: recaptcha não foi validado."
 
+#. translators: 1: reCAPTCHA score returned by Google, 2: risk interpretation sentence.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:889
+#, php-format
 msgid ""
 "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: %1$s. %2$s"
 msgstr ""
 "Verificação do Google reCAPTCHA aprovada. Pontuação ANTIFRAUDE do cliente: "
 "%1$s. %2$s"
 
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:867
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:898
 msgid "Invalid recaptcha: score below the limit."
 msgstr "Recaptcha inválido: score abaixo do limite."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:927
 msgid "Turnstile verification error: "
 msgstr "Erro de verificação do Turnstile: "
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:949
 msgid "Invalid Turnstile: verification failed."
 msgstr "Turnstile inválido: falha na verificação."
 
+#. translators: %s: risk interpretation sentence.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:956
+#, php-format
 msgid ""
 "Cloudflare Turnstile verification passed. Customer's ANTIFRAUD score: PASS. "
 "%s"
@@ -868,15 +1286,23 @@ msgstr ""
 "Verificação do Cloudflare Turnstile aprovada. Pontuação ANTIFRAUDE do "
 "cliente: PASS. %s"
 
+#. translators: %s: anti-fraud provider name (Google reCAPTCHA or Cloudflare Turnstile).
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1007
+#, php-format
 msgid "Order flagged as fraud: %s verification failed."
 msgstr "Pedido sinalizado como fraude: a verificação de %s falhou."
 
+#. translators: %s: raw anti-fraud error code(s) returned by the provider.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1016
+#, php-format
 msgid "Error code: %s."
 msgstr "Código de erro: %s."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1032
 msgid "The anti-fraud provider did not return a reason for the failure."
 msgstr "O provedor antifraude não retornou um motivo para a falha."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1056
 msgid ""
 "The verification secret key is missing — this is a configuration problem, "
 "not a fraud attempt."
@@ -884,6 +1310,7 @@ msgstr ""
 "A chave secreta de verificação está ausente — isto é um problema de "
 "configuração, não uma tentativa de fraude."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1058
 msgid ""
 "The verification secret key is invalid — this is a configuration problem, "
 "not a fraud attempt."
@@ -891,70 +1318,97 @@ msgstr ""
 "A chave secreta de verificação é inválida — isto é um problema de "
 "configuração, não uma tentativa de fraude."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1060
 msgid ""
 "No verification token was sent by the customer (empty challenge response)."
 msgstr ""
 "Nenhum token de verificação foi enviado pelo cliente (resposta de desafio "
 "vazia)."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1062
 msgid "The verification token is invalid or malformed."
 msgstr "O token de verificação é inválido ou está malformado."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1064
 msgid ""
 "The verification token has expired or was already used (tokens are single-"
 "use)."
 msgstr ""
 "O token de verificação expirou ou já foi usado (os tokens são de uso único)."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1066
 msgid "The verification request was rejected because it was malformed."
 msgstr "A solicitação de verificação foi rejeitada porque está malformada."
 
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1068
 msgid "The provider reported an internal error during verification."
 msgstr "O provedor relatou um erro interno durante a verificação."
 
+#. translators: %s: anti-fraud error code returned by the provider.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1072
+#, php-format
 msgid "The provider returned an unrecognized error code: %s."
 msgstr "O provedor retornou um código de erro não reconhecido: %s."
 
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1056
-#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1068
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1219
+msgid "Fraud & Scam Detection — Logs"
+msgstr "Detecção de Fraudes & Golpes — Logs"
+
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1261
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1273
 msgid "Fraud"
 msgstr "Fraude"
 
+#. translators: %s: number of orders with fraud status.
+#: Includes/LknFsdwFraudAndScamDetectionForWoocommerceHelper.php:1267
+#, php-format
 msgid "Fraud (%s)"
 msgid_plural "Fraud (%s)"
 msgstr[0] "Fraude (%s)"
 msgstr[1] "Fraude (%s)"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingLinkCard.php:18
 msgid "Documentation"
 msgstr "Documentação"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingLinkCard.php:21
 msgid "Hosting"
 msgstr "Hospedagem"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingLinkCard.php:26
 msgid "WP Plugin"
 msgstr "Plugin WP"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingLinkCard.php:29
 msgid "WP Support"
 msgstr "Suporte WP"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingLinkCard.php:36
 msgid "Rate the plugin"
 msgstr "Avaliar o plugin"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:37
 msgid "Previous"
 msgstr "Anterior"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:47
 msgid "Next"
 msgstr "Próximo"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:278
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:514
 msgid "Last file uploaded:"
 msgstr "Último arquivo enviado:"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:549
 msgid "Save changes"
 msgstr "Salvar alterações"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:580
 msgid "NEW: Cloudflare Turnstile Security"
 msgstr "NOVO: Segurança com Cloudflare Turnstile"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:583
 msgid ""
 "Discover the new LinkNacional Security Verification System for advanced "
 "fraud and scam protection in your store."
@@ -962,9 +1416,11 @@ msgstr ""
 "Conheça o novo Sistema de Verificação de Segurança da LinkNacional para "
 "proteção avançada contra fraudes e golpes na sua loja."
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:590
 msgid "NEW: Robust and Custom Template"
 msgstr "NOVO: Modelo robusto e personalizado"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:593
 msgid ""
 "Explore the all-new Fraud Detection plugin interface—modern, intuitive, and "
 "built for your security needs."
@@ -972,9 +1428,11 @@ msgstr ""
 "Explore a interface totalmente nova do plugin de Detecção de Fraudes — "
 "moderna, intuitiva e criada para suas necessidades de segurança."
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:601
 msgid "Plugin: Invoice Payment Link for WooCommerce"
 msgstr "Plugin: Link de Pagamento por Fatura para WooCommerce"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:604
 msgid ""
 "The Invoice Payment Plugin is the complete solution for your business. With "
 "it, you can generate payment links, split purchases across multiple cards, "
@@ -986,15 +1444,19 @@ msgstr ""
 "cartões, configurar cobranças recorrentes, aplicar descontos e taxas e criar "
 "orçamentos detalhados."
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:608
 msgid "Learn more"
 msgstr "Saiba mais"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceAdminSettingsLayout.php:614
 msgid "Install"
 msgstr "Instalar"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceUpdateNotice.php:9
 msgid "Fraud &amp; Scam Detection &#8212; Layout Update"
 msgstr "Detecção de Fraudes &amp; Golpes &#8212; Atualização de layout"
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceUpdateNotice.php:12
 msgid ""
 "The plugin settings page has been updated with a new layout. Please take a "
 "moment to review your configuration and confirm that all fields are properly "
@@ -1004,5 +1466,9 @@ msgstr ""
 "Reserve um momento para revisar sua configuração e confirmar que todos os "
 "campos estão preenchidos corretamente."
 
+#: Includes/templates/LknFsdwFraudAndScamDetectionForWoocommerceUpdateNotice.php:17
 msgid "Check Settings"
 msgstr "Verificar configurações"
+
+#~ msgid "Logs can be viewed in the WooCommerce status area."
+#~ msgstr "Os logs podem ser vistos na área de status do WooCommerce."

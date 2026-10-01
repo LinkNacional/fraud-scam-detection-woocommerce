@@ -140,6 +140,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Orders blocked by the captcha (Google reCAPTCHA or Cloudflare Turnstile) now get an order note explaining the failure reason, with the error code translated (e.g. expired/already-used token, missing or invalid key).
 * The captcha success note now makes it explicit that the verification was completed (e.g. "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: ...").
 * Fixed: a successful Google reCAPTCHA response without a score was incorrectly treated as fraud.
+* New "Support" settings tab with the debug options, "View Order Log" (shows the order log) and clear logs.
+* New "Send settings to support" button in the Support tab: opens WhatsApp with the plugin settings (secret keys masked) to speed up support.
+* The debug log now records the full context of every block (by IP, by data, Cloudflare or Google) in the WooCommerce log and on the order itself.
 
 = 1.3.6 =
 * Captcha (Google reCAPTCHA or Cloudflare Turnstile) is now rendered on the order-received (receipt) page, right above the order notes.
