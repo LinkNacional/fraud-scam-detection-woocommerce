@@ -23,7 +23,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Rename this for your plugin and update it as you release new versions.
  */
 if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION')) {
-    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION', '1.3.6');
+    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_VERSION', '1.3.7');
 }
 
 if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_FILE')) {
@@ -40,6 +40,11 @@ if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_DIR_URL')) {
 
 if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_BASENAME')) {
     define('FRAUD_DETECTION_FOR_WOOCOMMERCE_BASENAME', plugin_basename(FRAUD_DETECTION_FOR_WOOCOMMERCE_FILE));
+}
+
+// Link Nacional support WhatsApp number (used by the "Send settings" support button).
+if (! defined('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER')) {
+    define('FRAUD_DETECTION_FOR_WOOCOMMERCE_WPP_NUMBER', '551135223406');
 }
 
 /**

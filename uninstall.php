@@ -37,6 +37,7 @@ $lkn_fsdw_options = array(
 	'lknFraudDetectionForWoocommerceEnableIpBan',
 	'lknFraudDetectionForWoocommerceRecaptchaSelected',
 	'lknFraudDetectionForWoocommerceDebug',
+	'lknFraudDetectionForWoocommerceShowOrderLogs',
 	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Key',
 	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Secret',
 	'lknFraudDetectionForWoocommerceGoogleRecaptchaV3Score',

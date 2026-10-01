@@ -161,6 +161,10 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
 
 		// Data block: inject ban-container into order edit billing section
 		$this->loader->add_action( 'woocommerce_admin_order_data_after_billing_address', $this, 'render_data_ban_container' );
+
+		// Support tab: order logs metabox ("View Order Log") + clear logs AJAX
+		$this->loader->add_action( 'add_meta_boxes', $this->LknFsdwFraudAndScamDetectionForWoocommerceHelperClass, 'registerOrderLogsMetaBox', 10, 2 );
+		$this->loader->add_action( 'wp_ajax_lkn_fsdw_clear_order_logs', $this, 'ajax_clear_order_logs' );
 	}
 
 	/**
@@ -409,6 +413,53 @@ class LknFsdwFraudAndScamDetectionForWoocommerce {
         }
         $settings[] = new LknFsdwFraudAndScamDetectionForWoocommerceSettingsPage();
         return $settings;
+    }
+
+    /**
+     * AJAX handler: clears the detection logs stored on all orders.
+     */
+    public function ajax_clear_order_logs() {
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error(array('message' => __('Permission denied.', 'fraud-and-scam-detection-for-woocommerce')));
+        }
+
+        check_ajax_referer('lkn_fsdw_clear_order_logs', 'nonce');
+
+        $orders = wc_get_orders(
+            array(
+                'limit'      => -1,
+                'meta_query' => array(
+                    array(
+                        'key'     => '_lkn_fsdw_order_logs',
+                        'compare' => 'EXISTS',
+                    ),
+                ),
+                'return'     => 'objects',
+            )
+        );
+
+        $count = 0;
+        foreach ($orders as $order) {
+            $order->delete_meta_data('_lkn_fsdw_order_logs');
+            $order->save();
+            $count++;
+        }
+
+        if (class_exists('WC_Logger')) {
+            $logger = new \WC_Logger();
+            $logger->info(
+                sprintf('Order logs cleared by user %d. Total orders affected: %d', get_current_user_id(), $count),
+                array('source' => 'lkn-fsdw-antifraud')
+            );
+        }
+
+        wp_send_json_success(
+            array(
+                /* translators: %d: number of orders whose logs were cleared. */
+                'message' => sprintf(__('%d order logs cleared successfully.', 'fraud-and-scam-detection-for-woocommerce'), $count),
+                'count'   => $count,
+            )
+        );
     }
 
     /**

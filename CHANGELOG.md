@@ -1,3 +1,11 @@
+# 1.3.7 - 01/10/2026
+* Pedidos bloqueados pelo captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora recebem uma nota no pedido explicando o motivo da falha, com o código de erro traduzido (ex.: token expirado/já usado, chave ausente ou inválida).
+* Nota de sucesso do captcha agora deixa explícito que a verificação foi concluída (ex.: "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: …").
+* Corrigido: uma resposta de sucesso do Google reCAPTCHA sem score deixava de ser tratada indevidamente como fraude.
+* Nova aba "Support" nas configurações, com as opções de depuração, "View Order Log" (exibe o log do pedido) e limpar logs.
+* Novo botão "Enviar configurações ao suporte" na aba Support: abre o WhatsApp com as configurações do plugin (chaves secretas mascaradas) para agilizar o atendimento.
+* O log de depuração agora registra o contexto completo de cada bloqueio (por IP, por dados, Cloudflare ou Google) no log do WooCommerce e no próprio pedido.
+
 # 1.3.6 - 24/09/2026
 * O captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora é exibido na página de recibo, logo acima das notas do pedido.
 

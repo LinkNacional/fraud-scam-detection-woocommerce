@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
         <div class="linkn-support-links">
             <div class="linkn-stars-div">
                 <a target="_blank" href="<?php echo esc_url('https://br.wordpress.org/plugins/woo-better-shipping-calculator-for-brazil/#reviews'); ?>">
-                    <p><?php echo esc_attr__('Avaliar o plugin', 'fraud-and-scam-detection-for-woocommerce'); ?></p>
+                    <p><?php echo esc_attr__('Rate the plugin', 'fraud-and-scam-detection-for-woocommerce'); ?></p>
                     <div class="linkn-stars">
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>
                         <span class="dashicons dashicons-star-filled linkn-stars-icon"></span>
@@ -44,7 +44,7 @@ if (!defined('ABSPATH')) {
                 </a>
             </div>
             <div class="linkn-contact-links">
-                <a href="<?php echo esc_url('https://chat.whatsapp.com/IjzHhDXwmzGLDnBfOibJKO'); ?>" target="_blank">
+                <a href="<?php echo esc_url('https://chat.whatsapp.com/C6S3my9Adr818hbeJphPBm'); ?>" target="_blank">
                     <img src="<?php echo esc_url($whatsapp); ?>" alt="Whatsapp Icon" class="linkn-contact-icon">
                 </a>
                 <a href="<?php echo esc_url('https://t.me/wpprobr'); ?>" target="_blank">

@@ -74,6 +74,15 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
             self::MENU_SLUG . '-block-by-data',
             array($this, 'redirect')
         );
+
+        add_submenu_page(
+            self::MENU_SLUG,
+            __('Support', 'fraud-and-scam-detection-for-woocommerce'),
+            __('Support', 'fraud-and-scam-detection-for-woocommerce'),
+            self::CAPABILITY,
+            self::MENU_SLUG . '-support',
+            array($this, 'redirect')
+        );
     }
 
     /**
@@ -91,6 +100,7 @@ class LknFsdwFraudAndScamDetectionForWoocommerceAdminMenu
             self::MENU_SLUG . '-data-blocking' => 'antifraud',
             self::MENU_SLUG . '-banned-ips'    => 'banned-ips',
             self::MENU_SLUG . '-block-by-data' => 'block-by-data',
+            self::MENU_SLUG . '-support'       => 'support',
         );
 
         if (!isset($tabs[$page]) || !current_user_can(self::CAPABILITY)) {

@@ -380,7 +380,7 @@ foreach ($form_fields as $key => $field) {
                                                     ?>
                                                     <button
                                                         type="button"
-                                                        id="<?php echo esc_attr($child_key); ?>"
+                                                        id="<?php echo esc_attr($child_field['id'] ? $child_field['id'] : $child_key); ?>"
                                                         class="<?php echo esc_attr($button_class); ?>"
                                                         <?php
                                                         if (isset($child_field['custom_attributes']) && is_array($child_field['custom_attributes'])) {

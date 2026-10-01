@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.6
+Stable tag: 1.3.7
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -14,32 +14,33 @@ Add Google reCAPTCHA or Cloudflare Turnstile verification to WooCommerce checkou
 
 == Description ==
 
-The **Fraud and Scam Detection For WooCommerce** plugin helps protect your online store by adding a verification layer to the WooCommerce checkout.  
+The **Fraud and Scam Detection For WooCommerce** plugin helps protect your online store by adding a verification layer to the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout.  
 Using **Google reCAPTCHA** or **Cloudflare Turnstile**, the plugin automatically analyzes user interactions and blocks suspicious checkout attempts, reducing fraudulent transactions and ensuring safer payments.
 
 **Main Features:**
 - Integration with **Google reCAPTCHA v3** (site key, secret key, configurable minimum score);
 - Integration with **Cloudflare Turnstile** (site key, secret key, selectable widget theme: auto, light or dark);
-- Protects WooCommerce checkout against automated bots and fraudulent activity;
+- Protects [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout against automated bots and fraudulent activity;
 - **Configurable antifraud behavior** — choose whether to block the order, mark it as fraud, add an internal note, or any combination of these actions;
 - Marks suspicious orders with a dedicated **custom fraud order status** for manual review;
-- Adds **internal order notes** with the validation result (reCAPTCHA score interpretation or Turnstile PASS);
+- Adds **internal order notes** with the validation result and, when a block occurs, the detailed reason (the provider error code, e.g. an expired or already-used token, or an invalid key);
+- **Support tab with diagnostics** — enable full **debug logging** of every block (by IP, by data, by Cloudflare or by Google) to the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) log and to the order itself, view the stored log inside the order, and clear it in one click;
+- **One-click support** — send your plugin settings to the support team via WhatsApp, with secret keys masked;
 - **Advanced IP banning** — ban IPs for a defined duration (hours, days, weeks, months, years) or permanently, with automatic expiration for temporary bans;
 - Banned IPs management panel and IP lookup / order filtering by IP directly from the order detail page;
 - **Data-based blocking** — block orders by email address, email domain, phone number, country, or device fingerprint;
 - Compatible with both the **classic** and the **block-based (Store API)** checkout;
-- Optional **debug logging** to the WooCommerce log for auditing and troubleshooting;
 - Lightweight and optimized for performance.
 
 **Dependencies**
 
-This plugin requires [WooCommerce](https://woocommerce.com/) to be installed and active.  
+This plugin requires [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) to be installed and active.  
 For Google reCAPTCHA, you also need valid [Google reCAPTCHA API keys](https://www.google.com/recaptcha/admin/create).  
 For Cloudflare Turnstile, you need valid [Cloudflare Turnstile site and secret keys](https://dash.cloudflare.com/?to=/:account/turnstile).
 
 **User instructions**
 
-1. Go to WordPress admin panel > WooCommerce > Settings > Anti-Fraud;
+1. Go to [WordPress](https://www.linknacional.com.br/wordpress/) admin panel > [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) > Settings > Anti-Fraud;
 
 2. Enable the antifraud option and choose between **Google reCAPTCHA** or **Cloudflare Turnstile**;
 
@@ -51,18 +52,18 @@ For Cloudflare Turnstile, you need valid [Cloudflare Turnstile site and secret k
 
 6. Optionally enable **data-based blocking** (email, email domain, phone, country, device) and manage the lists in the **Block by Data** tab;
 
-7. Optionally enable **debug mode** to log requests and responses;
+7. Optionally open the **Support** tab to enable **debug logging** (records the full context of every block in the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) log and on the order), show the order log inside the order, clear stored logs, and send your settings to the support team;
 
-8. Save the settings. From now on, the WooCommerce checkout will require security validation.
+8. Save the settings. From now on, the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout will require security validation.
 
 == External services ==
 
-This plugin integrates with Google reCAPTCHA v3 and Cloudflare Turnstile to provide fraud and bot protection for WooCommerce checkout processes.
+This plugin integrates with Google reCAPTCHA v3 and Cloudflare Turnstile to provide fraud and bot protection for [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout processes.
 
 **Google reCAPTCHA v3**
 
 What the service is and what it is used for:  
-Google reCAPTCHA v3 is a security service that analyzes user behavior to determine if a user is likely human or bot. It's used to protect the WooCommerce checkout process from automated fraud attempts and malicious activities.
+Google reCAPTCHA v3 is a security service that analyzes user behavior to determine if a user is likely human or bot. It's used to protect the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout process from automated fraud attempts and malicious activities.
 
 What data is sent and when:  
 When a customer attempts to complete a checkout, the plugin sends the following data to Google reCAPTCHA servers:
@@ -77,7 +78,7 @@ When a customer attempts to complete a checkout, the plugin sends the following 
 **Cloudflare Turnstile**
 
 What the service is and what it is used for:  
-Cloudflare Turnstile is a privacy-friendly CAPTCHA alternative that verifies users without tracking or invasive data collection. It's used to protect the WooCommerce checkout from bots and fraudulent activity.
+Cloudflare Turnstile is a privacy-friendly CAPTCHA alternative that verifies users without tracking or invasive data collection. It's used to protect the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout from bots and fraudulent activity.
 
 What data is sent and when:  
 When a customer attempts to complete a checkout, the plugin sends the Turnstile response token to Cloudflare servers for validation:
@@ -89,7 +90,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 == Installation ==
 
-1. Look in the sidebar for the WordPress plugins area;
+1. Look in the sidebar for the [WordPress](https://www.linknacional.com.br/wordpress/) plugins area;
 
 2. In installed plugins look for the option 'add new';
 
@@ -97,7 +98,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 4. Click on the 'install now' button and then activate the installed plugin;
 
-5. Now go to WooCommerce settings > Anti-Fraud;
+5. Now go to [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) settings > Anti-Fraud;
 
 6. Enter your Google reCAPTCHA credentials, configure the minimum score, and save.
 
@@ -109,7 +110,7 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 = What is needed to use this plugin? =
 
-* WooCommerce installed and active;
+* [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) installed and active;
 * Google reCAPTCHA API keys (if using reCAPTCHA);
 * Cloudflare Turnstile site and secret keys (if using Turnstile).
 
@@ -130,12 +131,20 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 = How does the IP banning system work? =
 
 * When the **Ban IPs** option is active, a ban/unban panel appears on each order detail page.  
-  You can also manage the full list of banned IPs in **WooCommerce > Settings > Anti-Fraud > Banned IPs**.  
+  You can also manage the full list of banned IPs in **[WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) > Settings > Anti-Fraud > Banned IPs**.  
   The improved ban system supports **temporary bans** with a configurable duration (hours, days, weeks, months, or years) that expire automatically, as well as **permanent bans** by selecting the “Forever” unit.  
   Any customer attempting to checkout from a banned IP within the active ban period will be blocked and the configured antifraud behavior will be applied.
 
 
 == Changelog ==
+= 1.3.7 =
+* Orders blocked by the captcha (Google reCAPTCHA or Cloudflare Turnstile) now get an order note explaining the failure reason, with the error code translated (e.g. expired/already-used token, missing or invalid key).
+* The captcha success note now makes it explicit that the verification was completed (e.g. "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: ...").
+* Fixed: a successful Google reCAPTCHA response without a score was incorrectly treated as fraud.
+* New "Support" settings tab with the debug options, "View Order Log" (shows the order log) and clear logs.
+* New "Send settings to support" button in the Support tab: opens WhatsApp with the plugin settings (secret keys masked) to speed up support.
+* The debug log now records the full context of every block (by IP, by data, Cloudflare or Google) in the [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) log and on the order itself.
+
 = 1.3.6 =
 * Captcha (Google reCAPTCHA or Cloudflare Turnstile) is now rendered on the order-received (receipt) page, right above the order notes.
 
@@ -143,10 +152,10 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * New "Captcha" tab: picking a provider (Google reCAPTCHA or Cloudflare Turnstile) enables verification and reveals the credentials in cascade, without leaving the screen.
 * Settings page reorganized into 4 tabs: Captcha, Data Blocking, Banned IPs, and Blocked Data.
 * Updated admin menu with Captcha and Data Blocking shortcuts.
-* Source strings standardized to English for WordPress.org translation.
+* Source strings standardized to English for [WordPress.org](https://www.linknacional.com.br/wordpress/) translation.
 
 = 1.3.4 =
-* Security: the antifraud settings save is restricted to the plugin's own options, preventing lower-privileged roles from overwriting arbitrary WordPress options.
+* Security: the antifraud settings save is restricted to the plugin's own options, preventing lower-privileged roles from overwriting arbitrary [WordPress](https://www.linknacional.com.br/wordpress/) options.
 * Security: enabling security verification now requires the provider credentials to be filled in — a settings-page warning links straight to the provider configuration — and checkout is blocked (instead of skipping verification) when a misconfigured provider has none.
 * New "AntiFraud" admin menu with shortcuts to the settings, banned IPs, and data-based blocking tabs.
 
@@ -185,10 +194,10 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Change actions.
 
 = 1.1.5 =
-* Fix Wordpress issues.
+* Fix [Wordpress](https://www.linknacional.com.br/wordpress/) issues.
 
 = 1.1.4 =
-* Fix Wordpress issues.
+* Fix [Wordpress](https://www.linknacional.com.br/wordpress/) issues.
 
 = 1.1.3 =
 * Remove plugin updater.
@@ -203,9 +212,12 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Add compatibility with shortcode form.
 
 = 1.0.0 =
-* Plugin launch with Google reCAPTCHA integration for WooCommerce checkout.
+* Plugin launch with Google reCAPTCHA integration for [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout.
 
 == Upgrade Notice ==
+= 1.3.7 =
+* Captcha blocks now explain the failure reason. New Support tab: debug logging, order log viewer, and one-click settings send to support.
+
 = 1.3.6 =
 * Captcha now shows on the receipt page, above the order notes.
 
@@ -246,10 +258,10 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Change actions.
 
 = 1.1.5 =
-* Fix Wordpress issues.
+* Fix [Wordpress](https://www.linknacional.com.br/wordpress/) issues.
 
 = 1.1.4 =
-* Fix Wordpress issues.
+* Fix [Wordpress](https://www.linknacional.com.br/wordpress/) issues.
 
 = 1.1.3 =
 * Remove plugin updater.

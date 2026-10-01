@@ -459,6 +459,18 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
 			$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
 
+			self::logBlockEvent(
+				$order,
+				'ip-ban',
+				sprintf( 'Banned IP blocked at checkout: %s', $customer_ip ),
+				array(
+					'customer_ip' => $customer_ip,
+					'block_order' => $block_order,
+					'mark_fraud'  => $mark_fraud,
+					'add_note'    => $add_note,
+				)
+			);
+
 			if ( $mark_fraud ) {
 				$order->set_status( 'lkn-fraud' );
 			}
@@ -580,6 +592,19 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$block_order = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_block_order', 'yes' ) === 'yes';
 		$mark_fraud  = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_mark_fraud',  'yes' ) === 'yes';
 		$add_note    = get_option( 'lknFraudDetectionForWoocommerceAntiFraudBehavior_add_note',    'yes' ) === 'yes';
+
+		self::logBlockEvent(
+			$order,
+			'data-block',
+			sprintf( 'Blocked %1$s at checkout: %2$s', $type, $value ),
+			array(
+				'type'        => $type,
+				'value'       => $value,
+				'block_order' => $block_order,
+				'mark_fraud'  => $mark_fraud,
+				'add_note'    => $add_note,
+			)
+		);
 
 		if ( $mark_fraud ) {
 			$order->set_status( 'lkn-fraud' );
@@ -820,41 +845,54 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		}
 
 		$responseBody = json_decode(wp_remote_retrieve_body($response), true);
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'processPayments',
+
+		// Log the full verification context for support (secret masked).
+		$log_body = $body;
+		if ( isset( $log_body['secret'] ) ) {
+			$log_body['secret'] = self::maskValue( $log_body['secret'] );
+		}
+		self::logBlockEvent(
+			$order,
+			'google-recaptcha',
+			'reCAPTCHA siteverify request/response',
 			array(
-				'orderId' => $order->get_id(),
-				'url' => 'https://www.google.com/recaptcha/api/siteverify',
-				'body' => $body,
-				'responseBody' => $responseBody
+				'url'      => 'https://www.google.com/recaptcha/api/siteverify',
+				'request'  => $log_body,
+				'response' => $responseBody,
 			)
 		);
 
 		if(!isset($responseBody['success']) || $responseBody['success'] !== true){
 			$order->set_status('lkn-fraud');
+			$order->add_order_note( self::buildVerificationFailureNote( 'googleRecaptchaV3', self::normalizeErrorCodes( (array) $responseBody ) ) );
 			$order->save();
 			throw new Exception( esc_html( __( 'Invalid recaptcha: recaptcha was not validated.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Verificar o score do reCAPTCHA
 		if(isset($responseBody['score'])){
-			$orderNote = __("Customer's ANTIFRAUD score:", 'fraud-and-scam-detection-for-woocommerce') . ' ' . $responseBody['score'];
 			$scoreResponse = $responseBody['score'];
 
 			if ($scoreResponse <= 0.3) {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('High likelihood of automated (bot) behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse > 0.3 && $scoreResponse < 0.6) {
-				$orderNote =  $orderNote . ' ' . __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('Intermediate behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			} elseif ($scoreResponse >= 0.6 && $scoreResponse <= 0.7) {
-				$orderNote =  $orderNote . ' ' . __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('Behavior generally human, but with some uncertainty.', 'fraud-and-scam-detection-for-woocommerce');
 			} else {
-				$orderNote =  $orderNote . ' ' . __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce');
+				$riskNote = __('High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce');
 			}
 
-			$order->add_order_note($orderNote);
+			$order->add_order_note(
+				sprintf(
+					/* translators: 1: reCAPTCHA score returned by Google, 2: risk interpretation sentence. */
+					__( "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: %1\$s. %2\$s", 'fraud-and-scam-detection-for-woocommerce' ),
+					$scoreResponse,
+					$riskNote
+				)
+			);
 		}
-		if ($responseBody['score'] < $score) {
+		if ( isset( $responseBody['score'] ) && $responseBody['score'] < $score ) {
 			$order->set_status('lkn-fraud');
 			$order->save();
 			throw new Exception( esc_html( __( 'Invalid recaptcha: score below the limit.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
@@ -864,14 +902,14 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 	public function verifyTurnstile( $token, $order ) {
 		$remote_ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'verifyTurnstile',
-			[
-				'orderId'    => $order->get_id(),
-				'token_len'  => strlen( (string) $token ),
-				'token_empty'=> empty( $token ),
-			]
+		self::logBlockEvent(
+			$order,
+			'cloudflare-turnstile',
+			'Turnstile token received',
+			array(
+				'token_len'   => strlen( (string) $token ),
+				'token_empty' => empty( $token ),
+			)
 		);
 
 		$body = [
@@ -891,30 +929,150 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 
 		$responseBody = json_decode( wp_remote_retrieve_body( $response ), true );
 
-		LknFsdwFraudAndScamDetectionForWoocommerceHelper::regLog(
-			'info',
-			'verifyTurnstile',
-			[
-				'orderId'      => $order->get_id(),
-				'url'          => 'https://challenges.cloudflare.com/turnstile/v0/siteverify', // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Cloudflare endpoint stored in the debug log.
-				'success'      => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
-				'error-codes'  => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
-				'hostname'     => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,
-			]
+		self::logBlockEvent(
+			$order,
+			'cloudflare-turnstile',
+			'Turnstile siteverify response',
+			array(
+				'url'         => 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				'success'     => isset( $responseBody['success'] ) ? $responseBody['success'] : null,
+				'error-codes' => isset( $responseBody['error-codes'] ) ? $responseBody['error-codes'] : [],
+				'hostname'    => isset( $responseBody['hostname'] ) ? $responseBody['hostname'] : null,
+			)
 		);
 
 		if ( ! isset( $responseBody['success'] ) || $responseBody['success'] !== true ) {
 			$order->set_status( 'lkn-fraud' );
+			$order->add_order_note( self::buildVerificationFailureNote( 'cloudflareTurnstile', self::normalizeErrorCodes( (array) $responseBody ) ) );
 			$order->save();
+
 			throw new Exception( esc_html( __( 'Invalid Turnstile: verification failed.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
 		// Cloudflare Turnstile não retorna score numérico — exibe PASS como equivalente ao score do Google
 		$order->add_order_note(
-			__( "Customer's ANTIFRAUD score:", 'fraud-and-scam-detection-for-woocommerce' )
-			. ' PASS (Cloudflare Turnstile) '
-			. __( 'High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce' )
+			sprintf(
+				/* translators: %s: risk interpretation sentence. */
+				__( "Cloudflare Turnstile verification passed. Customer's ANTIFRAUD score: PASS. %s", 'fraud-and-scam-detection-for-woocommerce' ),
+				__( 'High likelihood of legitimate human behavior.', 'fraud-and-scam-detection-for-woocommerce' )
+			)
 		);
+	}
+
+	/**
+	 * Extract the provider error codes from a siteverify response body.
+	 *
+	 * Both the Google reCAPTCHA and the Cloudflare Turnstile siteverify
+	 * endpoints return an "error-codes" array describing why verification
+	 * failed. This normalizes it to a clean list of non-empty strings.
+	 *
+	 * @param array $responseBody Decoded siteverify response.
+	 * @return array
+	 */
+	private static function normalizeErrorCodes( array $responseBody ): array {
+		if ( ! isset( $responseBody['error-codes'] ) ) {
+			return [];
+		}
+
+		$codes = $responseBody['error-codes'];
+		if ( ! is_array( $codes ) ) {
+			$codes = [ $codes ];
+		}
+
+		// Keep only scalar entries (defensive: never stringify a nested array).
+		$codes = array_filter( $codes, 'is_scalar' );
+
+		return array_values( array_filter( array_map( 'sanitize_text_field', array_map( 'strval', $codes ) ) ) );
+	}
+
+	/**
+	 * Build the order note explaining why an anti-fraud verification failed.
+	 *
+	 * The note combines a provider-aware headline, a human-readable reason for
+	 * each returned error code and the raw error code(s), so the store admin
+	 * can tell a real fraud attempt apart from a configuration or token problem
+	 * (e.g. an expired or already-used captcha token).
+	 *
+	 * @param string $provider    Provider key (googleRecaptchaV3|cloudflareTurnstile).
+	 * @param array  $error_codes Error codes returned by the provider.
+	 * @return string
+	 */
+	public static function buildVerificationFailureNote( string $provider, array $error_codes ): string {
+		$provider_label = ( 'cloudflareTurnstile' === $provider )
+			? __( 'Cloudflare Turnstile', 'fraud-and-scam-detection-for-woocommerce' )
+			: __( 'Google reCAPTCHA', 'fraud-and-scam-detection-for-woocommerce' );
+
+		$note = sprintf(
+			/* translators: %s: anti-fraud provider name (Google reCAPTCHA or Cloudflare Turnstile). */
+			__( 'Order flagged as fraud: %s verification failed.', 'fraud-and-scam-detection-for-woocommerce' ),
+			$provider_label
+		);
+
+		$note .= ' ' . self::describeVerificationError( $error_codes );
+
+		if ( ! empty( $error_codes ) ) {
+			$note .= ' ' . sprintf(
+				/* translators: %s: raw anti-fraud error code(s) returned by the provider. */
+				__( 'Error code: %s.', 'fraud-and-scam-detection-for-woocommerce' ),
+				implode( ', ', $error_codes )
+			);
+		}
+
+		return $note;
+	}
+
+	/**
+	 * Join the readable reason for every returned error code.
+	 *
+	 * @param array $error_codes Error codes returned by the provider.
+	 * @return string
+	 */
+	private static function describeVerificationError( array $error_codes ): string {
+		if ( empty( $error_codes ) ) {
+			return __( 'The anti-fraud provider did not return a reason for the failure.', 'fraud-and-scam-detection-for-woocommerce' );
+		}
+
+		$reasons = [];
+		foreach ( $error_codes as $code ) {
+			$reasons[] = self::getVerificationErrorReason( (string) $code );
+		}
+
+		return implode( ' ', $reasons );
+	}
+
+	/**
+	 * Translate a single anti-fraud error code into a readable reason.
+	 *
+	 * The siteverify endpoints return error codes (not a fraud score); most of
+	 * them indicate a token or configuration problem rather than a real fraud
+	 * attempt, so each reason is phrased to make that distinction clear.
+	 *
+	 * @param string $code Error code returned by the provider.
+	 * @return string
+	 */
+	private static function getVerificationErrorReason( string $code ): string {
+		switch ( $code ) {
+			case 'missing-input-secret':
+				return __( 'The verification secret key is missing — this is a configuration problem, not a fraud attempt.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'invalid-input-secret':
+				return __( 'The verification secret key is invalid — this is a configuration problem, not a fraud attempt.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'missing-input-response':
+				return __( 'No verification token was sent by the customer (empty challenge response).', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'invalid-input-response':
+				return __( 'The verification token is invalid or malformed.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'timeout-or-duplicate':
+				return __( 'The verification token has expired or was already used (tokens are single-use).', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'bad-request':
+				return __( 'The verification request was rejected because it was malformed.', 'fraud-and-scam-detection-for-woocommerce' );
+			case 'internal-error':
+				return __( 'The provider reported an internal error during verification.', 'fraud-and-scam-detection-for-woocommerce' );
+			default:
+				return sprintf(
+					/* translators: %s: anti-fraud error code returned by the provider. */
+					__( 'The provider returned an unrecognized error code: %s.', 'fraud-and-scam-detection-for-woocommerce' ),
+					$code
+				);
+		}
 	}
 
 	public static function regLog($level, $message, $context): void {
@@ -923,6 +1081,180 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$logger->log($level, $message, $context);
 		}
     }
+
+	/**
+	 * Mask a secret/credential before writing it to a log or sharing it.
+	 *
+	 * @param string $value Raw value.
+	 * @return string Masked value (keeps the first/last four characters).
+	 */
+	public static function maskValue( $value ): string {
+		$value = (string) $value;
+		$len   = strlen( $value );
+		if ( 0 === $len ) {
+			return '';
+		}
+		if ( $len <= 8 ) {
+			return str_repeat( '*', $len );
+		}
+		return substr( $value, 0, 4 ) . str_repeat( '*', $len - 8 ) . substr( $value, -4 );
+	}
+
+	/**
+	 * Record the full context of a detection/block event.
+	 *
+	 * Only runs when debug logging is enabled. The event is written to the
+	 * WooCommerce log (source "lkn-fsdw-antifraud") and appended to the order
+	 * meta "_lkn_fsdw_order_logs", which powers the "View Order Log" meta box.
+	 *
+	 * @param \WC_Order|int|null $order   Order (or order ID) the event belongs to.
+	 * @param string             $source  Short source key (e.g. ip-ban, data-block, google-recaptcha).
+	 * @param string             $summary Human-readable summary.
+	 * @param array              $context Structured context data.
+	 */
+	public static function logBlockEvent( $order, string $source, string $summary, array $context = array() ): void {
+		if ( 'yes' !== get_option( 'lknFraudDetectionForWoocommerceDebug', 'no' ) ) {
+			return;
+		}
+
+		if ( ! $order instanceof \WC_Order && is_numeric( $order ) && function_exists( 'wc_get_order' ) ) {
+			$order = wc_get_order( $order );
+		}
+
+		$order_id = ( $order instanceof \WC_Order ) ? $order->get_id() : null;
+
+		$logger = new WC_Logger();
+		$logger->log(
+			'info',
+			sprintf( '[%1$s] %2$s', $source, $summary ),
+			array_merge(
+				array(
+					'source'   => 'lkn-fsdw-antifraud',
+					'order_id' => $order_id,
+				),
+				$context
+			)
+		);
+
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$stored = $order->get_meta( '_lkn_fsdw_order_logs' );
+		$logs   = array();
+		if ( is_string( $stored ) && '' !== $stored ) {
+			$decoded = json_decode( $stored, true );
+			if ( is_array( $decoded ) ) {
+				$logs = $decoded;
+			}
+		} elseif ( is_array( $stored ) ) {
+			$logs = $stored;
+		}
+
+		$logs[] = array(
+			'time'    => current_time( 'mysql' ),
+			'source'  => $source,
+			'summary' => $summary,
+			'context' => $context,
+		);
+
+		// Keep the stored log bounded (most recent entries only).
+		if ( count( $logs ) > 50 ) {
+			$logs = array_slice( $logs, -50 );
+		}
+
+		$order->update_meta_data( '_lkn_fsdw_order_logs', wp_json_encode( $logs ) );
+		$order->save();
+	}
+
+	/**
+	 * Register the "View Order Log" meta box on the order screen when enabled.
+	 *
+	 * Hook: add_meta_boxes
+	 *
+	 * @param string        $post_type Current screen post type.
+	 * @param \WP_Post|null $post      Current post/order object.
+	 */
+	public function registerOrderLogsMetaBox( $post_type = '', $post = null ): void {
+		if ( 'yes' !== get_option( 'lknFraudDetectionForWoocommerceShowOrderLogs', 'no' ) ) {
+			return;
+		}
+		if ( ! function_exists( 'wc_get_order' ) ) {
+			return;
+		}
+
+		$order_id = 0;
+		if ( $post instanceof \WP_Post ) {
+			$order_id = $post->ID;
+		} elseif ( isset( $_GET['id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$order_id = absint( wp_unslash( $_GET['id'] ) );
+		} elseif ( isset( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$order_id = absint( wp_unslash( $_GET['post'] ) );
+		}
+
+		if ( ! $order_id ) {
+			return;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$logs = $order->get_meta( '_lkn_fsdw_order_logs' );
+		if ( empty( $logs ) ) {
+			return;
+		}
+
+		$screen = 'shop_order';
+		if ( class_exists( '\Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' )
+			&& wc_get_container()->get( 'Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController' )->custom_orders_table_usage_is_enabled()
+			&& function_exists( 'wc_get_page_screen_id' )
+		) {
+			$screen = wc_get_page_screen_id( 'shop-order' );
+		}
+
+		add_meta_box(
+			'lkn_fsdw_order_logs',
+			__( 'Fraud & Scam Detection — Logs', 'fraud-and-scam-detection-for-woocommerce' ),
+			array( $this, 'renderOrderLogsMetaBox' ),
+			$screen,
+			'advanced',
+			'default'
+		);
+	}
+
+	/**
+	 * Render the stored detection logs inside the order edit screen.
+	 *
+	 * @param \WP_Post|\WC_Order $object Current post or order object.
+	 */
+	public function renderOrderLogsMetaBox( $object ): void {
+		$order = ( $object instanceof \WP_Post ) ? wc_get_order( $object->ID ) : $object;
+		if ( ! $order instanceof \WC_Order ) {
+			return;
+		}
+
+		$stored = $order->get_meta( '_lkn_fsdw_order_logs' );
+		$logs   = is_string( $stored ) ? json_decode( $stored, true ) : $stored;
+		if ( ! is_array( $logs ) || empty( $logs ) ) {
+			return;
+		}
+
+		foreach ( $logs as $entry ) {
+			$time    = isset( $entry['time'] ) ? $entry['time'] : '';
+			$source  = isset( $entry['source'] ) ? $entry['source'] : '';
+			$summary = isset( $entry['summary'] ) ? $entry['summary'] : '';
+			$context = isset( $entry['context'] ) ? wp_json_encode( $entry['context'], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) : '';
+			?>
+			<div class="lkn-fsdw-order-log">
+				<h4><?php echo esc_html( trim( $source . ( $summary ? ' — ' . $summary : '' ) ) ); ?></h4>
+				<p><em><?php echo esc_html( $time ); ?></em></p>
+				<pre class="wc-pre"><?php echo esc_html( (string) $context ); ?></pre>
+			</div>
+			<?php
+		}
+	}
 
 	function createFraudStatus( $order_statuses ) {
 		$order_statuses['wc-lkn-fraud'] = array(
