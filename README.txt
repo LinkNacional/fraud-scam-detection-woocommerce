@@ -4,7 +4,7 @@ Donate link: https://www.linknacional.com.br/wordpress/
 Tags: woocommerce, antifraud, recaptcha, security, cloudflare
 Requires at least: 5.8
 Tested up to: 7.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 Requires PHP: 8.2
 Requires Plugins: woocommerce
 License: GPL-2.0+
@@ -137,6 +137,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 
 
 == Changelog ==
+= 1.3.8 =
+* Fixed: orders were rejected with "Security verification failed. Please try again." when the customer created an account during checkout (guest checkout disabled). WooCommerce logs the customer in mid-request, which invalidated the form nonce; the nonce is now accepted for both guest and freshly logged-in customers.
+
 = 1.3.7 =
 * Orders blocked by the captcha (Google reCAPTCHA or Cloudflare Turnstile) now get an order note explaining the failure reason, with the error code translated (e.g. expired/already-used token, missing or invalid key).
 * The captcha success note now makes it explicit that the verification was completed (e.g. "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: ...").
@@ -215,6 +218,9 @@ When a customer attempts to complete a checkout, the plugin sends the Turnstile 
 * Plugin launch with Google reCAPTCHA integration for [WooCommerce](https://www.linknacional.com.br/wordpress/woocommerce/) checkout.
 
 == Upgrade Notice ==
+= 1.3.8 =
+* Fixed: checkout no longer fails with a security verification error when the customer creates an account while placing the order.
+
 = 1.3.7 =
 * Captcha blocks now explain the failure reason. New Support tab: debug logging, order log viewer, and one-click settings send to support.
 
