@@ -289,7 +289,9 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 		$this->blockIfCredentialsMissing( $provider );
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
-		if ( ! isset( $_POST['lknFraudNonce'] ) || ! wp_verify_nonce( sanitize_text_field( $_POST['lknFraudNonce'] ), 'lkn_fraud_detection_checkout_nonce' ) ) {
+		$nonce = isset( $_POST['lknFraudNonce'] ) ? sanitize_text_field( wp_unslash( $_POST['lknFraudNonce'] ) ) : '';
+
+		if ( ! $this->verifyCheckoutNonce( $nonce, 'lkn_fraud_detection_checkout_nonce' ) ) {
 			throw new Exception( esc_html( __( 'Security verification failed. Please try again.', 'fraud-and-scam-detection-for-woocommerce' ) ) );
 		}
 
@@ -300,6 +302,47 @@ class LknFsdwFraudAndScamDetectionForWoocommerceHelper {
 			$token = isset( $_POST['grecaptchav3response'] ) ? sanitize_text_field( wp_unslash( $_POST['grecaptchav3response'] ) ) : null;
 			$this->verifyRecaptcha( $token, $order );
 		}
+	}
+
+	/**
+	 * Verifica o nonce do formulário de checkout.
+	 *
+	 * O nonce é gerado na renderização do checkout. Quando a loja exige conta
+	 * (checkout de convidado desabilitado), o WooCommerce cria o cliente e faz
+	 * login no MEIO do mesmo request de finalização
+	 * (WC_Checkout::process_customer()), antes de rodar este hook. Como o hash do
+	 * wp_verify_nonce() depende do usuário e do token de sessão atuais, o nonce
+	 * legítimo — criado quando o cliente ainda era visitante — passa a falhar e o
+	 * checkout é abortado com "A verificação de segurança falhou" mesmo sem fraude.
+	 *
+	 * Aceitamos os dois contextos: o atual (wp_verify_nonce) e o de visitante
+	 * (uid 0, sem token de sessão), que é como o nonce foi criado.
+	 *
+	 * @param string $nonce  Nonce enviado pelo formulário.
+	 * @param string $action Action usada em wp_create_nonce().
+	 * @return bool
+	 */
+	private function verifyCheckoutNonce( $nonce, $action ) {
+		if ( ! is_string( $nonce ) || '' === $nonce ) {
+			return false;
+		}
+
+		if ( wp_verify_nonce( $nonce, $action ) ) {
+			return true;
+		}
+
+		$logged_out_uid = apply_filters( 'nonce_user_logged_out', 0, $action );
+		$tick           = wp_nonce_tick( $action );
+
+		foreach ( array( $tick, $tick - 1 ) as $tick_value ) {
+			$expected = substr( wp_hash( $tick_value . '|' . $action . '|' . $logged_out_uid . '|', 'nonce' ), -12, 10 );
+
+			if ( hash_equals( $expected, $nonce ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function ajax_get_orders_by_ip() {

@@ -1,3 +1,6 @@
+# 1.3.8 - 20/10/2026
+* Corrigido: pedidos eram recusados com "A verificação de segurança falhou. Tente novamente." quando o cliente criava a conta durante a finalização da compra (checkout de convidado desabilitado). O WooCommerce faz login no meio do request e invalidava o nonce do formulário; agora o nonce é aceito tanto para visitante quanto para o usuário recém-logado.
+
 # 1.3.7 - 01/10/2026
 * Pedidos bloqueados pelo captcha (Google reCAPTCHA ou Cloudflare Turnstile) agora recebem uma nota no pedido explicando o motivo da falha, com o código de erro traduzido (ex.: token expirado/já usado, chave ausente ou inválida).
 * Nota de sucesso do captcha agora deixa explícito que a verificação foi concluída (ex.: "Google reCAPTCHA verification passed. Customer's ANTIFRAUD score: …").
